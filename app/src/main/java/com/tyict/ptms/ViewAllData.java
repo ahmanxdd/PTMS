@@ -17,7 +17,7 @@ import com.tyict.ptms.dataInfo.DatabaseView;
 
 public class ViewAllData extends ActionBarActivity {
     //View Declaration
-    ListView lv_table;
+    ListView lvtable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class ViewAllData extends ActionBarActivity {
     }
 
     private void initAllView() {
-        lv_table = (ListView) findViewById(R.id.lv_table);
+        lvtable = (ListView) findViewById(R.id.lv_table);
     }
 
 
