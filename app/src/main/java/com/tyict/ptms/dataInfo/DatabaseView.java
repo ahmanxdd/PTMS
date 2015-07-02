@@ -53,6 +53,7 @@ public class DatabaseView {
         db.execSQL(sql);
         db.close();
     }
+
     private void initDB() {
 
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.CREATE_IF_NECESSARY);
@@ -113,6 +114,7 @@ public class DatabaseView {
                 "('46917347228', '17/1/2013', 'HP1022', '2001');";
         db.execSQL(sql);
     }
+
     public void refreshJobList(String staffNo) {
         jobListTask = new AsyncTask<String, Integer, String>() {
             @Override
