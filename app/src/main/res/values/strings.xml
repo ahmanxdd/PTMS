@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PTMS</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_view_all_data">ViewAllData</string>
+    <string name="view_all_data_title">Select a Table</string>
+</resources>
