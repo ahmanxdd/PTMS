@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.tyict.ptms.dataInfo.LoginControl;
 
@@ -52,7 +53,7 @@ public class Login extends ActionBarActivity {
         }
         else
         {
-
+            ((TextView)findViewById(R.id.message)).setText("Login Failure, check your password and loginID");
         }
     }
 
