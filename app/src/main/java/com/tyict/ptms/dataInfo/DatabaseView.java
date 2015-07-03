@@ -42,11 +42,16 @@ public class DatabaseView {
             initflag = true;
         }
     }
+    public Cursor getAllCompany()
+    {
+        Cursor c = query("SELECT * FROM Company");
+        return  c;
+    }
+
     public String[] getTableFormat()
     {
         return table_format;
     }
-
     public String[] getAllTable()  {
 /*        Cursor c = query("SELECT name FROM sqlite_master WHERE type='table'", null);
         String[] retStr = new String[c.getCount() - 1];
@@ -71,7 +76,6 @@ public class DatabaseView {
         db.execSQL(sql);
         db.close();
     }
-
     private void initDB() {
 
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.CREATE_IF_NECESSARY);
@@ -132,7 +136,6 @@ public class DatabaseView {
                 "('46917347228', '17/1/2013', 'HP1022', '2001');";
         db.execSQL(sql);
     }
-
     public Cursor refreshJobList(String staffNo) {
         jobListTask = new AsyncTask<String, Integer, String>() {
             @Override

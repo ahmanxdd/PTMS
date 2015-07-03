@@ -8,12 +8,16 @@ import android.view.MenuItem;
 import android.view.View;
 
 
-public class RaymondTestAct extends ActionBarActivity {
+public class RaymondTest extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_raymond_test);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.replace(R.id.fm_content, new Default4Raymond());
+        ft.commit();
     }
 
     @Override
@@ -38,11 +42,13 @@ public class RaymondTestAct extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void goFuckFra(View v)
+    public void fuckThatShit(View v)
     {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment, new ViewAll());
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.replace(R.id.fm_content, new companyDetail_Fragment());
         ft.commit();
     }
+
 
 }
