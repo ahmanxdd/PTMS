@@ -1,24 +1,25 @@
 package com.tyict.ptms;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
+import com.tyict.ptms.dataInfo.DatabaseView;
+import com.tyict.ptms.dataInfo.LoginControl;
 
 
-public class Main extends ActionBarActivity {
-
+public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LoginControl lc = new LoginControl();
+        DatabaseView dbv = new DatabaseView();
+        boolean flag = lc.login("login1001", "pass1001");
+        dbv.refreshJobList(lc.getStaffID());
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -40,12 +41,5 @@ public class Main extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void goFuckFra(View v)
-    {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment, new ViewAll());
-        ft.commit();
     }
 }

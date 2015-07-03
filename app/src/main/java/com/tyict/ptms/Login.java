@@ -1,7 +1,6 @@
 package com.tyict.ptms;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -49,13 +48,12 @@ public class Login extends ActionBarActivity {
         String password = ((EditText)findViewById(R.id.et_password)).getText().toString();
         if(LoginControl.login(userID,password))
         {
-           Intent i = new Intent(this, Main.class);
+            Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         }
         else
         {
             ((TextView)findViewById(R.id.message)).setText("Login Failure, check your password and loginID");
-            ((TextView)findViewById(R.id.message)).setTextColor(Color.RED);
         }
     }
 
