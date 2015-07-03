@@ -3,20 +3,18 @@ package com.tyict.ptms;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.tyict.ptms.dataInfo.DatabaseView;
 
-import java.util.List;
+
 
 /**
  * Created by RAYMOND on 7/4/2015.
@@ -51,6 +49,7 @@ public class ViewAll extends Fragment{
                             break;
                     }
                 }
+                ((TextView)view.findViewById(R.id.db_result)).setText(result);
             }
 
             @Override
