@@ -7,23 +7,23 @@ import android.database.Cursor;
  */
 public class LoginControl {
 
-    private class Technician {
+    private static class Technician {
         public String staffNo, stafLogin, staffName;
     }
 
-    private enum LoginState {
+    private static enum LoginState {
         UNLOGIN, ISLOGIN;
     }
 
-    private LoginState state;
-    private Technician _loggedInStaff;
+    private static LoginState state = LoginState.UNLOGIN;
+    private static Technician _loggedInStaff = null;
 
-    public boolean isLogin()
+    public static boolean isLogin()
     {
         return state == LoginState.ISLOGIN;
     }
 
-    public String getStaffName()
+    public static String getStaffName()
     {
         if(state == LoginState.ISLOGIN)
             return _loggedInStaff.staffName;
@@ -31,13 +31,13 @@ public class LoginControl {
             return null;
     }
 
-    public String getStaffID()
+    public static String getStaffID()
     {
         if(state == LoginState.ISLOGIN) return _loggedInStaff.staffNo;
         else return null;
     }
 
-    public boolean login(String username, String password) {
+    public static boolean login(String username, String password) {
         DatabaseView dbv = new DatabaseView();
         if(state == LoginState.ISLOGIN) return  false; // Logined user;
         Cursor c = dbv.query("SELECT * FROM Technician WHERE staffLogin ='" + username + "' AND staffPswd = '" + password + "'");
@@ -56,7 +56,7 @@ public class LoginControl {
         }
     }
 
-    public boolean logout() {
+    public static boolean logout() {
         if (state == LoginState.ISLOGIN) {
             _loggedInStaff = null;
             return true;

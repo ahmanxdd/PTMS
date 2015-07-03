@@ -115,7 +115,7 @@ public class DatabaseView {
         db.execSQL(sql);
     }
 
-    public void refreshJobList(String staffNo) {
+    public Cursor refreshJobList(String staffNo) {
         jobListTask = new AsyncTask<String, Integer, String>() {
             @Override
             protected String doInBackground(String... staffNo) {
@@ -160,5 +160,6 @@ public class DatabaseView {
             }
         };
         jobListTask.execute(staffNo);
+        return query("SELECT * FROM ServiceJob");
     }
 }
