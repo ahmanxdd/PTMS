@@ -27,19 +27,37 @@ public class DatabaseView {
 
     private AsyncTask<String, Integer, String> jobListTask;
     private SQLiteDatabase db;
-
+    private String[] table =
+            {
+                    "Technician", "Product", "Company", "Purchase", "ServiceJob"
+            };
+    private String[] table_format =
+            {
+                    "%4s %12s %12s %12s\n", "%6s %50s %4d\n", "%4s %50s %8s %50s\n", "%11s %10s %6s %4s\n", "%3s"
+            };
+    private static boolean initflag;
     public DatabaseView() {
-        initDB();
+        if(!initflag) {
+            initDB();
+            initflag = true;
+        }
     }
+    public String[] getTableFormat()
+    {
+        return table_format;
+    }
+
     public String[] getAllTable()  {
-        Cursor c = query("SELECT name FROM sqlite_master WHERE type='table'", null);
-        String[] retStr = new String[c.getCount()];
+/*        Cursor c = query("SELECT name FROM sqlite_master WHERE type='table'", null);
+        String[] retStr = new String[c.getCount() - 1];
         int i = 0;
+        c.moveToNext();
         while (c.moveToNext())
         {
             retStr[i++] = c.getString(c.getColumnIndex("name"));
         }
-        return  retStr;
+        return  retStr;*/
+        return table;
     }
     public Cursor query(String sql) {
         return query(sql,null);

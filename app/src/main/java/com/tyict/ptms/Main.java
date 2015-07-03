@@ -1,39 +1,29 @@
 package com.tyict.ptms;
 
-import android.database.DataSetObserver;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ListView;
-
-import com.tyict.ptms.dataInfo.DatabaseView;
 
 
-public class ViewAllData extends ActionBarActivity {
-    //View Declaration
-    ListView lv_table;
+public class Main extends ActionBarActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_all_data);
-    }
-
-    private void initAllView() {
-        lv_table = (ListView) findViewById(R.id.lv_table);
+        setContentView(R.layout.activity_main);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_view_all_data, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -50,5 +40,12 @@ public class ViewAllData extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void goFuckFra(View v)
+    {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment, new ViewAll());
+        ft.commit();
     }
 }
