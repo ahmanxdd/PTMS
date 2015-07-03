@@ -50,7 +50,7 @@ public class Login extends ActionBarActivity {
         String password = ((EditText)findViewById(R.id.et_password)).getText().toString();
         if(LoginControl.login(userID,password))
         {
-            Intent i = new Intent(this, MainActivity.class);
+            Intent i = new Intent(this, RaymondTestAct.class);
             startActivity(i);
         }
         else

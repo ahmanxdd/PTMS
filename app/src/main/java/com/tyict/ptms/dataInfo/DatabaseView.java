@@ -33,7 +33,7 @@ public class DatabaseView {
             };
     private String[] table_format =
             {
-                    "%4s %12s %12s %12s\n", "%6s %50s %4d\n", "%4s %50s %8s %50s\n", "%11s %10s %6s %4s\n", "%3s"
+                    "%4s %12s %14s %-10s\n", "%6s %-20s %.2f\n", "%4s %s %8s %50s\n", "%11s %10s %6s %4s\n", "%3s"
             };
     private static boolean initflag;
     public DatabaseView() {

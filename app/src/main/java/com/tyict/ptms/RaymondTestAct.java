@@ -1,30 +1,25 @@
 package com.tyict.ptms;
 
+import android.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.tyict.ptms.dataInfo.DatabaseView;
-import com.tyict.ptms.dataInfo.LoginControl;
+import android.view.View;
 
 
-public class MainActivity extends ActionBarActivity {
+public class RaymondTestAct extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        LoginControl lc = new LoginControl();
-        DatabaseView dbv = new DatabaseView();
-        boolean flag = lc.login("login1001", "pass1001");
-        dbv.refreshJobList(lc.getStaffID());
+        setContentView(R.layout.activity_raymond_test);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_raymond_test, menu);
         return true;
     }
 
@@ -32,8 +27,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent
-        // activity in AndroidManifest.xml.
+        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -43,4 +37,12 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void goFuckFra(View v)
+    {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment, new ViewAll());
+        ft.commit();
+    }
+
 }

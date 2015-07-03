@@ -25,6 +25,7 @@ public class ViewAll extends Fragment{
     String[] table;
     String[] table_format;
     DatabaseView dv;
+    TextView tv;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dv = new DatabaseView();
@@ -35,7 +36,7 @@ public class ViewAll extends Fragment{
         ArrayAdapter<String> aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, table);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spn_tableSelection.setAdapter(aa);
-
+        tv =(TextView) view.findViewById(R.id.db_result);
         spn_tableSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -47,9 +48,11 @@ public class ViewAll extends Fragment{
                         case 0:
                             result += String.format(table_format[i], c.getString(0), c.getString(1), c.getString(2), c.getString(3));
                             break;
+                        case 1:
+                            result += String.format(table_format[i], c.getString(0), c.getString(1), c.getDouble(2));
                     }
                 }
-                ((TextView)view.findViewById(R.id.db_result)).setText(result);
+                tv.setText(result);
             }
 
             @Override
