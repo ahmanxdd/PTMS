@@ -2,6 +2,7 @@ package com.tyict.ptms;
 
 import android.app.Activity;
 import android.database.DataSetObserver;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -22,7 +23,6 @@ public class Joblist_activity extends Fragment {
     ListView lvTable;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.joblist_layout, container, false);
-        lvTable = (ListView) rootView.findViewById(R.id.lvTable);
         return rootView;
     }
 
