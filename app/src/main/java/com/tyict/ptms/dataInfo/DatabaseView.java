@@ -69,7 +69,7 @@ public class DatabaseView {
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.OPEN_READONLY);
         return db.rawQuery(sql, params);
     }
-    private void exec(String sql) {
+    public void exec(String sql) {
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.OPEN_READWRITE);
         db.execSQL(sql);
         db.close();
@@ -134,8 +134,7 @@ public class DatabaseView {
                 "('46917347228', '17/1/2013', 'HP1022', '2001');";
         db.execSQL(sql);
     }
-    boolean flag;
-    public Cursor refreshJobList(String staffNo) {
+    public AsyncTask getRefreshTask (String staffNo) {
 
         jobListTask = new AsyncTask<String, Integer, String>() {
             @Override
@@ -146,7 +145,7 @@ public class DatabaseView {
 
                 try {
                     String recvStr;
-                    String url = "http://itd-moodle.ddns.me/ptms/service_job.php?staffNo=" + staffNo;
+                    String url = "http://itd-moodle.ddns.me/ptms/service_job.php?staffNo=" + staffNo[0];
                     request = new HttpGet(url);
                     HttpResponse response = client.execute(request);
                     BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
@@ -172,22 +171,15 @@ public class DatabaseView {
                                 jo.getString("remark") +
                                 "');";
                         exec(query);
-                        flag = true;
                     }
                 } catch (IOException e) {
 
                 } catch (JSONException e) {
 
                 }
-                return "Finish";
-
+                return "Done!";
             }
         };
-        jobListTask.execute("HI");
-        while (!flag) {
-            try { Thread.sleep(100); }
-            catch (InterruptedException e) { e.printStackTrace(); }
-        }
-        return query("SELECT * FROM ServiceJob");
+        return jobListTask;
     }
 }
