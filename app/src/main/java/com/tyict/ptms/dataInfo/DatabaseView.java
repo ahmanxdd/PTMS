@@ -33,7 +33,7 @@ public class DatabaseView {
             };
     private String[] table_format =
             {
-                    "%4s %12s %12s %12s\n", "%6s %50s %4d\n", "%4s %50s %8s %50s\n", "%11s %10s %6s %4s\n", "%3s"
+                    "%4s %12s %14s %-10s\n", "%6s %-20s %.2f\n", "%4s %s %8s %50s\n", "%11s %10s %6s %4s\n", "%3s"
             };
     private static boolean initflag;
     public DatabaseView() {
@@ -42,11 +42,16 @@ public class DatabaseView {
             initflag = true;
         }
     }
+    public Cursor getAllCompany()
+    {
+        Cursor c = query("SELECT * FROM Company");
+        return  c;
+    }
+
     public String[] getTableFormat()
     {
         return table_format;
     }
-
     public String[] getAllTable()  {
 /*        Cursor c = query("SELECT name FROM sqlite_master WHERE type='table'", null);
         String[] retStr = new String[c.getCount() - 1];
@@ -71,7 +76,6 @@ public class DatabaseView {
         db.execSQL(sql);
         db.close();
     }
-
     private void initDB() {
 
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.CREATE_IF_NECESSARY);
@@ -132,7 +136,6 @@ public class DatabaseView {
                 "('46917347228', '17/1/2013', 'HP1022', '2001');";
         db.execSQL(sql);
     }
-
     public Cursor refreshJobList(String staffNo) {
         jobListTask = new AsyncTask<String, Integer, String>() {
             @Override
