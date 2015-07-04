@@ -26,7 +26,7 @@ public class Test extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DatabaseView dbv = new DatabaseView();
-        Cursor cursor = dbv.query("SELECT * FROM ServiceJob");
+        Cursor cursor = dbv.query("SELECT * From ServiceJob");
         setContentView(R.layout.joblist_layout);
         /*ListView lvJobList = (ListView) findViewById(R.id.lvJobList);*/
         String tt = "";
