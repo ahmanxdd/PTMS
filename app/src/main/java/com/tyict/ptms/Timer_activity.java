@@ -88,7 +88,6 @@ public class Timer_activity extends Activity implements View.OnClickListener {
 
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
