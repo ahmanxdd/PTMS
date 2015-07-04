@@ -134,10 +134,11 @@ public class DatabaseView {
                 "('46917347228', '17/1/2013', 'HP1022', '2001');";
         db.execSQL(sql);
     }
+    boolean flag;
     public Cursor refreshJobList(String staffNo) {
+
         jobListTask = new AsyncTask<String, Integer, String>() {
             @Override
-
             protected String doInBackground(String... staffNo) {
 
                 HttpClient client = new DefaultHttpClient();
@@ -161,26 +162,32 @@ public class DatabaseView {
                         JSONObject jo = json.getJSONObject(j);
                         String query = "INSERT INTO ServiceJob VALUES(" + "'" +
                                 jo.getString("jobNo") + "','" +
-                                jo.getString("requestDate")  + "','" +
-                                jo.getString("jobProblem")  + "','" +
-                                jo.getString("visitDate")   + "','" +
-                                jo.getString("jobStatus")   + "','" +
-                                jo.getString("jobStartTime")   + "','" +
-                                jo.getString("jobEndTime")   + "','" +
-                                jo.getString("serialNo")   + "','" +
+                                jo.getString("requestDate") + "','" +
+                                jo.getString("jobProblem") + "','" +
+                                jo.getString("visitDate") + "','" +
+                                jo.getString("jobStatus") + "','" +
+                                jo.getString("jobStartTime") + "','" +
+                                jo.getString("jobEndTime") + "','" +
+                                jo.getString("serialNo") + "','" +
                                 jo.getString("remark") +
                                 "');";
                         exec(query);
+                        flag = true;
                     }
                 } catch (IOException e) {
 
                 } catch (JSONException e) {
+
                 }
-                return null;
+                return "Finish";
+
             }
         };
-
-        jobListTask.execute(staffNo);
+        jobListTask.execute("HI");
+        while (!flag) {
+            try { Thread.sleep(100); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+        }
         return query("SELECT * FROM ServiceJob");
     }
 }
