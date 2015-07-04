@@ -42,12 +42,10 @@ public class DatabaseView {
             initflag = true;
         }
     }
-    public Cursor getAllCompany()
-    {
+    public Cursor getAllCompany() {
         Cursor c = query("SELECT * FROM Company");
         return  c;
     }
-
     public String[] getTableFormat()
     {
         return table_format;

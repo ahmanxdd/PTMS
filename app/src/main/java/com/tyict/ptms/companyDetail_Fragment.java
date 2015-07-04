@@ -1,8 +1,12 @@
 package com.tyict.ptms;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -17,6 +21,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -28,6 +33,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 /**
  * Created by RAYMOND on 7/4/2015.
@@ -49,16 +56,10 @@ public class companyDetail_Fragment extends Fragment {
         view = inflater.inflate(R.layout.f_company_details, container, false);
         findView();
         initResource();
+        mapView.onCreate(savedInstanceState);
+        setUpMap();
         ArrayAdapter<String> aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, companyName);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mapView.onCreate(savedInstanceState);
-        mapView.onResume();
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        map = mapView.getMap();
         btn_callCompany.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,6 +76,10 @@ public class companyDetail_Fragment extends Fragment {
                 c.moveToNext();
                 tv_contact.setText(c.getString(0));
                 tv_address.setText(c.getString(1));
+                CameraUpdate center = CameraUpdateFactory.newLatLng(getLocationFromAddress(c.getString(1)));
+                CameraUpdate zoomLv = CameraUpdateFactory.zoomTo(15);
+                map.moveCamera(center);
+                map.animateCamera(zoomLv);
             }
 
             @Override
@@ -85,7 +90,37 @@ public class companyDetail_Fragment extends Fragment {
         return view;
     }
 
+    public void setUpMap() {
+        mapView.onResume();
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        map = mapView.getMap();
+    }
+    public LatLng getLocationFromAddress(String strAddress) {
+        Geocoder coder = new Geocoder(getActivity());
+        List<Address> address;
+        LatLng p1;
 
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng((int) (location.getLatitude() * 1E6),
+                    (int) (location.getLongitude() * 1E6));
+
+            return p1;
+        } catch (Exception e) {
+            return null;
+        }
+    }
     public void findView() {
         mapView = (MapView) view.findViewById(R.id.map);
         btn_callCompany = (Button) view.findViewById(R.id.btn_callCompany);
@@ -93,7 +128,6 @@ public class companyDetail_Fragment extends Fragment {
         tv_contact = (TextView) view.findViewById(R.id.tv_contact);
         tv_address = (TextView) view.findViewById(R.id.tv_address);
     }
-
     public void initResource() {
         Cursor c = dbv.getAllCompany();
         companyName = new String[c.getCount()];
