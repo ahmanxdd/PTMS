@@ -17,11 +17,6 @@
         <activity
             android:name=".Test"
             android:label="@string/title_activity_login" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Login"
@@ -32,7 +27,14 @@
         <activity
             android:name=".RaymondTest"
             android:label="@string/title_activity_raymond_test" >
-
+        </activity>
+        <activity
+            android:name=".InitComponent"
+            android:label="@string/title_activity_init_component" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

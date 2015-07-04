@@ -134,7 +134,7 @@ public class DatabaseView {
                 "('46917347228', '17/1/2013', 'HP1022', '2001');";
         db.execSQL(sql);
     }
-    public AsyncTask getRefreshTask (String staffNo) {
+    public Cursor refreshJobList (String sfNo) {
 
         jobListTask = new AsyncTask<String, Integer, String>() {
             @Override
@@ -180,6 +180,7 @@ public class DatabaseView {
                 return "Done!";
             }
         };
-        return jobListTask;
+        jobListTask.execute("sfNo");
+        return query("SELECT * FROM ServiceJob");
     }
 }
