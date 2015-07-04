@@ -42,6 +42,7 @@ public class DatabaseView {
             initflag = true;
         }
     }
+
     public Cursor getAllCompany() {
         Cursor c = query("SELECT * FROM Company");
         return  c;

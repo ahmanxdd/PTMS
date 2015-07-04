@@ -7,8 +7,16 @@
     <string name="title_activity_login">Login</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_raymond_test">RaymondTestAct</string>
-
     <string name="title_activity_init_component">InitComponent</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="select_a_product">Select a product</string>
+    <string name="select_a_company">Select a company</string>
+    <string name="contact">Contact:</string>
+    <string name="address">Address:</string>
+    <string name="call">Call</string>
+    <string name="productIssues_hints_to_do">##select a product to see previous problem</string>
+    <string name="problem">Problem</string>
+    <string name="request_date">Request Date</string>
+    <string name="job_no">Job No</string>
 </resources>

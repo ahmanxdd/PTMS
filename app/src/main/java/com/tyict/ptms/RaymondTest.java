@@ -46,7 +46,7 @@ public class RaymondTest extends ActionBarActivity {
     {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.replace(R.id.fm_content, new companyDetail_Fragment());
+        ft.replace(R.id.fm_content, new F_productIssues());
         ft.commit();
     }
 

@@ -6,7 +6,7 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="Select a company"
+        android:text="@string/select_a_company"
         android:layout_margin="10dp"
         android:textSize="30dp"
         android:id="@+id/tv_company_title"
@@ -17,7 +17,6 @@
         android:layout_margin="10dp"
         />
     <TableLayout
-        android:layout_below="@id/spn_companySelection"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="3"
@@ -27,7 +26,7 @@
         <TableRow android:layout_width="wrap_content">
             <TextView
                 android:layout_margin="10dp"
-                android:text="Contact:"
+                android:text="@string/contact"
                 android:layout_width="wrap_content"
                 android:layout_column="0"
                 />
@@ -35,6 +34,7 @@
                 android:id="@+id/tv_contact"
                 android:layout_column="1"
                 android:layout_margin="10dp"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"/>
         </TableRow>
 
@@ -42,15 +42,20 @@
         <TableRow>
             <TextView
                 android:layout_margin="10dp"
-                android:text="Address:"
+                android:text="@string/address"
                 android:layout_width="wrap_content"
                 android:layout_column="0"
                 />
             <TextView
+                android:layout_weight="1"
                 android:id="@+id/tv_address"
                 android:layout_column="1"
                 android:layout_margin="10dp"
-                android:layout_width="wrap_content"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:ellipsize="none"
+                android:scrollHorizontally="true"/>
         </TableRow>
     </TableLayout>
     <LinearLayout
@@ -60,29 +65,21 @@
         <Button
             android:id="@+id/btn_callCompany"
             android:layout_margin="5dp"
-            android:text="Call"
+            android:text="@string/call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
-        <Button
-            android:text="Find in Map"
-            android:layout_margin="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           />
+
 
     </LinearLayout>
-<FrameLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/fm_map">
+
+
+
     <com.google.android.gms.maps.MapView
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:id="@+id/map"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        class='com.google.android.gms.maps.SupportMapFragment" />
-    </com.google.android.gms.maps.MapView>
-</FrameLayout>
-
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 
 </LinearLayout>
