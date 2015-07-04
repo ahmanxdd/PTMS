@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 
 public class InitComponent extends ActionBarActivity {
 
-    private DatabaseView dbv = new DatabaseView();
+
     private Intent i;
     private InitComponent getThis()
     {
@@ -81,7 +81,7 @@ public class InitComponent extends ActionBarActivity {
                             jo.getString("serialNo") + "','" +
                             jo.getString("remark") +
                             "');";
-                    dbv.exec(query);
+                    DatabaseView.exec(query);
                 }
             } catch (IOException e) {
 

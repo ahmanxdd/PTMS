@@ -25,33 +25,28 @@ import java.util.List;
 
 public class DatabaseView {
 
-    private AsyncTask<String, Integer, String> jobListTask;
-    private SQLiteDatabase db;
-    private String[] table =
+    private static SQLiteDatabase db;
+    private static boolean isinited = initDB();
+    private static String[] table =
             {
                     "Technician", "Product", "Company", "Purchase", "ServiceJob"
             };
-    private String[] table_format =
+    private static String[] table_format =
             {
                     "%4s %12s %14s %-10s\n", "%6s %-20s %.2f\n", "%4s %s %8s %50s\n", "%11s %10s %6s %4s\n", "%3s"
             };
-    private static boolean initflag;
-    public DatabaseView() {
-        if(!initflag) {
-            initDB();
-            initflag = true;
-        }
-    }
 
-    public Cursor getAllCompany() {
+
+
+    public static Cursor getAllCompany() {
         Cursor c = query("SELECT * FROM Company");
         return  c;
     }
-    public String[] getTableFormat()
+    public static String[] getTableFormat()
     {
         return table_format;
     }
-    public String[] getAllTable()  {
+    public static String[] getAllTable()  {
 /*        Cursor c = query("SELECT name FROM sqlite_master WHERE type='table'", null);
         String[] retStr = new String[c.getCount() - 1];
         int i = 0;
@@ -63,19 +58,19 @@ public class DatabaseView {
         return  retStr;*/
         return table;
     }
-    public Cursor query(String sql) {
+    public static Cursor query(String sql) {
         return query(sql,null);
     }
-    public Cursor query(String sql, String... params) {
+    public static Cursor query(String sql, String... params) {
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.OPEN_READONLY);
         return db.rawQuery(sql, params);
     }
-    public void exec(String sql) {
+    public static void exec(String sql) {
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.OPEN_READWRITE);
         db.execSQL(sql);
         db.close();
     }
-    private void initDB() {
+    private static boolean initDB() {
 
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = "DROP TABLE IF EXISTS Technician;";
@@ -134,5 +129,6 @@ public class DatabaseView {
                 "('89347827894', '17/1/2013', 'HP2055', '2002')," +
                 "('46917347228', '17/1/2013', 'HP1022', '2001');";
         db.execSQL(sql);
+        return true;
     }
 }

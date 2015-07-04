@@ -8,7 +8,7 @@ import java.util.HashMap;
  * Created by RAYMOND on 7/5/2015.
  */
 public class StaticInfo {
-    private static DatabaseView dbv = new DatabaseView();
+
     private static HashMap<String,String> _pairs = new HashMap<String, String>() {
     };
     private static Cursor c;
@@ -16,7 +16,7 @@ public class StaticInfo {
     public static HashMap getAllProduct()
     {
         clearAll();
-        c = dbv.query("SELECT * FROM Product");
+        c = DatabaseView.query("SELECT * FROM Product");
         while(c.moveToNext())
         {
             _pairs.put(c.getString(c.getColumnIndex("prodName")), c.getString(c.getColumnIndex("prodNo")));
@@ -26,7 +26,7 @@ public class StaticInfo {
 
     public static HashMap getAllCompany() {
         clearAll();
-        c = dbv.query("SELECT * FROM Company");
+        c = DatabaseView.query("SELECT * FROM Company");
         while (c.moveToNext()) {
             _pairs.put(c.getString(c.getColumnIndex("comName")), c.getString(c.getColumnIndex("comNo")));
         }
