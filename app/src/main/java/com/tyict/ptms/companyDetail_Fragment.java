@@ -57,6 +57,7 @@ public class companyDetail_Fragment extends Fragment {
         findView();
         initResource();
         mapView.onCreate(savedInstanceState);
+        dbv.refreshJobList("1001");
         setUpMap();
         ArrayAdapter<String> aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, companyName);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
