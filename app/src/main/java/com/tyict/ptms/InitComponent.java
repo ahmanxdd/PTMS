@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 
 public class InitComponent extends ActionBarActivity {
 
-
+    private DatabaseView dbv = new DatabaseView();
     private Intent i;
     private InitComponent getThis()
     {
@@ -35,7 +35,7 @@ public class InitComponent extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        i = new Intent(getThis(), RaymondTest.class);
+        i = new Intent(getThis(), Main_activity.class);
         setContentView(R.layout.activity_init_component);
         new getJobList().execute("1001");
         finish();
@@ -81,7 +81,7 @@ public class InitComponent extends ActionBarActivity {
                             jo.getString("serialNo") + "','" +
                             jo.getString("remark") +
                             "');";
-                    DatabaseView.exec(query);
+                    dbv.exec(query);
                 }
             } catch (IOException e) {
 

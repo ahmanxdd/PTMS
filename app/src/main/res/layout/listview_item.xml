@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_margin="5dp"
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/JobID"
+        android:id="@+id/tvJobID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:text="JobID"/>
 
     <TextView
-        android:id="@+id/JobProblem"
+        android:id="@+id/tvJobProblem"
         android:text="JobProblem"
         android:layout_marginLeft="10dp"
         android:textSize="30dp"
-        android:layout_below="@+id/JobID"
+        android:layout_below="@+id/tvJobID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -23,15 +25,15 @@
         android:id="@+id/tvJobStartDataTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/JobProblem"
+        android:layout_below="@+id/tvJobProblem"
         android:layout_alignParentRight="true"
-        android:text="JobStartDataTime"/>
+        android:text="JobStartDataTime"/>-->
 
     <TextView
         android:id="@+id/tvJobStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/JobProblem"
+        android:layout_below="@+id/tvJobProblem"
         android:text="JobStatus"/>
 
 </RelativeLayout>
