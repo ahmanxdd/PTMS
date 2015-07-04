@@ -35,7 +35,7 @@ public class InitComponent extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        i = new Intent(getThis(), Test.class);
+        i = new Intent(getThis(), RaymondTest.class);
         setContentView(R.layout.activity_init_component);
         new getJobList().execute("1001");
         finish();
