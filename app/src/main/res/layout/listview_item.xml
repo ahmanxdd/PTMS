@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/JobID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="JobID"/>
+
+    <TextView
+        android:id="@+id/JobProblem"
+        android:text="JobProblem"
+        android:layout_marginLeft="10dp"
+        android:textSize="30dp"
+        android:layout_below="@+id/JobID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvJobStartDataTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/JobProblem"
+        android:layout_alignParentRight="true"
+        android:text="JobStartDataTime"/>
+
+    <TextView
+        android:id="@+id/tvJobStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/JobProblem"
+        android:text="JobStatus"/>
+
+</RelativeLayout>
