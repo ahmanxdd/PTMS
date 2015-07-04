@@ -29,11 +29,11 @@ public class Test extends Activity {
         setContentView(R.layout.joblist_layout);
         /*ListView lvJobList = (ListView) findViewById(R.id.lvJobList);*/
         DatabaseView dbv = new DatabaseView();
-        Cursor cursor = dbv.refreshJobList("1001");
+        Cursor cursor = dbv.refreshJobList("1002");
 
         String tt = "";
         while (cursor.moveToNext())
-            tt += cursor.getString(cursor.getColumnIndex("jobNo")) + "\t";
+            tt += cursor.getString(cursor.getColumnIndex("requestDate")) + "\t";
         ((TextView)findViewById(R.id.tvShow)).setText(tt + "sdfsdf");
 
         /*for(int i=0; i<cursor.getCount(); i++)

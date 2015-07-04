@@ -137,6 +137,7 @@ public class DatabaseView {
     public Cursor refreshJobList(String staffNo) {
         jobListTask = new AsyncTask<String, Integer, String>() {
             @Override
+
             protected String doInBackground(String... staffNo) {
 
                 HttpClient client = new DefaultHttpClient();
@@ -178,6 +179,7 @@ public class DatabaseView {
                 return null;
             }
         };
+
         jobListTask.execute(staffNo);
         return query("SELECT * FROM ServiceJob");
     }

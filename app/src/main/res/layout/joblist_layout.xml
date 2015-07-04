@@ -23,6 +23,8 @@
         android:layout_below="@id/tvTable" />
     <TextView
         android:id="@+id/tvShow"
+        android:textColor="#FF0000"
+        android:textSize="50dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
