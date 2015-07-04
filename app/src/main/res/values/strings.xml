@@ -7,4 +7,8 @@
     <string name="title_activity_login">Login</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_raymond_test">RaymondTestAct</string>
+
+    <string name="title_activity_init_component">InitComponent</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

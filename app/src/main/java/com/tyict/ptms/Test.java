@@ -22,11 +22,11 @@ public class Test extends Activity {
     String[] jobStatus;
     String[] jobStartDates;
     String[] jobTimes;
-    private  static Cursor cursor = new DatabaseView().refreshJobList("1001");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        DatabaseView dbv = new DatabaseView();
+        Cursor cursor = dbv.query("SELECT * FROM ServiceJob");
         setContentView(R.layout.joblist_layout);
         /*ListView lvJobList = (ListView) findViewById(R.id.lvJobList);*/
         String tt = "";
