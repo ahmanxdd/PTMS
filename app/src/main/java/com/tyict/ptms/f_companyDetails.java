@@ -60,6 +60,7 @@ public class f_companyDetails extends Fragment {
     private View _this;
     private Marker marker;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _this = inflater.inflate(R.layout.f_company_details, container, false);
@@ -104,6 +105,8 @@ public class f_companyDetails extends Fragment {
         });
         return _this;
     }
+
+
     private void zoomToHere(LatLng latLng) {
         CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
         CameraUpdate zoomLv = CameraUpdateFactory.zoomTo(15);

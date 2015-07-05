@@ -1,5 +1,6 @@
 package com.tyict.ptms;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,9 +23,10 @@ public class A_main extends ActionBarActivity implements AdapterView.OnItemClick
     private DrawerLayout drawerLayout;
     private ListView listView;
     private FrameLayout frameLayout;
+    private Fragment companyDetails, productIssues, servicePage; //reuseable
     private static final String[] menuItems =
             {
-                    "Product Issues", "Menu2"
+                    "Product Issues", "Company Details", "ServiceTime Graph"
             };
 
     private ActionBarDrawerToggle drawerListener;
@@ -34,15 +36,23 @@ public class A_main extends ActionBarActivity implements AdapterView.OnItemClick
         setTitle(listView.getItemAtPosition(index).toString());
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-
+        Fragment f = new F_productForGraph();
         switch (index) {
             case 0:
-                ft.replace(R.id.mainContent, new F_productIssues());
+                f = productIssues;
+                break;
+            case 1:
+                f = companyDetails;
+                break;
+            case 2:
+                f = servicePage;
 
         }
 
+        ft.addToBackStack(null);
 
 
+        ft.replace(frameLayout.getId(), f);
         ft.commit();
     }
 
@@ -51,6 +61,10 @@ public class A_main extends ActionBarActivity implements AdapterView.OnItemClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_main);
+        companyDetails = new f_companyDetails();
+        productIssues = new F_productIssues();
+        servicePage = new F_productForGraph();
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         listView = (ListView) findViewById(R.id.menuList);
         listView.setAdapter(new ArrayAdapter<>(this, R.layout.a_main_menu_list_items_style, menuItems));

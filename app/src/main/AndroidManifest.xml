@@ -22,11 +22,6 @@
         <activity android:name=".Main_activity" >
         </activity>
         <activity
-            android:name=".RaymondTest"
-            android:label="@string/title_activity_raymond_test"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".A_main"
             android:label="@string/title_activity_raymond_test"
             android:screenOrientation="portrait" >
