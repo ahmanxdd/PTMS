@@ -16,8 +16,9 @@ public class RaymondTest extends ActionBarActivity {
         setContentView(R.layout.activity_raymond_test);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.replace(R.id.fm_content, new Default4Raymond());
+        ft.replace(R.id.fm_content, new F_productForGraph());
         ft.commit();
+
     }
 
     @Override
@@ -46,7 +47,7 @@ public class RaymondTest extends ActionBarActivity {
     {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.replace(R.id.fm_content, new F_productIssues());
+        ft.replace(R.id.fm_content, new F_productForGraph());
         ft.commit();
     }
 
