@@ -1,4 +1,10 @@
 <resources>
+
+
+    <string name="openDrawer">Open Drawer</string>
+
+    <string name="closeDrawer">Close Drawer</string>
+
     <string name="app_name">PTMS</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_view_all_data">ViewAllData</string>
@@ -19,4 +25,15 @@
     <string name="problem">Problem</string>
     <string name="request_date">Request Date</string>
     <string name="job_no">Job No</string>
+    <string name="title_activity_action_drawer">Main</string>
+    <string name="title_activity_can_delte">CanDelte</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
 </resources>

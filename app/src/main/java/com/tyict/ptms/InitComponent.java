@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.tyict.ptms.dataInfo.DatabaseView;
 
@@ -35,7 +33,11 @@ public class InitComponent extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        i = new Intent(getThis(), Main_activity.class);
+
+
+        i = new Intent(getThis(), A_main.class);
+
+
         setContentView(R.layout.activity_init_component);
         new getJobList().execute("1001");
         finish();

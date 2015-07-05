@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,23 +20,33 @@
             android:label="@string/title_activity_login" >
         </activity>
         <activity android:name=".Main_activity" >
-
         </activity>
         <activity
             android:name=".RaymondTest"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_raymond_test" >
+            android:label="@string/title_activity_raymond_test"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".A_main"
+            android:label="@string/title_activity_raymond_test"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".InitComponent"
-            android:label="@string/title_activity_init_component">
+            android:label="@string/title_activity_init_component" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAmZTPJ9BzpB-xizg3QN5QAKMaq1Pl5eVk"/>
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAmZTPJ9BzpB-xizg3QN5QAKMaq1Pl5eVk" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 

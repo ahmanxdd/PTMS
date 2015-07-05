@@ -48,7 +48,7 @@ import java.util.TreeMap;
 /**
  * Created by RAYMOND on 7/4/2015.
  */
-public class F_companyDetails extends Fragment {
+public class f_companyDetails extends Fragment {
     @Nullable
 
     private TreeMap<String,String> companies;
@@ -60,6 +60,50 @@ public class F_companyDetails extends Fragment {
     private View _this;
     private Marker marker;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        _this = inflater.inflate(R.layout.f_company_details, container, false);
+        findView();
+        mapView.onCreate(savedInstanceState);
+        mapView.setEnabled(false);
+        setUpMap();
+        initResource();
+        ArrayAdapter<String> aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, companies.keySet().toArray(new String[companies.size()]));
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        btn_callCompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + tv_contact.getText().toString()));
+                startActivity(intent);
+            }
+        });
+
+        spn_companySelection.setAdapter(aa);
+        spn_companySelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Cursor c = DatabaseView.query("SELECT comTel, comAddr FROM Company WHERE comNo = '" + companies.get(spn_companySelection.getItemAtPosition(i).toString()) + "'");
+                c.moveToNext();
+                tv_contact.setText(c.getString(0));
+                tv_address.setText(c.getString(1));
+                try {
+                    final Geocoder coder = new Geocoder(getActivity().getApplicationContext());
+                    List<Address> addr = coder.getFromLocationName(c.getString(1), 5);
+                    LatLng ll = new LatLng(addr.get(0).getLatitude(), addr.get(0).getLongitude());
+                    zoomToHere(ll);
+                } catch (Exception e) {
+                    new UpdateMapTask().execute(c.getString(1)); //Backup for Geocode Known Issues and Bug (This service needed to reboot)
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        return _this;
+    }
     private void zoomToHere(LatLng latLng) {
         CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
         CameraUpdate zoomLv = CameraUpdateFactory.zoomTo(15);
@@ -139,50 +183,6 @@ public class F_companyDetails extends Fragment {
 
         return new LatLng(lat, lon);
 
-    }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        _this = inflater.inflate(R.layout.f_company_details, container, false);
-        findView();
-        mapView.onCreate(savedInstanceState);
-        mapView.setEnabled(false);
-        setUpMap();
-        initResource();
-        ArrayAdapter<String> aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, companies.keySet().toArray(new String[companies.size()]));
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        btn_callCompany.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + tv_contact.getText().toString()));
-                startActivity(intent);
-            }
-        });
-
-        spn_companySelection.setAdapter(aa);
-        spn_companySelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Cursor c = DatabaseView.query("SELECT comTel, comAddr FROM Company WHERE comNo = '" + companies.get(spn_companySelection.getItemAtPosition(i).toString()) + "'");
-                c.moveToNext();
-                tv_contact.setText(c.getString(0));
-                tv_address.setText(c.getString(1));
-                try {
-                    final Geocoder coder = new Geocoder(getActivity().getApplicationContext());
-                    List<Address> addr = coder.getFromLocationName(c.getString(1), 5);
-                    LatLng ll = new LatLng(addr.get(0).getLatitude(), addr.get(0).getLongitude());
-                    zoomToHere(ll);
-                } catch (Exception e) {
-                    new UpdateMapTask().execute(c.getString(1)); //Backup for Geocode Known Issues and Bug (This service needed to reboot)
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        return _this;
     }
     private class UpdateMapTask extends AsyncTask<String, Integer, LatLng> {
         @Override
