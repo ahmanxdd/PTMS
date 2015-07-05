@@ -17,6 +17,7 @@ import com.tyict.ptms.dataInfo.DatabaseView;
 import com.tyict.ptms.dataInfo.StaticInfo;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * Created by RAYMOND on 7/5/2015.
@@ -24,7 +25,7 @@ import java.util.HashMap;
 public class F_productIssues extends Fragment{
     @Nullable
     private DatabaseView dbv;
-    private HashMap<String, String> _products;
+    private TreeMap<String, String> _products;
     private View _this;
     private TextView tv_job, tv_date, tv_problem;
     private Spinner productSelection;
