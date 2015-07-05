@@ -120,7 +120,7 @@ public class F_productForGraph extends Fragment {
                 TextView title = new TextView(context);
                 title.setText(_title);
                 title.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                title.setTextSize(dpToInt(8));
+                title.setTextSize(15);
                 title.setSingleLine(true);
                 title.setBackgroundColor(Color.GRAY);
                 title.setTextColor(Color.WHITE);
@@ -151,11 +151,11 @@ public class F_productForGraph extends Fragment {
             TextView tv = new TextView(getActivity());
             TextView tv_length = new TextView(getActivity());
             tv_length.setText(Double.toString(length) + "mins");
-            tv_length.setTextSize(dpToInt(5));
+            tv_length.setTextSize(10);
             tv_length.setTextColor(Color.GRAY);
             tv.setText(label);
 
-            tv.setLayoutParams(new LayoutParams(dpToInt((int) (tv.getTextSize()) * 3), LayoutParams.WRAP_CONTENT));
+            tv.setLayoutParams(new LayoutParams(dpToInt((int) (tv.getTextSize()) * 2), LayoutParams.WRAP_CONTENT));
             DrawView rect = new DrawView(getActivity(), (int) Math.floor(length * unit), tv.getLineHeight()).setPaddingTopBottom(5).getView();
 
             ll.addView(tv);

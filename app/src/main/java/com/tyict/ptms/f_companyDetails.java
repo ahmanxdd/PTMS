@@ -108,13 +108,19 @@ public class f_companyDetails extends Fragment {
 
 
     private void zoomToHere(LatLng latLng) {
-        CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
-        CameraUpdate zoomLv = CameraUpdateFactory.zoomTo(15);
-        map.moveCamera(center);
-        if (marker != null)
-            marker.remove();
-        map.animateCamera(zoomLv);
-        marker = map.addMarker(new MarkerOptions().position(latLng).title("Here!"));
+        try {
+            CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
+            CameraUpdate zoomLv = CameraUpdateFactory.zoomTo(15);
+            map.moveCamera(center);
+            if (marker != null)
+                marker.remove();
+            map.animateCamera(zoomLv);
+            marker = map.addMarker(new MarkerOptions().position(latLng).title("Here!"));
+        }
+        catch (Exception e)
+        {
+
+        }
     }
     public void setUpMap() {
         mapView.onResume();
