@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.tyict.ptms.dataInfo.DatabaseView;
 
@@ -18,7 +20,7 @@ public class Joblist_activity extends Fragment {
     ListView lvJobList;
     Context context;
     Cursor cursor;
-    ArrayList<ListData> myList = new ArrayList<ListData>();
+    ArrayList<ListData> myList = new ArrayList<>();
 
     String[] ids;
     String[] problems;
@@ -33,7 +35,12 @@ public class Joblist_activity extends Fragment {
         lvJobList = (ListView) rootView.findViewById(R.id.lvJobList);
         getDataInList();
         lvJobList.setAdapter(new MyBaseAdapter(context, myList));
-
+        lvJobList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(), Integer.toString(position), Toast.LENGTH_SHORT).show();
+            }
+        });
         return rootView;
     }
 
@@ -49,7 +56,7 @@ public class Joblist_activity extends Fragment {
     }
 
     private void fillDetail() {
-        cursor = new DatabaseView().query("SELECT * FROM ServiceJob");
+        cursor = DatabaseView.query("SELECT * FROM ServiceJob");
 
         ids = new String[cursor.getCount()];
         problems = new String[cursor.getCount()];
@@ -59,7 +66,7 @@ public class Joblist_activity extends Fragment {
             cursor.moveToNext();
             ids[i] = "Job No:" + cursor.getString(cursor.getColumnIndex("jobNo"));
             problems[i] = cursor.getString(cursor.getColumnIndex("jobProblem"));
-            status[i] = "Status:" + cursor.getString(cursor.getColumnIndex("jobStatus"));
+            status[i] = cursor.getString(cursor.getColumnIndex("jobStatus"));
             datatime[i] = cursor.getString(cursor.getColumnIndex("visitDate")) + " " +
                     cursor.getString(cursor.getColumnIndex("jobStartTime"));
 

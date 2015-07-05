@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
         android:text="JobID"/>
 
     <TextView
@@ -26,14 +27,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvJobProblem"
+        android:layout_marginRight="5dp"
         android:layout_alignParentRight="true"
-        android:text="JobStartDataTime"/>-->
+        android:text="JobStartDataTime"/>
+
+    <TextView
+        android:id="@+id/Status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvJobProblem"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentLeft="true"
+        android:text="Status:"/>
 
     <TextView
         android:id="@+id/tvJobStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvJobProblem"
+        android:layout_toRightOf="@+id/Status"
         android:text="JobStatus"/>
 
 </RelativeLayout>
