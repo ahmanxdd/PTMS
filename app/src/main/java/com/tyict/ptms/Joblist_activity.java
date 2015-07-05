@@ -17,23 +17,23 @@ import java.util.ArrayList;
 
 public class Joblist_activity extends Fragment {
     View rootView;
-    ListView lvJobList;
-    Context context;
-    Cursor cursor;
-    ArrayList<ListData> myList = new ArrayList<>();
-
-    String[] ids;
-    String[] problems;
-    String[] status;
-    String[] datatime;
+    static ListView lvJobList;
+    static Context context;
+    static ArrayList<ListData> myList = new ArrayList<>();
+    static String listViewSQL = "SELECT * FROM ServiceJob";
+    static String[] ids;
+    static String[] problems;
+    static String[] status;
+    static String[] datatime;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.joblist_layout, container, false);
         context = container.getContext();
-        fillDetail();
+        fillDetail() ;
 
         lvJobList = (ListView) rootView.findViewById(R.id.lvJobList);
         getDataInList();
+        Toast.makeText(getActivity(), "HEY", Toast.LENGTH_SHORT).show();
         lvJobList.setAdapter(new MyBaseAdapter(context, myList));
         lvJobList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -44,8 +44,9 @@ public class Joblist_activity extends Fragment {
         return rootView;
     }
 
-    private void getDataInList() {
-        for (int i = 0; i < cursor.getCount(); i++) {
+    public static void getDataInList() {
+        myList.clear();
+        for (int i = 0; i < ids.length; i++) {
             ListData ld = new ListData();
             ld.setId(ids[i]);
             ld.setProblem(problems[i]);
@@ -55,8 +56,8 @@ public class Joblist_activity extends Fragment {
         }
     }
 
-    private void fillDetail() {
-        cursor = DatabaseView.query("SELECT * FROM ServiceJob");
+    public static void fillDetail() {
+        Cursor cursor = DatabaseView.query(listViewSQL);
 
         ids = new String[cursor.getCount()];
         problems = new String[cursor.getCount()];
@@ -69,7 +70,6 @@ public class Joblist_activity extends Fragment {
             status[i] = cursor.getString(cursor.getColumnIndex("jobStatus"));
             datatime[i] = cursor.getString(cursor.getColumnIndex("visitDate")) + " " +
                     cursor.getString(cursor.getColumnIndex("jobStartTime"));
-
         }
     }
 
