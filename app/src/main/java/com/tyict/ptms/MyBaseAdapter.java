@@ -53,25 +53,25 @@ public class MyBaseAdapter extends BaseAdapter {
             mViewHolder = (MyViewHolder) convertView.getTag();
         }
         ListData currentListData = getItem(position);
-        mViewHolder.tvJobID.setText(currentListData.getId());
+        mViewHolder.tvJobNo.setText(currentListData.getId());
         mViewHolder.tvJobProblem.setText(currentListData.getProblem());
         mViewHolder.tvJobStartDataTime.setText(currentListData.getDatatime());
         mViewHolder.tvJobStatus.setText(currentListData.getStatus());
         if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("completed"))
-            convertView.setBackgroundColor(Color.rgb(102, 255, 102));
+            convertView.setBackgroundColor(Color.rgb(164, 255, 0));
         else if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("follow-up"))
-            convertView.setBackgroundColor(Color.rgb(255, 255, 153));
+            convertView.setBackgroundColor(Color.rgb(255, 245, 157));
         else if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("pending"))
-            convertView.setBackgroundColor(Color.rgb(153, 153, 255));
+            convertView.setBackgroundColor(Color.rgb(238, 238, 238));
 
         return convertView;
     }
 
     private class MyViewHolder {
-        TextView tvJobID, tvJobProblem, tvJobStartDataTime, tvJobStatus;
+        TextView tvJobNo, tvJobProblem, tvJobStartDataTime, tvJobStatus;
 
         public MyViewHolder(View item) {
-            tvJobID = (TextView) item.findViewById(R.id.tvJobID);
+            tvJobNo = (TextView) item.findViewById(R.id.tvJobNo);
             tvJobProblem = (TextView) item.findViewById(R.id.tvJobProblem);
             tvJobStatus = (TextView) item.findViewById(R.id.tvJobStatus);
             tvJobStartDataTime = (TextView) item.findViewById(R.id.tvJobStartDataTime);

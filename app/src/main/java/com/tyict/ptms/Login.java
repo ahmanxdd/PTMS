@@ -47,7 +47,7 @@ public class Login extends ActionBarActivity {
 
     public void btn_login_click(View v)
     {
-        startActivity(new Intent().setClass(Login.this, Main_activity.class));
+        startActivity(new Intent().setClass(Login.this,  A_main.class));
         finish();
         String userID = ((EditText)findViewById(R.id.et_loginID)).getText().toString();
         String password = ((EditText)findViewById(R.id.et_password)).getText().toString();
