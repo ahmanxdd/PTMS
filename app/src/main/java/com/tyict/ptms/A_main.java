@@ -26,7 +26,7 @@ public class A_main extends ActionBarActivity implements AdapterView.OnItemClick
     private Fragment companyDetails, productIssues, servicePage; //reuseable
     private static final String[] menuItems =
             {
-                    "Product Issues", "Company Details", "ServiceTime Graph"
+                   "Job List", "Product Issues", "Company Details", "ServiceTime Graph"
             };
 
     private ActionBarDrawerToggle drawerListener;
@@ -37,14 +37,17 @@ public class A_main extends ActionBarActivity implements AdapterView.OnItemClick
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment f = new F_productForGraph();
+
         switch (index) {
             case 0:
+                f = new Joblist_activity();
+            case 1:
                 f = productIssues;
                 break;
-            case 1:
+            case 2:
                 f = companyDetails;
                 break;
-            case 2:
+            case 3:
                 f = servicePage;
 
         }
