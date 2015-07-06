@@ -19,8 +19,6 @@
             android:name=".Login"
             android:label="@string/title_activity_login" >
         </activity>
-        <activity android:name=".Main_activity" >
-        </activity>
         <activity android:name=".Timer_activity" />
         <activity
             android:name=".A_main"
