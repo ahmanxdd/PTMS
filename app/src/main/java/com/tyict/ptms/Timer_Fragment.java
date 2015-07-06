@@ -2,11 +2,14 @@ package com.tyict.ptms;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.text.format.Time;
@@ -16,34 +19,26 @@ import java.util.concurrent.TimeUnit;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 @SuppressLint("NewApi")
-public class Timer_activity extends Activity implements View.OnClickListener {
+public class Timer_Fragment extends Fragment implements View.OnClickListener {
 
-    TextView tvShowStartTime;
-    TextView tvTimer;
-    TextView tvShowEndTime;
-    TextView tvTotal;
-    Button btnStart;
-    Button btnEnd;
-    Button btnReset;
-    Button btnPause;
-    int s;
-    int m;
-    int h;
+    private View _this;
+    private TextView tvShowStartTime;
+    private TextView tvTimer;
+    private TextView tvShowEndTime;
+    private TextView tvTotal;
+    private Button btnStart;
+    private Button btnEnd;
+    private Button btnReset;
+    private Button btnPause;
+    private int h, m,s;
     CounterClass timer;
     boolean isEnd = true;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.timer_layout);
-        tvTimer = (TextView) findViewById(R.id.tvTimer);
-        tvShowStartTime = (TextView) findViewById(R.id.tvShowStartTime);
-        tvShowEndTime = (TextView) findViewById(R.id.tvShowEndTime);
-        tvTotal = (TextView) findViewById(R.id.tvTotal);
-        btnStart = (Button) findViewById(R.id.btnStart);
-        btnReset = (Button) findViewById(R.id.btnReset);
-        btnPause = (Button) findViewById(R.id.btnPause);
-        btnEnd = (Button) findViewById(R.id.btnEnd);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        _this = inflater.inflate(R.layout.timer_layout, container, false);
+        initVarible();
 
         btnStart.setOnClickListener(this);
         btnPause.setOnClickListener(this);
@@ -51,6 +46,20 @@ public class Timer_activity extends Activity implements View.OnClickListener {
         btnEnd.setOnClickListener(this);
 
         timer = new CounterClass(180000, 1000);
+
+        return _this;
+    }
+
+    private void initVarible() {
+
+        tvTimer = (TextView) _this.findViewById(R.id.tvTimer);
+        tvShowStartTime = (TextView) _this.findViewById(R.id.tvShowStartTime);
+        tvShowEndTime = (TextView) _this.findViewById(R.id.tvShowEndTime);
+        tvTotal = (TextView) _this.findViewById(R.id.tvTotal);
+        btnStart = (Button) _this.findViewById(R.id.btnStart);
+        btnReset = (Button) _this.findViewById(R.id.btnReset);
+        btnPause = (Button) _this.findViewById(R.id.btnPause);
+        btnEnd = (Button) _this.findViewById(R.id.btnEnd);
     }
 
     @TargetApi(Build.VERSION_CODES.GINGERBREAD)
