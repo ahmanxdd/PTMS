@@ -1,9 +1,9 @@
 package com.tyict.ptms;
 
-import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +22,7 @@ import java.util.TreeMap;
 /**
  * Created by RAYMOND on 7/5/2015.
  */
-public class F_productIssues extends Fragment{
+public class F_productIssues extends Fragment {
     @Nullable
     private DatabaseView dbv;
     private TreeMap<String, String> _products;

@@ -1,6 +1,6 @@
 package com.tyict.ptms;
 
-import android.app.Fragment;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.Display;

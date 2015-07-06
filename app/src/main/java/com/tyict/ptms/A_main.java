@@ -1,12 +1,13 @@
 package com.tyict.ptms;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+
+
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.widget.DrawerLayout;
-
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.ListView;
 public class A_main extends ActionBarActivity implements AdapterView.OnItemClickListener {
     private DrawerLayout drawerLayout;
     private ListView listView;
+
     private FrameLayout frameLayout;
     private Fragment companyDetails, productIssues, servicePage; //reuseable
     private static final String[] menuItems =
@@ -35,7 +37,7 @@ public class A_main extends ActionBarActivity implements AdapterView.OnItemClick
         listView.setItemChecked(index, true);
         setTitle(listView.getItemAtPosition(index).toString());
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment f = new F_productForGraph();
 
         switch (index) {
