@@ -54,7 +54,7 @@ public class A_main extends ActionBarActivity implements AdapterView.OnItemClick
                 f = servicePage;
                 break;
             case 4:
-                f = new JobDetail_Fragment();
+                f = new Timer_Fragment();
 
         }
 

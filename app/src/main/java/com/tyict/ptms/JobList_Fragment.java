@@ -25,7 +25,7 @@ public class JobList_Fragment extends Fragment {
     private String[] problems;
     private String[] status;
     private String[] datetime;
-
+    RefreshableView refreshableView;
 
     @Nullable
     @Override
@@ -33,6 +33,18 @@ public class JobList_Fragment extends Fragment {
         _this = inflater.inflate(R.layout.joblist_layout, container, false);
         initVariable();
         initJobListItems();
+        refreshableView = (RefreshableView) _this.findViewById(R.id.refreshable_view);
+        refreshableView.setOnRefreshListener(new RefreshableView.PullToRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                refreshableView.finishRefreshing();
+            }
+        }, 0);
         return _this;
     }
 
