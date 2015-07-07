@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tyict.ptms.JobService.ListData;
+import com.tyict.ptms.JobService.MyBaseAdapter;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import java.util.ArrayList;
@@ -56,15 +58,15 @@ public class JobList_Fragment extends Fragment {
         lvJobList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedJobNo = ((TextView)view.findViewById(R.id.tvJobNo)).getText().toString();
-                Toast.makeText(getActivity(), selectedJobNo, Toast.LENGTH_SHORT).show();
-                /*String selectedJobNo = ((TextView) view.findViewById(R.id.tvJobNo)).getText().toString();
+                String selectedJobNo = ((TextView) view.findViewById(R.id.tvJobNo)).getText().toString();
                 Bundle bundle = new Bundle();
                 bundle.putString("selectedJobNo", selectedJobNo);
                 Fragment jobDetail_Fragment = new JobDetail_Fragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.mainContent, jobDetail_Fragment);
-                jobDetail_Fragment.setArguments(bundle);*/
+                jobDetail_Fragment.setArguments(bundle);
+                transaction.commit();
+                Toast.makeText(getActivity(), selectedJobNo, Toast.LENGTH_SHORT).show();
             }
         });
 
