@@ -35,7 +35,7 @@ public class InitComponent extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
 
-        i = new Intent(getThis(), A_main.class);
+        i = new Intent(getThis(), A_Entry.class);
 
 
         setContentView(R.layout.activity_init_component);

@@ -1,4 +1,4 @@
-package com.tyict.ptms;
+package com.tyict.ptms.Other;
 
 import android.app.Fragment;
 import android.database.Cursor;
@@ -13,10 +13,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.tyict.ptms.R;
 import com.tyict.ptms.dataInfo.DatabaseView;
 import com.tyict.ptms.dataInfo.StaticInfo;
 
-import java.util.HashMap;
 import java.util.TreeMap;
 
 /**

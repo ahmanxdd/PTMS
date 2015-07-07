@@ -1,4 +1,4 @@
-package com.tyict.ptms;
+package com.tyict.ptms.JobService;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,11 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.tyict.ptms.R;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import java.util.ArrayList;
 
-public class Joblist_activity extends Fragment {
+public class F_Joblist extends Fragment {
     View rootView;
     static ListView lvJobList;
     static Context context;

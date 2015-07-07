@@ -1,4 +1,4 @@
-package com.tyict.ptms;
+package com.tyict.ptms.Other;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -26,6 +26,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.tyict.ptms.R;
 import com.tyict.ptms.dataInfo.DatabaseView;
 import com.tyict.ptms.dataInfo.StaticInfo;
 
@@ -41,7 +42,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -105,7 +105,17 @@ public class f_companyDetails extends Fragment {
         });
         return _this;
     }
+    public void getThisCompanyDetails(String companyName)
+    {
+        try
+        {
+            String id = companies.get(companyName);
+        }
+        catch (NullPointerException e)
+        {
 
+        }
+    }
 
     private void zoomToHere(LatLng latLng) {
         try {
@@ -142,61 +152,61 @@ public class f_companyDetails extends Fragment {
         tv_contact = (TextView) _this.findViewById(R.id.tv_contact);
         tv_address = (TextView) _this.findViewById(R.id.tv_address);
     }
-    public JSONObject getLocationFormGoogle(String placesName) {
-        HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?address=" + placesName.replace(" ", "%20") + "&ka&sensor=false");
-        HttpClient client = new DefaultHttpClient();
-        HttpResponse response;
-        StringBuilder stringBuilder = new StringBuilder();
-
-        try {
-            response = client.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            InputStream stream = entity.getContent();
-            int b;
-            while ((b = stream.read()) != -1) {
-                stringBuilder.append((char) b);
-            }
-        } catch (ClientProtocolException e) {
-        } catch (IOException e) {
-        }
-
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject = new JSONObject(stringBuilder.toString());
-        } catch (JSONException e) {
-
-            e.printStackTrace();
-        }
-
-        return jsonObject;
-    }
-    public LatLng getLatLng(JSONObject jsonObject) {
-
-        Double lon = new Double(0);
-        Double lat = new Double(0);
-
-        try {
-
-            lon = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
-                    .getJSONObject("geometry").getJSONObject("location")
-                    .getDouble("lng");
-
-            lat = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
-                    .getJSONObject("geometry").getJSONObject("location")
-                    .getDouble("lat");
-
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return new LatLng(lat, lon);
-
-    }
     private class UpdateMapTask extends AsyncTask<String, Integer, LatLng> {
         @Override
         protected void onPostExecute(LatLng latLng) {
             zoomToHere(latLng);
+        }
+        public JSONObject getLocationFormGoogle(String placesName) {
+            HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?address=" + placesName.replace(" ", "%20") + "&ka&sensor=false");
+            HttpClient client = new DefaultHttpClient();
+            HttpResponse response;
+            StringBuilder stringBuilder = new StringBuilder();
+
+            try {
+                response = client.execute(httpGet);
+                HttpEntity entity = response.getEntity();
+                InputStream stream = entity.getContent();
+                int b;
+                while ((b = stream.read()) != -1) {
+                    stringBuilder.append((char) b);
+                }
+            } catch (ClientProtocolException e) {
+            } catch (IOException e) {
+            }
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject = new JSONObject(stringBuilder.toString());
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+
+            return jsonObject;
+        }
+        public LatLng getLatLng(JSONObject jsonObject) {
+
+            Double lon = new Double(0);
+            Double lat = new Double(0);
+
+            try {
+
+                lon = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
+                        .getJSONObject("geometry").getJSONObject("location")
+                        .getDouble("lng");
+
+                lat = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
+                        .getJSONObject("geometry").getJSONObject("location")
+                        .getDouble("lat");
+
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            return new LatLng(lat, lon);
+
         }
         @Override
         protected LatLng doInBackground(String... address) {

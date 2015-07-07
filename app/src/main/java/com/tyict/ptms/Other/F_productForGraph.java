@@ -1,4 +1,4 @@
-package com.tyict.ptms;
+package com.tyict.ptms.Other;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.tyict.ptms.R;
 
 import java.util.ArrayList;
 import java.util.List;

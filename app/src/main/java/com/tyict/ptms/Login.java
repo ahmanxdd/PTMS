@@ -1,9 +1,6 @@
 package com.tyict.ptms;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -47,13 +44,13 @@ public class Login extends ActionBarActivity {
 
     public void btn_login_click(View v)
     {
-        startActivity(new Intent().setClass(Login.this, Main_activity.class));
+        startActivity(new Intent().setClass(Login.this, A_Entry.class));
         finish();
         String userID = ((EditText)findViewById(R.id.et_loginID)).getText().toString();
         String password = ((EditText)findViewById(R.id.et_password)).getText().toString();
         if(LoginControl.login(userID,password))
         {
-            Intent i = new Intent(this, A_main.class);
+            Intent i = new Intent(this, A_Entry.class);
             startActivity(i);
         }
         else

@@ -1,4 +1,4 @@
-package com.tyict.ptms;
+package com.tyict.ptms.JobService;
 
 public class ListData {
     String _id;

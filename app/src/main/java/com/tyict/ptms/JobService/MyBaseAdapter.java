@@ -1,15 +1,14 @@
-package com.tyict.ptms;
+package com.tyict.ptms.JobService;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.v4.app.INotificationSideChannel;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.tyict.ptms.R;
 
 import java.util.ArrayList;
 
