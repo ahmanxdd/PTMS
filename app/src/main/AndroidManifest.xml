@@ -19,7 +19,8 @@
             android:name=".Login"
             android:label="@string/title_activity_login" >
         </activity>
-            android:name=".A_main"
+        <activity
+            android:name=".A_Entry"
             android:label="@string/title_activity_raymond_test"
             android:screenOrientation="portrait" >
         </activity>
