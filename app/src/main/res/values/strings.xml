@@ -36,4 +36,15 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
+
+
+    <string name="pull_to_refresh">Pull down to refresh</string>
+    <string name="release_to_refresh">release to refresh</string>
+    <string name="refreshing">Refreshing…</string>
+    <string name="not_updated_yet">Not updated yet</string>
+    <string name="updated_at">Updated at %1$s</string>
+    <string name="updated_just_now">Just updated</string>
+    <string name="time_error">Time error</string>
+
+
 </resources>

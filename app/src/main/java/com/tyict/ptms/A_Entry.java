@@ -1,16 +1,12 @@
 package com.tyict.ptms;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v4.widget.DrawerLayout;
+
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,13 +30,15 @@ import java.util.HashMap;
 public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClickListener {
     private DrawerLayout drawerLayout;
     private ListView listView;
+
     private FrameLayout frameLayout;
     private Fragment companyDetails, productIssues, servicePage, jobServilePage; //reuseable
     FragmentManager f_manager;
     FragmentTransaction ft;
     private static final String[] menuItems =
             {
-                    "Job List", "Product Issues", "Company Details", "Avg Time Graph"
+                    "Job List", "Product Issues", "Company Details", "Avg Time Graph" , "Lee Testing"
+                   "Job List", "Product Issues", "Company Details", "ServiceTime Graph", "Lee Testing"
             };
 
     enum Menu {
@@ -67,12 +65,16 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     private void goToFragment(int index) {
         listView.setItemChecked(index, true);
         setTitle(listView.getItemAtPosition(index).toString());
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment f = new F_productForGraph();
 
 
         switch (index) {
             case 0:
                 f = jobServilePage;
+                break;
+                f = new JobList_Fragment();
                 break;
             case 1:
                 f = productIssues;
@@ -82,6 +84,9 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
                 break;
             case 3:
                 f = servicePage;
+                break;
+            case 4:
+                f = new Timer_Fragment();
 
         }
 

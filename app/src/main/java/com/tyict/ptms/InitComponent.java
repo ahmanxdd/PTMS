@@ -37,7 +37,6 @@ public class InitComponent extends ActionBarActivity {
 
         i = new Intent(getThis(), A_Entry.class);
 
-
         setContentView(R.layout.activity_init_component);
         new getJobList().execute("1001");
         finish();
