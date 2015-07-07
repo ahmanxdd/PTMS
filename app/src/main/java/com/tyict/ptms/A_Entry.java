@@ -86,7 +86,7 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
                 f = servicePage;
                 break;
             case 4:
-                f = new Timer_Fragment();
+                f = new Layout_testing();
 
         }
 

@@ -1,14 +1,22 @@
 package com.tyict.ptms;
 
+
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tyict.ptms.dataInfo.DatabaseView;
 
@@ -45,6 +53,21 @@ public class JobList_Fragment extends Fragment {
                 refreshableView.finishRefreshing();
             }
         }, 0);
+        lvJobList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedJobNo = ((TextView)view.findViewById(R.id.tvJobNo)).getText().toString();
+                Toast.makeText(getActivity(), selectedJobNo, Toast.LENGTH_SHORT).show();
+                /*String selectedJobNo = ((TextView) view.findViewById(R.id.tvJobNo)).getText().toString();
+                Bundle bundle = new Bundle();
+                bundle.putString("selectedJobNo", selectedJobNo);
+                Fragment jobDetail_Fragment = new JobDetail_Fragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.mainContent, jobDetail_Fragment);
+                jobDetail_Fragment.setArguments(bundle);*/
+            }
+        });
+
         return _this;
     }
 
@@ -61,7 +84,7 @@ public class JobList_Fragment extends Fragment {
         datetime = new String[cursor.getCount()];
         for (int i = 0; i < cursor.getCount(); i++) {
             cursor.moveToNext();
-            jobNo[i] = "Job No:" + cursor.getString(cursor.getColumnIndex("jobNo"));
+            jobNo[i] = cursor.getString(cursor.getColumnIndex("jobNo"));
             problems[i] = cursor.getString(cursor.getColumnIndex("jobProblem"));
             status[i] = cursor.getString(cursor.getColumnIndex("jobStatus"));
             datetime[i] = cursor.getString(cursor.getColumnIndex("visitDate")) + " " +
@@ -83,6 +106,7 @@ public class JobList_Fragment extends Fragment {
 
     private void initVariable() {
         lvJobList = (ListView) _this.findViewById(R.id.lvJobList);
+
         context = _this.getContext();
     }
 
@@ -91,5 +115,6 @@ public class JobList_Fragment extends Fragment {
         getDetailInList();
         lvJobList.setAdapter(new MyBaseAdapter(context, myList));
     }
+
 
 }
