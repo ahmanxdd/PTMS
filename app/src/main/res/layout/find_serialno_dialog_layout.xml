@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/newServiceJob_find_layout"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Company Name : "
+                android:textSize="16dp" />
+
+            <Spinner
+                android:id="@+id/findDialog_comName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="1in"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Product Name : "
+                android:textSize="16dp" />
+
+            <Spinner
+                android:id="@+id/findDialog_prodName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="1in"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/findDialog_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:minWidth="200dp"
+            android:layout_gravity="center"
+            android:text="Submit"/>
+    </LinearLayout>
+
+
+</LinearLayout>

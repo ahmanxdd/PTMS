@@ -1,8 +1,8 @@
 package com.tyict.ptms;
 
+import android.app.AlertDialog;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -10,17 +10,17 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.SimpleTimeZone;
 
 public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickListener, TextWatcher {
     View _this;
@@ -36,6 +36,11 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
     private Button btnNewServiceJob;
     private Button btnFind;
     private boolean isValid = false;
+
+    private Spinner sComName;
+    private Spinner sProdName;
+    private Button btnSubmit;
+    private String[] comNameArray;
 
     @Nullable
     @Override
@@ -78,8 +83,33 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
         if (v.equals(btnNewServiceJob)) {
             insertTodatabase();
         } else if (v.equals(btnFind)) {
-            ;
+            showFindSerialNoDialog();
         }
+    }
+
+    private void showFindSerialNoDialog() {
+        sComName = (Spinner) _this.findViewById(R.id.findDialog_comName);
+        sProdName = (Spinner) _this.findViewById(R.id.findDialog_prodName);
+        btnSubmit = (Button) _this.findViewById(R.id.findDialog_submit);
+
+        setSComNameItems();
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialog = inflater.inflate(R.layout.find_serialno_dialog_layout, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(dialog);
+        builder.show();
+
+    }
+
+    private void setSComNameItems() {
+        Cursor cursor = DatabaseView.query("SELECT comName FROM Company");
+        comNameArray = new String[cursor.getCount()];
+        for(int i=0; i< cursor.getCount(); i++) {
+            cursor.moveToNext();
+            comNameArray[i] = cursor.getString(cursor.getColumnIndex("comName"));
+        }
+        sComName.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, comNameArray));
     }
 
     private void insertTodatabase() {
@@ -93,6 +123,9 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
                     + remark.getText().toString() + "')");
 
             Toast.makeText(getActivity(), "Successful insert new service job!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(getActivity(), "Invalid serial no!", Toast.LENGTH_SHORT).show();
         }
     }
 
