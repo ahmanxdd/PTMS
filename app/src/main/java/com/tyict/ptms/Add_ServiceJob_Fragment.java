@@ -35,6 +35,7 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
     private EditText remark;
     private Button btnNewServiceJob;
     private Button btnFind;
+    private boolean isValid = false;
 
     @Nullable
     @Override
@@ -66,7 +67,7 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
         cursor.moveToNext();
         jobNo.setText((Integer.parseInt(cursor.getString(cursor.getColumnIndex("jobNo"))) + 1) + "");
 
-        String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
         requestDate.setText(date);
 
     }
@@ -74,10 +75,24 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (v.equals(btnNewServiceJob)){
+        if (v.equals(btnNewServiceJob)) {
+            insertTodatabase();
+        } else if (v.equals(btnFind)) {
             ;
-        }else if (v.equals(btnFind)){
-            ;
+        }
+    }
+
+    private void insertTodatabase() {
+        if (isValid) {
+            DatabaseView.exec("INSERT INTO ServiceJob(jobNo, requestDate, jobProblem, jobStatus, serialNo, remark) VALUES ('"
+                    + jobNo.getText().toString() + "', '"
+                    + requestDate.getText().toString() + "', '"
+                    + problem.getText().toString() + "', '"
+                    + "pending" + "', '"
+                    + serialNo.getText().toString() + "', '"
+                    + remark.getText().toString() + "')");
+
+            Toast.makeText(getActivity(), "Successful insert new service job!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -88,21 +103,28 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if(serialNo.getText().toString().length() == 0){
+        if (serialNo.getText().toString().length() == 0) {
             errorMsg.setVisibility(View.INVISIBLE);
-        }
-        else{
-            Cursor cursor = DatabaseView.query("SELECT c.comName, pt.prodNo FROM Product pt, Purchase pu, Company c WHERE "
-            + "pu.prodNo = pt.prodNo AND "
-            + "pu.comNo = c.comNo AND "
-            + "pu.serialNo = '" + serialNo.getText().toString().trim() + "'");
+        } else {
+            Cursor cursor = DatabaseView.query("SELECT serialNo, c.comName, pt.prodNo FROM Product pt, Purchase pu, Company c WHERE "
+                    + "pu.prodNo = pt.prodNo AND "
+                    + "pu.comNo = c.comNo AND "
+                    + "pu.serialNo = '" + serialNo.getText().toString().trim() + "'");
             if (cursor.getCount() != 0) {
                 cursor.moveToNext();
-                if (serialNo.getText().toString() == cursor.getString(cursor.getColumnIndex("serialNo")))
+                if (serialNo.getText().toString().equals(cursor.getString(cursor.getColumnIndex("serialNo")))) {
                     errorMsg.setVisibility(View.INVISIBLE);
-            }
-            else
+                    prodNo.setText(cursor.getString(cursor.getColumnIndex("prodNo")));
+                    comName.setText(cursor.getString(cursor.getColumnIndex("comName")));
+                    isValid = true;
+
+                }
+            } else {
                 errorMsg.setVisibility(View.VISIBLE);
+                prodNo.setText("");
+                comName.setText("");
+                isValid = false;
+            }
         }
     }
 
