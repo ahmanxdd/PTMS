@@ -74,6 +74,8 @@ public class JobDetail_Fragment extends Fragment {
     private TextView jobEndTime;
     private TextView jobRemark;
     private AlertDialog.Builder editDialog;
+    private ImageView lv ;
+
 
     private EditText.OnLongClickListener goToEdit = new EditText.OnLongClickListener() {
         @Override
@@ -181,13 +183,20 @@ public class JobDetail_Fragment extends Fragment {
         } else {
             setOnClickListenerForTimer();
         }
-
+        lv = new ImageView(getActivity());
 
 
         btn_photo.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        try {
+                            ((BitmapDrawable) lv.getDrawable()).getBitmap().recycle();
+                        }
+                        catch (NullPointerException e)
+                        {
+
+                        }
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         //fileURI = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
                         fileURI = getImageUri();
@@ -253,25 +262,21 @@ public class JobDetail_Fragment extends Fragment {
 
         return imgUri;
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
 
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == getActivity().RESULT_OK) {
-                Toast.makeText(getActivity(), "Successful take the photo!", Toast.LENGTH_SHORT).show();
-
-
-                final ImageView lv = new ImageView(getActivity());
-                lv.setImageURI(fileURI);
+                lv = new ImageView(getActivity());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                Toast.makeText(getActivity(), "Successful take the photo!", Toast.LENGTH_SHORT).show();
+                lv.setImageURI(fileURI);
                 builder.setView(lv);
                 builder.setTitle("Preview");
                 builder.setNegativeButton("OK", new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ((BitmapDrawable)lv.getDrawable()).getBitmap().recycle();
                     }
                 }).show() ;
 
