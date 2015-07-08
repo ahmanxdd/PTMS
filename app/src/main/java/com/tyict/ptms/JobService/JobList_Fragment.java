@@ -63,6 +63,7 @@ public class JobList_Fragment extends Fragment {
                 bundle.putString("selectedJobNo", selectedJobNo);
                 Fragment jobDetail_Fragment = new JobDetail_Fragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.addToBackStack(null);
                 transaction.replace(R.id.mainContent, jobDetail_Fragment);
                 jobDetail_Fragment.setArguments(bundle);
                 transaction.commit();
