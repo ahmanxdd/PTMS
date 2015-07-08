@@ -441,6 +441,7 @@ public class JobDetail_Fragment extends Fragment {
                         Fragment companyDetails = new f_companyDetails();
                         companyDetails.setArguments(bundle);
                         ft.addToBackStack(null);
+                        ft.addToBackStack(null);
                         ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         ft.replace(frameLayout.getId(), companyDetails);
                         ft.commit();
@@ -464,7 +465,7 @@ public class JobDetail_Fragment extends Fragment {
                         productIssue.setArguments(bundle);
                         ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         ft.addToBackStack(null);
-
+                        ft.addToBackStack(null);
                         ft.replace(frameLayout.getId(), productIssue);
                         ft.commit();
                     }
