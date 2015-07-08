@@ -3,13 +3,18 @@ package com.tyict.ptms.JobService;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.method.KeyListener;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,12 +22,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tyict.ptms.R;
 import com.tyict.ptms.dataInfo.DatabaseView;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class JobDetail_Fragment extends Fragment {
@@ -37,6 +47,8 @@ public class JobDetail_Fragment extends Fragment {
     private TextView jobRequestDate;
     private TextView jobVisitDate;
     private TextView jobStartTime;
+    private Uri fileURI;
+    private Button btn_photo;
     private TextView jobEndTime;
     private TextView jobRemark;
     private AlertDialog.Builder editDialog;
@@ -69,7 +81,50 @@ public class JobDetail_Fragment extends Fragment {
         }
     };
 
+
     @Nullable
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
+
+    /** Create a file Uri for saving an image or video */
+    private static Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(int type){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_"+ timeStamp + ".jpg");
+        } else if(type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "VID_"+ timeStamp + ".mp4");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _this = inflater.inflate(R.layout.jobdetail_layout, container, false);
@@ -86,6 +141,15 @@ public class JobDetail_Fragment extends Fragment {
 
             }
         });
+        btn_photo.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        fileURI = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                    }
+                }
+        );
         jobProblem.setOnLongClickListener(goToEdit);
         jobRemark.setOnLongClickListener(goToEdit);
         //Raymond End!
@@ -119,6 +183,7 @@ public class JobDetail_Fragment extends Fragment {
         jobStartTime = (TextView) _this.findViewById(R.id.jobDetail_startTime);
         jobEndTime = (TextView) _this.findViewById(R.id.jobDetail_endTime);
         jobRemark = (TextView) _this.findViewById(R.id.jobDetail_remark);
+        btn_photo = (Button) _this.findViewById(R.id.btn_photo);
     }
 
 

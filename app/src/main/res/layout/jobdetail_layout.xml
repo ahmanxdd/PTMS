@@ -12,20 +12,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </ExpandableListView>
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
-        <TextView
+            android:background="@drawable/styled_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Job Detail"
             android:textSize="30dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -164,21 +159,15 @@
                 />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:background="@drawable/styled_text_view"
             android:text="Problem"
             android:textSize="30dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
+/>
 
         <TextView
             android:id="@+id/jobDetail_problem"
@@ -191,22 +180,16 @@
             android:layout_margin="5dp"
             android:minLines="5"
             />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA"
-           />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Date/Time"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            android:background="@drawable/styled_text_view"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -302,22 +285,15 @@
                 android:textSize="17dp" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Remark"
-            android:textSize="30dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
-
+            android:textSize="30dp"
+            android:background="@drawable/styled_text_view"/>
 
         <TextView
             android:id="@+id/jobDetail_remark"
@@ -334,15 +310,47 @@
             android:layout_gravity="right"
             android:textSize="10dp"
             android:textStyle="italic"/>
-
-        <Button
-            android:background="@drawable/good_button"
+        <TextView
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Start"
-            android:textColor="#29B6F6"
+            android:gravity="center"
+            android:text="Operation"
             android:textSize="30dp"
-            android:layout_margin="10dp"/>
+            android:background="@drawable/styled_text_view"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:background="@drawable/styled_button"
+                android:text="Add Photo"
+                android:textColor="@drawable/styled_text"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:background="@drawable/styled_button"
+                android:textColor="@drawable/styled_text"
+                android:text="Open Light"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Job"
+                android:layout_margin="5dp"
+                android:background="@drawable/styled_button"
+                android:textColor="@drawable/styled_text"
+                android:layout_weight="1"
+               />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
