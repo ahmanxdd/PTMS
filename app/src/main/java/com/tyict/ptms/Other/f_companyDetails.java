@@ -115,24 +115,7 @@ public class f_companyDetails extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        MapsInitializer.initialize(getActivity().getApplicationContext());
-        AsyncTask<String,String,String> tmpText = new AsyncTask<String, String, String>() {
-            @Override
-            protected String doInBackground(String... strings) {
-                try
-                {
-                    Thread.sleep(3500);
-                    getThisCompanyDetails(NoStopable.selectedCompanyDetails);
-                    return null;
-                }
-                catch (Exception e)
-                {
-
-                }
-                return null;
-            }
-        };
-        tmpText.execute();
+        getThisCompanyDetails(NoStopable.selectedCompanyDetails);
     }
 
     public void getThisCompanyDetails(String companyName)
@@ -160,12 +143,12 @@ public class f_companyDetails extends Fragment {
     private void zoomToHere(LatLng latLng) {
         try {
             CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
-            CameraUpdate zoomLv = CameraUpdateFactory.zoomTo(15);
+            CameraUpdate zoomLv = CameraUpdateFactory.zoomTo(11);
             map.moveCamera(center);
             if (marker != null)
                 marker.remove();
-            map.animateCamera(zoomLv);
             marker = map.addMarker(new MarkerOptions().position(latLng).title("Here!"));
+            map.animateCamera(zoomLv);
         }
         catch (Exception e)
         {

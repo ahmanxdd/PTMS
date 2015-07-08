@@ -43,6 +43,7 @@ import android.widget.Toast;
 
 import com.tyict.ptms.A_Entry;
 import com.tyict.ptms.NoStopable;
+import com.tyict.ptms.Other.F_productIssues;
 import com.tyict.ptms.Other.f_companyDetails;
 import com.tyict.ptms.R;
 import com.tyict.ptms.NoStopable;
@@ -379,6 +380,28 @@ public class JobDetail_Fragment extends Fragment {
                 }
         );
         productName.setText(cursor.getString(cursor.getColumnIndex("prodName")));
+        productName.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentManager f_manager;
+                        FragmentTransaction ft;
+                        FrameLayout frameLayout = (FrameLayout) _this.getParent();
+                        f_manager = getActivity().getSupportFragmentManager();
+                        ft = f_manager.beginTransaction();
+                        f_manager.popBackStack();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("selectedJobNo", productName.getText().toString());
+                        Fragment productIssue = new F_productIssues();
+                        productIssue.setArguments(bundle);
+                        ft.addToBackStack(null);
+
+                        ft.replace(frameLayout.getId(),productIssue);
+                        ft.commit();
+                    }
+                }
+        );
+
 
 
         for (int i = 0; i < jobStatusItem.length; i++)

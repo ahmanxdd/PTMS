@@ -32,6 +32,7 @@ public class F_productIssues extends Fragment {
     private ListView jobList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         _this = inflater.inflate(R.layout.f_product_issues, container, false);
         dbv = new DatabaseView();
         findView();
@@ -71,7 +72,24 @@ public class F_productIssues extends Fragment {
                 tv_date.setText(c.getString(c.getColumnIndex("requestDate")));
             }
         });
+        try
+        {
+            int pos = 0;
+            String selectedName = getArguments().getString("selectedJobNo");
+            for(String key : _products.keySet().toArray(new String[_products.size()]))
+            {
+                if(key.equals(selectedName)) {
+                    productSelection.setSelection(pos);
+                    continue;
+                }
+                pos++;
 
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
         return _this;
     }
     private void findView()
