@@ -1,4 +1,4 @@
-package com.tyict.ptms;
+package com.tyict.ptms.JobService;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tyict.ptms.R;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import java.text.SimpleDateFormat;

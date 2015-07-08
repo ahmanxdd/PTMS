@@ -37,6 +37,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ import com.tyict.ptms.Other.F_productIssues;
 import com.tyict.ptms.Other.f_companyDetails;
 import com.tyict.ptms.R;
 import com.tyict.ptms.NoStopable;
+import com.tyict.ptms.SignView;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import org.w3c.dom.Text;
@@ -177,10 +179,11 @@ public class JobDetail_Fragment extends Fragment {
         }
         else if (NoStopable.startingJob != null) {
             if (NoStopable.startingJob.equals(jobNo.getText().toString())) {
-                btn_startTimer.setText("FINSH");
+                btn_startTimer.setText("FINISH");
                 setOnClickListenerForTimer();
             } else {
                     btn_startTimer.setText("You started " + NoStopable.startingJob);
+
                 btn_startTimer.setTextColor(Color.GRAY);
             }
             btn_startTimer.setTextColor(Color.RED);
@@ -270,19 +273,59 @@ public class JobDetail_Fragment extends Fragment {
             public void onClick(View view) {
                 Calendar date = Calendar.getInstance();
                 formatter = new SimpleDateFormat("HH:mm");
-                String time = formatter.format(date.getTime()).toString();
+                final String time = formatter.format(date.getTime()).toString();
                 formatter = new SimpleDateFormat("dd/MM/yyyy");
                 String vdate = formatter.format(date.getTime()).toString();
 
                 if (NoStopable.startingJob != null) {
-                    bgTimer.cancel(true);
-                    btn_startTimer.setText("START");
-                    jobEndTime.setText(time);
-                    DatabaseView.exec("UPDATE ServiceJob SET jobEndTime = '" + time + "' WHERE jobNo ='" + jobNo.getText().toString() + "'");
-                    btn_startTimer.setEnabled(false);
-                    btn_startTimer.setText("This job is ended");
-                    btn_startTimer.setTextColor(Color.GRAY);
-                    NoStopable.startingJob = null;
+                    final View signView = new SignView(getActivity());
+
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setView(signView);
+                    builder.setTitle("Sign ");
+                    builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            AlertDialog.Builder ibuilder = new AlertDialog.Builder(getActivity());
+                            ImageView iv = new ImageView(getActivity());
+                            iv.setImageBitmap(((SignView) signView).getBitmap());
+                            ibuilder.setView(iv);
+                            ibuilder.setTitle("Your Sign");
+                            ibuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    FragmentManager f_manager;
+                                    FragmentTransaction ft;
+                                    FrameLayout frameLayout = (FrameLayout) _this.getParent();
+                                    f_manager = getActivity().getSupportFragmentManager();
+                                    ft = f_manager.beginTransaction();
+                                    f_manager.popBackStack();
+                                    btn_startTimer.setText("START");
+                                    jobEndTime.setText(time);
+                                    DatabaseView.exec("UPDATE ServiceJob SET jobEndTime = '" + time + "' , jobStatus = 'completed' WHERE jobNo ='" + jobNo.getText().toString() + "'");
+                                    btn_startTimer.setEnabled(false);
+                                    btn_startTimer.setText("This job is ended");
+                                    btn_startTimer.setTextColor(Color.GRAY);
+                                    NoStopable.startingJob = null;
+                                    bgTimer.cancel(true);
+                                }
+                            });
+                            ibuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                }
+                            });
+
+                            ibuilder.show();
+                        }
+                    });
+                    builder.show();
+
+
+
+
+
                 } else {
                     bgTimer = new BackGroundTimer();
                     bgTimer.execute();
@@ -370,10 +413,12 @@ public class JobDetail_Fragment extends Fragment {
                         f_manager = getActivity().getSupportFragmentManager();
                         ft = f_manager.beginTransaction();
                         f_manager.popBackStack();
-                        Fragment companyDetails = A_Entry.companyDetails;
-                        ((f_companyDetails) companyDetails).getThisCompanyDetails(jobCompany.getText().toString());
+                        Bundle bundle = new Bundle();
+                        bundle.putString("comName", jobCompany.getText().toString());
+                        Fragment companyDetails = new f_companyDetails();
+                        companyDetails.setArguments(bundle);
                         ft.addToBackStack(null);
-
+                        ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         ft.replace(frameLayout.getId(), companyDetails);
                         ft.commit();
                     }
@@ -394,6 +439,7 @@ public class JobDetail_Fragment extends Fragment {
                         bundle.putString("selectedJobNo", productName.getText().toString());
                         Fragment productIssue = new F_productIssues();
                         productIssue.setArguments(bundle);
+                        ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         ft.addToBackStack(null);
 
                         ft.replace(frameLayout.getId(),productIssue);

@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.tyict.ptms.DataInDatabase.ViewAll;
+import com.tyict.ptms.JobService.Add_ServiceJob_Fragment;
 import com.tyict.ptms.JobService.JobList_Fragment;
 import com.tyict.ptms.Other.F_productForGraph;
 import com.tyict.ptms.Other.F_productIssues;
@@ -37,15 +38,10 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     private ListView listView;
 
     private FrameLayout frameLayout;
-    public Fragment productIssues, servicePage, jobServilePage; //reuseable
-    public static Fragment companyDetails;
+    public Fragment productIssues, graphicForProducts, jobServilePage; //reuseable
+    public Fragment companyDetails;
     FragmentManager f_manager;
     FragmentTransaction ft;
-    private static final String[] menuItems =
-            {
-                   "Job List", "Product Issues", "Company Details", "ServiceTime Graph", "Lee Testing", "View All Data"
-            };
-
     enum Menu {
         Job_List, Product_Issues, Comapny_Details, Avg_Time_Graph, Lee_Testing, View_All_Data
     }
@@ -66,39 +62,45 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     public void goToFragment(Menu m) {
         goToFragment(m.ordinal());
     }
+    private static final String[] menuItems =
+            {
+                    "Job List", "Add new Service","Product Issues", "Company Details", "ServiceTime Graph", "View All Data", "Logout"
+            };
 
     private void goToFragment(int index) {
         listView.setItemChecked(index, true);
-        setTitle(listView.getItemAtPosition(index).toString());
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment f = new F_productForGraph();
-
+        setTitle(menuItems[index]);
 
         switch (index) {
             case 0:
                 f = jobServilePage;
                 break;
             case 1:
-                f = productIssues;
+                f = new Add_ServiceJob_Fragment();
                 break;
             case 2:
-                f = companyDetails;
+                f = productIssues;
                 break;
             case 3:
-                f = servicePage;
+                f =companyDetails;
                 break;
             case 4:
-                f = new Add_ServiceJob_Fragment();
+                f = graphicForProducts;
                 break;
             case 5:
                 f = new ViewAll();
-
+                break;
+            case 6:
+                NoStopable.lc.logout();
+                this.finish();
+                break;
 
         }
 
         ft = f_manager.beginTransaction();
-      //  ft.addToBackStack(null);
+        f_manager.popBackStack();
         ft.replace(frameLayout.getId(), f);
         ft.commit();
     }
@@ -107,15 +109,17 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_main);
+
         companyDetails = new f_companyDetails();
         productIssues = new F_productIssues();
-        servicePage = new F_productForGraph();
+        graphicForProducts = new F_productForGraph();
         jobServilePage = new JobList_Fragment();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         listView = (ListView) findViewById(R.id.menuList);
         listView.setAdapter(new ArrayAdapter<>(this, R.layout.a_main_menu_list_items_style, menuItems));
         listView.setOnItemClickListener(this);
         frameLayout = (FrameLayout) findViewById(R.id.mainContent);
+
         drawerListener = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawer, R.string.closeDrawer) {
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -128,9 +132,10 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         f_manager = getSupportFragmentManager();
         drawerListener.syncState();
-        ft = f_manager.beginTransaction();
+        ft = f_manager.beginTransaction();;
         ft.replace(frameLayout.getId(), jobServilePage);
         ft.commit();
+        setTitle(menuItems[0]);
     }
 
     @Override
@@ -148,7 +153,7 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     }
 
     public void setActionBarTitle(String title) {
-        getActionBar().setTitle(title);
+        this.getSupportActionBar().setTitle(title);
     }
 
     @Override

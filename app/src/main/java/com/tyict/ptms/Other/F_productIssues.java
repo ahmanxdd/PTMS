@@ -80,7 +80,7 @@ public class F_productIssues extends Fragment {
             {
                 if(key.equals(selectedName)) {
                     productSelection.setSelection(pos);
-                    continue;
+                    break;
                 }
                 pos++;
 

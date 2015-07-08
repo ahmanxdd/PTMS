@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.Display;
@@ -33,6 +34,11 @@ import java.util.TreeMap;
  * Created by RAYMOND on 7/5/2015.
  */
 public class F_productForGraph extends Fragment {
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     @Nullable
     private View _this;
     private static TreeMap<String, String> averTime;

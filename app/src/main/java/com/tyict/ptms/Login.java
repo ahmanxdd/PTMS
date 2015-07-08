@@ -44,7 +44,7 @@ public class Login extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(opened) {
+        if(NoStopable.lc.isLogin()) {
             startActivity(NoStopable.i);
             this.finish();
         }
@@ -75,8 +75,6 @@ public class Login extends ActionBarActivity {
 
     public void btn_login_click(View v)
     {
-        startActivity(new Intent().setClass(Login.this, A_Entry.class));
-        finish();
         String userID = ((EditText)findViewById(R.id.et_loginID)).getText().toString();
         String password = ((EditText)findViewById(R.id.et_password)).getText().toString();
         ((EditText)findViewById(R.id.et_loginID)).setEnabled(false);
@@ -102,6 +100,7 @@ public class Login extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(String s) {
+            getThis().finish();
             startActivity(NoStopable.i);
         }
 
@@ -124,6 +123,11 @@ public class Login extends ActionBarActivity {
                 }
 
                 reader.close();
+                String sql = "DROP TABLE IF EXISTS ServiceJob;";
+                dbv.exec(sql);
+                sql = "CREATE TABLE ServiceJob(jobNo text PRIMARY KEY, requestDate date, jobProblem text," +
+                        " visitDate date, jobStatus text, jobStartTime text, jobEndTime text, serialNo text, remark text);";
+                dbv.exec(sql);
                 JSONArray json = new JSONObject(recvStr).getJSONArray("ServiceJob");
                 for (int j = 0; j < json.length(); j++) {
                     JSONObject jo = json.getJSONObject(j);

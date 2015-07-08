@@ -68,7 +68,6 @@ public class DatabaseView {
     public static void exec(String sql) {
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.OPEN_READWRITE);
         db.execSQL(sql);
-        db.close();
     }
     private static boolean initDB() {
 

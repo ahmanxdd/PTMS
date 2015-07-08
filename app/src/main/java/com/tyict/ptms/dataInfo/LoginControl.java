@@ -57,7 +57,8 @@ public class LoginControl {
     }
 
     public static boolean logout() {
-        if (state == LoginState.ISLOGIN) {
+        if (state == LoginState.ISLOGIN)
+        { state = LoginState.UNLOGIN;
             _loggedInStaff = null;
             return true;
         } else

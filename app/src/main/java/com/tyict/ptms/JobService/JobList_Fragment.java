@@ -63,23 +63,16 @@ public class JobList_Fragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("selectedJobNo", selectedJobNo);
                 Fragment jobDetail_Fragment = new JobDetail_Fragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.mainContent, jobDetail_Fragment);
                 jobDetail_Fragment.setArguments(bundle);
-                ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("Job Details of " + selectedJobNo);
                 transaction.commit();
                 Toast.makeText(getActivity(), selectedJobNo, Toast.LENGTH_SHORT).show();
             }
         });
 
         return _this;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ( (ActionBarActivity)getActivity()).getSupportActionBar().setTitle("Job List");
     }
 
     private void setJobListItems(Cursor cursor) {

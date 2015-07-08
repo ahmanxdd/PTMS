@@ -109,35 +109,32 @@ public class f_companyDetails extends Fragment {
 
         });
 
-        return _this;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getThisCompanyDetails(NoStopable.selectedCompanyDetails);
-    }
-
-    public void getThisCompanyDetails(String companyName)
-    {
-        NoStopable.selectedCompanyDetails = companyName;
-        try
-        {
-            int pos = 0;
-            for (String key : companies.keySet().toArray(new String[companies.size()])) {
-                if(key.equals(companyName)) {
-                    spn_companySelection.setSelection(pos);
-                    return;
+        try{
+            String companyName = getArguments().getString("comName");
+            try
+            {
+                int pos = 0;
+                for (String key : companies.keySet().toArray(new String[companies.size()])) {
+                    if(key.equals(companyName)) {
+                        spn_companySelection.setSelection(pos);
+                        break;
+                    }
+                    else
+                        pos++;
                 }
-                else
-                    pos++;
-            }
 
+            }
+            catch (NullPointerException e)
+            {
+
+            }
         }
-        catch (NullPointerException e)
+        catch (Exception e)
         {
 
         }
+        return _this;
+
     }
 
     private void zoomToHere(LatLng latLng) {
