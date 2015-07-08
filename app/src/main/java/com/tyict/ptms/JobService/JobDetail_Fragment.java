@@ -2,18 +2,12 @@ package com.tyict.ptms.JobService;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Bitmap;
-import android.graphics.Picture;
-import android.graphics.Typeface;
-import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,14 +41,9 @@ import com.tyict.ptms.NoStopable;
 import com.tyict.ptms.Other.F_productIssues;
 import com.tyict.ptms.Other.f_companyDetails;
 import com.tyict.ptms.R;
-import com.tyict.ptms.NoStopable;
 import com.tyict.ptms.SignView;
 import com.tyict.ptms.dataInfo.DatabaseView;
-
-import org.w3c.dom.Text;
-
 import java.io.File;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -208,9 +197,8 @@ public class JobDetail_Fragment extends Fragment {
         btn_cancelJob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i=0; i<jobStatusItem.length; i++)
-                    if(jobStatusItem[i].equals("cancelled"))
-                    {
+                for (int i = 0; i < jobStatusItem.length; i++)
+                    if (jobStatusItem[i].equals("cancelled")) {
                         jobStatus.setSelection(i);
                         DatabaseView.exec("UPDATE ServiceJob SET jobStatus = 'cancelled' WHERE jobNo ='" + jobNo.getText().toString() + "'");
                         Toast.makeText(getActivity(), "Successful change the status to cancel!", Toast.LENGTH_SHORT).show();
@@ -221,9 +209,8 @@ public class JobDetail_Fragment extends Fragment {
         btn_postpone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i=0; i<jobStatusItem.length; i++)
-                    if(jobStatusItem[i].equals("postponed"))
-                    {
+                for (int i = 0; i < jobStatusItem.length; i++)
+                    if (jobStatusItem[i].equals("postponed")) {
                         jobStatus.setSelection(i);
                         DatabaseView.exec("UPDATE ServiceJob SET jobStatus = 'postponed' WHERE jobNo ='" + jobNo.getText().toString() + "'");
                         Toast.makeText(getActivity(), "Successful change the status to postpone!", Toast.LENGTH_SHORT).show();
@@ -247,8 +234,8 @@ public class JobDetail_Fragment extends Fragment {
     }
 
     private Uri getImageUri() {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
-        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM", "jobNo_" + jobNo.getText().toString() + "_" + timeStamp + ".jpg");
+        String currentTime = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM", "jobNo_" + jobNo.getText().toString() + "_" + currentTime + ".jpg");
         Uri imgUri = Uri.fromFile(file);
 
         return imgUri;
@@ -442,12 +429,11 @@ public class JobDetail_Fragment extends Fragment {
                         ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         ft.addToBackStack(null);
 
-                        ft.replace(frameLayout.getId(),productIssue);
+                        ft.replace(frameLayout.getId(), productIssue);
                         ft.commit();
                     }
                 }
         );
-
 
 
         for (int i = 0; i < jobStatusItem.length; i++)
@@ -457,6 +443,7 @@ public class JobDetail_Fragment extends Fragment {
     }
 
     SimpleDateFormat formatter = new SimpleDateFormat("HH-mm-ss");
+
     private class BackGroundTimer extends AsyncTask<String, String, String> {
 
         private int notiID = 1;
