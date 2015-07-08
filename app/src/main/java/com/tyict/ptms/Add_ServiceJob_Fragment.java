@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,28 +89,31 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
     }
 
     private void showFindSerialNoDialog() {
-        sComName = (Spinner) _this.findViewById(R.id.findDialog_comName);
-        sProdName = (Spinner) _this.findViewById(R.id.findDialog_prodName);
-        btnSubmit = (Button) _this.findViewById(R.id.findDialog_submit);
 
-        setSComNameItems();
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View dialog = inflater.inflate(R.layout.find_serialno_dialog_layout, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setView(dialog);
-        builder.show();
-
-    }
-
-    private void setSComNameItems() {
         Cursor cursor = DatabaseView.query("SELECT comName FROM Company");
         comNameArray = new String[cursor.getCount()];
         for(int i=0; i< cursor.getCount(); i++) {
             cursor.moveToNext();
             comNameArray[i] = cursor.getString(cursor.getColumnIndex("comName"));
         }
-        sComName.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, comNameArray));
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialog = inflater.inflate(R.layout.find_serialno_dialog_layout, null);
+        sComName = (Spinner)dialog.findViewById(R.id.findDialog_comName);
+        sProdName = (Spinner)dialog.findViewById(R.id.findDialog_prodName);
+        btnSubmit = (Button)dialog.findViewById(R.id.findDialog_submit);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        ArrayAdapter aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, comNameArray);
+        sComName.setAdapter(aa);
+
+        builder.setView(dialog);
+        builder.show();
+
+    }
+
+    private void setSComNameItems() {
+
+
     }
 
     private void insertTodatabase() {

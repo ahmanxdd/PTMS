@@ -67,7 +67,7 @@ public class JobList_Fragment extends Fragment {
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.mainContent, jobDetail_Fragment);
                 jobDetail_Fragment.setArguments(bundle);
-                ( (ActionBarActivity)getActivity()).getSupportActionBar().setTitle("Job Details of " + selectedJobNo);
+                ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("Job Details of " + selectedJobNo);
                 transaction.commit();
                 Toast.makeText(getActivity(), selectedJobNo, Toast.LENGTH_SHORT).show();
             }
@@ -98,8 +98,14 @@ public class JobList_Fragment extends Fragment {
             jobNo[i] = cursor.getString(cursor.getColumnIndex("jobNo"));
             problems[i] = cursor.getString(cursor.getColumnIndex("jobProblem"));
             status[i] = cursor.getString(cursor.getColumnIndex("jobStatus"));
-            datetime[i] = cursor.getString(cursor.getColumnIndex("visitDate")) + " " +
-                    cursor.getString(cursor.getColumnIndex("jobStartTime"));
+
+            if(cursor.getString(cursor.getColumnIndex("visitDate")).equals(""))
+                datetime[i] = "Not assigned ";
+            else
+            {
+                datetime[i] = cursor.getString(cursor.getColumnIndex("visitDate")) + " " +
+                        cursor.getString(cursor.getColumnIndex("jobStartTime"));
+            }
         }
     }
 
@@ -110,7 +116,10 @@ public class JobList_Fragment extends Fragment {
             ld.setId(jobNo[i]);
             ld.setProblem(problems[i]);
             ld.setStatus(status[i]);
-            ld.setDatatime(datetime[i]);
+            if(datetime[i] == "")
+                ld.setDatatime(null);
+            else
+               ld.setDatatime(datetime[i]);
             myList.add(ld);
         }
     }

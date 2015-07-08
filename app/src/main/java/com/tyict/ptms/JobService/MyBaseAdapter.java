@@ -58,10 +58,7 @@ public class MyBaseAdapter extends BaseAdapter {
         ListData currentListData = getItem(position);
         mViewHolder.tvJobNo.setText(currentListData.getId());
         mViewHolder.tvJobProblem.setText(currentListData.getProblem());
-        if(currentListData.getDatatime() == "")
-            mViewHolder.tvJobStartDataTime.setText("Not start yet");
-        else
-            mViewHolder.tvJobStartDataTime.setText(currentListData.getDatatime());
+        mViewHolder.tvJobStartDataTime.setText(currentListData.getDatatime());
         mViewHolder.tvJobStatus.setText(currentListData.getStatus());
         if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("completed"))
             convertView.setBackgroundColor(Color.rgb(0xBD, 0xBD, 0xBD));

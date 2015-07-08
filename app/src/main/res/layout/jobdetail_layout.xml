@@ -2,20 +2,30 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="7dp"
         android:orientation="vertical">
 
+        <ExpandableListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ExpandableListView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#AAA" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Job Detail"
             android:textSize="30dp" />
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#AAA" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,21 +36,71 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Job No :"
-                android:textSize="23dp" />
+                android:textSize="17dp"
+                android:layout_gravity="right"
+                android:textStyle="bold"/>
+
 
             <TextView
                 android:id="@+id/jobDetail_jobNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="xxxx"
-                android:textSize="23dp" />
+                android:text="1933"
+                android:textSize="17dp" />
         </LinearLayout>
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comanpy :"
+                android:textSize="17dp"
+                android:layout_gravity="right"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:id="@+id/jobDetail_companyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="American Express Bank Ltd"
+                android:singleLine = "true"
+                android:textSize="17dp"
+                android:clickable="true"
+                android:textColor="#3F51B5"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Product :"
+                android:textSize="17dp"
+                android:layout_gravity="right"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:id="@+id/jobDetail_companyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Minions Toys - Stuart"
+                android:singleLine = "true"
+                android:textSize="17dp"
+                android:clickable="true"
+                android:textColor="#3F51B5"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,31 +111,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Problem :"
-                android:textSize="23dp" />
-
-            <TextView
-                android:id="@+id/jobDetail_problem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:editable="true"
-                android:layout_marginLeft="10dp"
-                android:text="xxxx"
-                android:textSize="16dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textStyle="italic"
                 android:textSize="10dp"
                 android:text="##Long Click to edit"
                 android:layout_gravity="right" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,19 +129,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:text="Status :"
-                android:textSize="23dp" />
+                android:textSize="17dp"   android:textStyle="bold"/>
 
             <Spinner
                 android:id="@+id/jobDetail_status"
                 android:layout_width="117dp"
-                android:layout_height="wrap_content"
-                android:textSize="23dp" />
+                android:layout_height="17dp"
+                android:gravity="left"
+                android:textSize="17dp" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -112,7 +150,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Serial No :"
-                android:textSize="23dp" />
+                android:textSize="17dp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/jobDetail_serialNo"
@@ -120,23 +159,53 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:text="xxxx"
-                android:textSize="23dp" />
+                android:textSize="17dp"
+                />
         </LinearLayout>
 
         <TextView
-
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#AAA" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Problem"
+            android:textSize="30dp"
+            />
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="#AAA" />
 
         <TextView
+            android:id="@+id/jobDetail_problem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:gravity="left"
+            android:editable="true"
+            android:text="The proble is very serious omg it's eight oclock, i need to finish my assignemt and getabla, bla bla"
+            android:textSize="16dp"
+            android:layout_margin="5dp"
+            android:minLines="5"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#AAA"
+           />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Date/Time"
             android:textSize="30dp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#AAA" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -147,21 +216,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Request Date :"
-                android:textSize="23dp" />
+                android:textSize="17dp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/jobDetail_requestDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="xxxx"
-                android:textSize="23dp" />
+                android:text="Today"
+                android:textSize="17dp" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -173,22 +239,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Visit Date :"
-                android:textSize="23dp" />
+                android:textSize="17dp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/jobDetail_visitDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="xxxx"
-                android:textSize="23dp" />
+                android:text="Not today lor"
+                android:textSize="17dp" />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -200,22 +264,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Start Time :"
-                android:textSize="23dp" />
+                android:textSize="17dp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/jobDetail_startTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="xxxx"
-                android:textSize="23dp" />
+                android:text="Now!!!"
+                android:textSize="17dp" />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#AAA" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -227,16 +289,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="End Time :"
-                android:textSize="23dp" />
+                android:textSize="17dp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/jobDetail_endTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="xxxx"
-                android:textSize="23dp" />
-
+                android:text="Work forever, no end"
+                android:textSize="17dp" />
         </LinearLayout>
 
         <TextView
@@ -247,16 +309,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Other"
+            android:text="Remark"
             android:textSize="30dp" />
-
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remark :"
-            android:textSize="23dp" />
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#AAA" />
+
 
         <TextView
             android:id="@+id/jobDetail_remark"
@@ -265,7 +325,7 @@
             android:layout_marginBottom="30dp"
             android:gravity="start"
             android:text="Nothing"
-            android:textSize="16dp" />
+            android:textSize="15dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -273,6 +333,12 @@
             android:layout_gravity="right"
             android:textSize="10dp"
             android:textStyle="italic"/>
+
+        <shape
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start"
+            android:textSize="30dp"/>
     </LinearLayout>
 
 </ScrollView>

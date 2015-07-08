@@ -6,30 +6,37 @@
     android:layout_height="match_parent"
     android:clickable="false"
     android:focusable="false"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:minHeight="115dp"
+    android:maxHeight = "115dp">
 
 
     <TableRow>
-        <TextView
-            android:id="@+id/lblJobNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="No: " android:layout_column="0"/>
-
-        <TextView
-            android:id="@+id/tvJobNo"
-            android:textSize="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="999"
-          android:layout_column="1"/>
 
         <LinearLayout android:gravity="right"
             android:layout_weight="1"
-            android:layout_column="2"
+            android:layout_column="0"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/lblJobNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:text="No: "                 />
+
+                <TextView
+                    android:id="@+id/tvJobNo"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="999"
+                  />
+            </LinearLayout>
 
 
         <TextView
@@ -48,9 +55,37 @@
             android:minWidth="78dp"/>
         </LinearLayout>
     </TableRow>
-
     <TableRow>
+        <LinearLayout
+            android:layout_column="0"
+            android:layout_span="4"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start at: "/>
+            <TextView
+                android:id="@+id/tvJobStartDataTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvJobProblem"
+                android:layout_marginRight="5dp"
+                android:layout_alignParentRight="true"
+                android:text="JobStartDataTime"
+                />
+        </LinearLayout>
+
+
+    </TableRow>
+    <TableRow>
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Problems: "
+            android:layout_column="0"/>
+    </TableRow>
+<TableRow android:layout_weight="1">
         <TextView
+            android:layout_column="0"
             android:id="@+id/tvJobProblem"
             android:text="JobProblem"
             android:layout_marginLeft="10dp"
@@ -59,24 +94,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_span="3"/>
-
-    </TableRow>
-
+</TableRow>
 
 
-    <TableRow>
-    <TextView
-        android:id="@+id/tvJobStartDataTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvJobProblem"
-        android:layout_marginRight="5dp"
-        android:layout_alignParentRight="true"
-        android:text="JobStartDataTime"
-        android:layout_column="0"
-        android:layout_span="3"
-        />
 
-    </TableRow>
+
 
 </TableLayout>
