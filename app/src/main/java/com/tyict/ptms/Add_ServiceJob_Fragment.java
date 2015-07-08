@@ -2,34 +2,39 @@ package com.tyict.ptms;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tyict.ptms.dataInfo.DatabaseView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.SimpleTimeZone;
 
-public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickListener {
+public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickListener, TextWatcher {
     View _this;
 
     private TextView jobNo;
     private TextView requestDate;
+    private EditText serialNo;
     private TextView prodNo;
-    private TextView prodName;
-    private TextView purshaseDate;
-    private TextView price;
-    private TextView problem;
     private TextView comName;
-    private TextView comTel;
-    private TextView comAddress;
-    private TextView remark;
+    private TextView errorMsg;
+    private EditText problem;
+    private EditText remark;
     private Button btnNewServiceJob;
+    private Button btnFind;
 
     @Nullable
     @Override
@@ -37,98 +42,72 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _this = inflater.inflate(R.layout.add_servicejob_layout, container, false);
         initVariable();
-        btnNewServiceJob.setOnClickListener(this);
         return _this;
     }
 
-    private void initVariable() {
+    protected void initVariable() {
         jobNo = (TextView) _this.findViewById(R.id.newServiceJob_jobNo);
         requestDate = (TextView) _this.findViewById(R.id.newServiceJob_requestDate);
+        serialNo = (EditText) _this.findViewById(R.id.newServiceJob_serialNo);
         prodNo = (TextView) _this.findViewById(R.id.newServiceJob_prodNo);
-        prodName = (TextView) _this.findViewById(R.id.newServiceJob_prodName);
-        purshaseDate = (TextView) _this.findViewById(R.id.newServiceJob_purchaseDate);
-        price = (TextView) _this.findViewById(R.id.newServiceJob_price);
-        problem = (TextView) _this.findViewById(R.id.newServiceJob_problem);
         comName = (TextView) _this.findViewById(R.id.newServiceJob_comName);
-        comTel = (TextView) _this.findViewById(R.id.newServiceJob_comTel);
-        comAddress = (TextView) _this.findViewById(R.id.newServiceJob_comAddress);
-        remark = (TextView) _this.findViewById(R.id.newServiceJob_remark);
+        problem = (EditText) _this.findViewById(R.id.newServiceJob_problem);
+        remark = (EditText) _this.findViewById(R.id.newServiceJob_remark);
+        errorMsg = (TextView) _this.findViewById(R.id.newServicJob_errorMsg);
         btnNewServiceJob = (Button) _this.findViewById(R.id.newServiceJob_btnNewServiceJob);
+        btnFind = (Button) _this.findViewById(R.id.newServiceJob_btnFind);
 
-        Cursor cursor = DatabaseView.query("SELECT * FROM ServiceJob ORDER BY jobNo");
-        cursor.moveToLast();
-        jobNo.setText(Integer.toString(Integer.parseInt(cursor.getString(cursor.getColumnIndex("jobNo"))) + 1));
+        btnFind.setOnClickListener(this);
+        btnNewServiceJob.setOnClickListener(this);
+        serialNo.addTextChangedListener(this);
 
-        Calendar c = Calendar.getInstance();
-        requestDate.setText(c.get(Calendar.YEAR) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DATE));
+
+        Cursor cursor = DatabaseView.query("SELECT jobNO FROM ServiceJob ORDER BY jobNo DESC");
+        cursor.moveToNext();
+        jobNo.setText((Integer.parseInt(cursor.getString(cursor.getColumnIndex("jobNo"))) + 1) + "");
+
+        String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+        requestDate.setText(date);
+
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.newServiceJob_btnNewServiceJob:
-                if (!checkDataFinish())
-                    Toast.makeText(getActivity(), "Missing enter data", Toast.LENGTH_SHORT).show();
-                else {
-                    insertToDatabase();
-                    Toast.makeText(getActivity(), "Successful new service job!", Toast.LENGTH_SHORT).show();
-                }
+        if (v.equals(btnNewServiceJob)){
+            ;
+        }else if (v.equals(btnFind)){
+            ;
         }
     }
 
-    private void insertToDatabase() {
-        String comNo = "";
-        String serialNo = "";
-        String jobStatus = "pending";
-        DatabaseView.query("INSERT INTO ServiceJob(jobNO, requestDate, jobProblem, jobStatus, serialNo, remark) VALUES ('"
-                + jobNo.getText().toString() + "', '"
-                + requestDate.getText().toString() + "', '"
-                + problem.getText().toString() + "', '"
-                + jobStatus + "', '"
-                + serialNo + "', '"
-                + remark.getText().toString() + "')");
-
-
-        DatabaseView.query("INSERT INTO Purchase VALUES ('"
-                + serialNo + "', '"
-                + purshaseDate.getText().toString() + "', '"
-                + prodNo.getText().toString() + "', '"
-                + comNo + "')");
-
-        DatabaseView.query("INSERT INTO Product VALUES ('"
-                + prodNo.getText().toString() + "', '"
-                + prodName.getText().toString() + "', '"
-                + price.getText().toString() + "')");
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
 
-    private boolean checkDataFinish() {
-        if (prodNo.getText().toString().trim().length() == 0) {
-            prodNo.requestFocus();
-            return false;
-        } else if (prodName.getText().toString().trim().length() == 0) {
-            prodName.requestFocus();
-            return false;
-        } else if (purshaseDate.getText().toString().trim().length() == 0) {
-            purshaseDate.requestFocus();
-            return false;
-        } else if (price.getText().toString().trim().length() == 0) {
-            price.requestFocus();
-            return false;
-        } else if (problem.getText().toString().trim().length() == 0) {
-            problem.requestFocus();
-            return false;
-        } else if (comName.getText().toString().trim().length() == 0) {
-            comName.requestFocus();
-            return false;
-        } else if (comTel.getText().toString().trim().length() == 0) {
-            comTel.requestFocus();
-            return false;
-        } else if (comAddress.getText().toString().trim().length() == 0) {
-            comAddress.requestFocus();
-            return false;
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if(serialNo.getText().toString().length() == 0){
+            errorMsg.setVisibility(View.INVISIBLE);
         }
-        return true;
+        else{
+            Cursor cursor = DatabaseView.query("SELECT c.comName, pt.prodNo FROM Product pt, Purchase pu, Company c WHERE "
+            + "pu.prodNo = pt.prodNo AND "
+            + "pu.comNo = c.comNo AND "
+            + "pu.serialNo = '" + serialNo.getText().toString().trim() + "'");
+            if (cursor.getCount() != 0) {
+                cursor.moveToNext();
+                if (serialNo.getText().toString() == cursor.getString(cursor.getColumnIndex("serialNo")))
+                    errorMsg.setVisibility(View.INVISIBLE);
+            }
+            else
+                errorMsg.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

@@ -88,7 +88,7 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
                 f = servicePage;
                 break;
             case 4:
-                f = new Layout_testing();
+                f = new Add_ServiceJob_Fragment();
                 break;
             case 5:
                 f = new ViewAll();
