@@ -9,6 +9,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.tyict.ptms.R;
@@ -57,7 +58,10 @@ public class MyBaseAdapter extends BaseAdapter {
         ListData currentListData = getItem(position);
         mViewHolder.tvJobNo.setText(currentListData.getId());
         mViewHolder.tvJobProblem.setText(currentListData.getProblem());
-        mViewHolder.tvJobStartDataTime.setText(currentListData.getDatatime());
+        if(currentListData.getDatatime() == "")
+            mViewHolder.tvJobStartDataTime.setText("Not start yet");
+        else
+            mViewHolder.tvJobStartDataTime.setText(currentListData.getDatatime());
         mViewHolder.tvJobStatus.setText(currentListData.getStatus());
         if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("completed"))
             convertView.setBackgroundColor(Color.rgb(0xBD, 0xBD, 0xBD));
@@ -75,9 +79,6 @@ public class MyBaseAdapter extends BaseAdapter {
         public MyViewHolder(View item) {
             tvJobNo = (TextView) item.findViewById(R.id.tvJobNo);
             tvJobProblem = (TextView) item.findViewById(R.id.tvJobProblem);
-            TableLayout.LayoutParams problem_layoutDetails = (TableLayout.LayoutParams)tvJobProblem.getLayoutParams();
-    //        problem_layoutDetails.setMargins(5,5,5,5);
-  //          problem_layoutDetails.width =RelativeLayout.LayoutParams.MATCH_PARENT;
             tvJobStatus = (TextView) item.findViewById(R.id.tvJobStatus);
             tvJobStartDataTime = (TextView) item.findViewById(R.id.tvJobStartDataTime);
         }

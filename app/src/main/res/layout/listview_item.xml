@@ -23,10 +23,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="999"
-         android:layout_column="1"/>
+          android:layout_column="1"/>
 
         <LinearLayout android:gravity="right"
             android:layout_weight="1"
+            android:layout_column="2"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content">
 
@@ -55,13 +56,15 @@
             android:layout_marginLeft="10dp"
             android:layout_below="@+id/tvJobNo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_span="3"/>
 
     </TableRow>
 
 
 
-
+    <TableRow>
     <TextView
         android:id="@+id/tvJobStartDataTime"
         android:layout_width="wrap_content"
@@ -69,7 +72,11 @@
         android:layout_below="@+id/tvJobProblem"
         android:layout_marginRight="5dp"
         android:layout_alignParentRight="true"
-        android:text="JobStartDataTime"/>
+        android:text="JobStartDataTime"
+        android:layout_column="0"
+        android:layout_span="3"
+        />
 
+    </TableRow>
 
 </TableLayout>
