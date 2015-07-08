@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/viewAllData_layout"
-    android:background="#FFBB00">
+    android:background="@color/ripple_material_light">
 
-    <Spinner
-        android:id="@+id/spn_tableSelection"
-        android:layout_width="fill_parent"
-        android:layout_height="120dp"></Spinner>
+    <LinearLayout
+        android:id="@+id/viewAllData_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/db_result"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/select_a_table"
+            android:textSize="30dp"
 
-</LinearLayout>
+            />
+
+            <Spinner
+                android:id="@+id/spn_tableSelection"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp" />
+
+
+        <TextView
+            android:id="@+id/rowofData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"/>
+
+        <FrameLayout
+            android:id="@+id/cursorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></FrameLayout>
+    </LinearLayout>
+</ScrollView>

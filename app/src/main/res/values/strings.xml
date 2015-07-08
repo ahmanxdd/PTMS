@@ -45,6 +45,7 @@
     <string name="updated_at">Updated at %1$s</string>
     <string name="updated_just_now">Just updated</string>
     <string name="time_error">Time error</string>
+    <string name="select_a_table">Select a Table</string>
 
 
 </resources>

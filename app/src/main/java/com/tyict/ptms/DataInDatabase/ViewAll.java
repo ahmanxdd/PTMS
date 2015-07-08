@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,7 +38,7 @@ public class ViewAll extends Fragment {
 
     Spinner spn_tableSelection;
     String[] table;
-    LinearLayout linearLayout ;
+    LinearLayout cusorView ;
     String[] table_format;
     DatabaseView dv;
     TextView tv;
@@ -47,29 +48,17 @@ public class ViewAll extends Fragment {
         table =  dv.getAllTable();
         table_format = dv.getTableFormat();
         View view = inflater.inflate(R.layout.fragment_view_all, container, false);
-        linearLayout =(LinearLayout)view.findViewById(R.id.viewAllData_layout);
+        cusorView = (LinearLayout)view.findViewById(R.id.viewAllData_layout);
         spn_tableSelection = (Spinner)view.findViewById(R.id.spn_tableSelection);
         ArrayAdapter<String> aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, table);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spn_tableSelection.setAdapter(aa);
-        tv =(TextView) view.findViewById(R.id.db_result);
+        tv =(TextView) view.findViewById(R.id.rowofData);
         spn_tableSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String query = "SELECT * FROM " + table[i];
                 Cursor c = dv.query(query);
-                String result = "";
-                while (c.moveToNext()) {
-                    switch (i) {
-                        case 0:
-                            result += String.format(table_format[i], c.getString(0), c.getString(1), c.getString(2), c.getString(3));
-                            break;
-                        case 1:
-                            result += String.format(table_format[i], c.getString(0), c.getString(1), c.getDouble(2));
-                    }
-                }
-                tv.setText(result);
-                c.moveToPosition(0);
                 RowColumnManager rcm = new RowColumnManager();
                 while (c.moveToNext()) {
                     String[] columnsName = c.getColumnNames();
@@ -79,15 +68,18 @@ public class ViewAll extends Fragment {
                         int type = c.getType(j);
                         rcm.addTVColumn(c.getColumnName(j) + ": ");
                         if(type == 3) //String
-                            rcm.addTVColumn(c.getString(j));
+                            rcm.addTVColumn(c.getString(j),1);
                         else if(type == 2) //Float
-                            rcm.addTVColumn(Float.toString(c.getFloat(j)));
+                            rcm.addTVColumn(Float.toString(c.getFloat(j)),1);
                         else if(type == 1) //int
-                            rcm.addTVColumn(Integer.toString(c.getInt(j)));
+                            rcm.addTVColumn(Integer.toString(c.getInt(j)),1);
                         rcm.addRow();
                     }
                 }
-                linearLayout.addView(rcm.getTableLayout());
+                cusorView.removeViewAt(cusorView.getChildCount()-1);
+                cusorView.addView(rcm.getTableLayout());
+                tv.setText("\tNo. of Result: " + c.getCount());
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -108,7 +100,7 @@ public class ViewAll extends Fragment {
             tmp_row = new TableRow(getActivity());
             TextView _title = new TextView(getActivity());
             _title.setText(title);rowCount++;
-            _title.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT, 1f));
+            _title.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f));
             _title.setGravity(Gravity.CENTER);
             _title.setTypeface(null, Typeface.BOLD);
             _title.setBackgroundColor(Color.RED);
@@ -128,15 +120,23 @@ public class ViewAll extends Fragment {
 
         public RowColumnManager addTVColumn(String s)
         {
+            return addTVColumn(s,0);
+        }
+
+        public RowColumnManager addTVColumn(String s,int weight)
+        {
             TextView tv =new TextView(getActivity());
             tv.setText(s);
+            tv.setEllipsize(null);
+            tv.setSingleLine(false);
             TableRow.LayoutParams params = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.column = colCount;
+            params.weight = weight;
+            params.setMargins(5,2,2,2);
             colCount++;
             tmp_row.addView(tv,params);
             return this;
         }
-
         public TableLayout getTableLayout()
         {
             return layout;
@@ -145,3 +145,5 @@ public class ViewAll extends Fragment {
     }
 
 }
+
+
