@@ -91,7 +91,7 @@
 
 
             <TextView
-                android:id="@+id/jobDetail_companyName"
+                android:id="@+id/jobDetail_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -114,7 +114,8 @@
                 android:textStyle="italic"
                 android:textSize="10dp"
                 android:text="##Long Click to edit"
-                android:layout_gravity="right" />
+                android:layout_gravity="right"
+                />
         </LinearLayout>
 
 
@@ -334,11 +335,14 @@
             android:textSize="10dp"
             android:textStyle="italic"/>
 
-        <shape
+        <Button
+            android:background="@drawable/good_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Start"
-            android:textSize="30dp"/>
+            android:textColor="#29B6F6"
+            android:textSize="30dp"
+            android:layout_margin="10dp"/>
     </LinearLayout>
 
 </ScrollView>
