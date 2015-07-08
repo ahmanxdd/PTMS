@@ -67,14 +67,17 @@ public class JobDetail_Fragment extends Fragment {
     private String[] jobStatusItem = {"completed", "follow-up", "pending", "cancelled", "postponed"};
     private TextView jobSerialNo;
     private TextView jobRequestDate;
-    private TextView jobCompany, productName;
     private TextView jobVisitDate;
     private TextView jobStartTime;
     private Uri fileURI;
+    private Button btn_photo;
+    private Button btn_cancelJob;
+    private Button btn_postpone;
     private Button btn_photo, btn_startTimer;
     private TextView jobEndTime;
     private TextView jobRemark;
     private AlertDialog.Builder editDialog;
+
     private EditText.OnLongClickListener goToEdit = new EditText.OnLongClickListener() {
         @Override
         public boolean onLongClick(View view) {
@@ -194,6 +197,33 @@ public class JobDetail_Fragment extends Fragment {
                     }
                 }
         );
+
+        btn_cancelJob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i=0; i<jobStatusItem.length; i++)
+                    if(jobStatusItem[i].equals("cancelled"))
+                    {
+                        jobStatus.setSelection(i);
+                        DatabaseView.exec("UPDATE ServiceJob SET jobStatus = 'cancelled' WHERE jobNo ='" + jobNo.getText().toString() + "'");
+                        Toast.makeText(getActivity(), "Successful change the status to cancel!", Toast.LENGTH_SHORT).show();
+                    }
+            }
+        });
+
+        btn_postpone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i=0; i<jobStatusItem.length; i++)
+                    if(jobStatusItem[i].equals("postponed"))
+                    {
+                        jobStatus.setSelection(i);
+                        DatabaseView.exec("UPDATE ServiceJob SET jobStatus = 'postponed' WHERE jobNo ='" + jobNo.getText().toString() + "'");
+                        Toast.makeText(getActivity(), "Successful change the status to postpone!", Toast.LENGTH_SHORT).show();
+                    }
+            }
+        });
+
         editDialog = new AlertDialog.Builder(getActivity());
         editDialog.setTitle("Edit");
         editDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -297,6 +327,8 @@ public class JobDetail_Fragment extends Fragment {
         jobEndTime = (TextView) _this.findViewById(R.id.jobDetail_endTime);
         jobRemark = (TextView) _this.findViewById(R.id.jobDetail_remark);
         btn_photo = (Button) _this.findViewById(R.id.btn_photo);
+        btn_cancelJob = (Button) _this.findViewById(R.id.jobDetail_btnCancelJob);
+        btn_postpone = (Button) _this.findViewById(R.id.jobDetail_btnPostpone);
         btn_startTimer = (Button) _this.findViewById(R.id.btn_startJob);
     }
 

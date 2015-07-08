@@ -344,6 +344,7 @@
                 android:text="Open Light"/>
 
             <Button
+                android:id="@+id/jobDetail_btnCancelJob"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -355,6 +356,7 @@
 
 
             <Button
+                android:id="@+id/jobDetail_btnPostpone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
