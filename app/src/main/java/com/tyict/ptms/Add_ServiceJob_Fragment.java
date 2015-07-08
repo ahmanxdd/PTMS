@@ -1,6 +1,7 @@
 package com.tyict.ptms;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -89,12 +90,6 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
             insertTodatabase();
         } else if (v.equals(btnFind)) {
             showFindSerialNoDialog();
-        } else if (v.equals(btnSubmit)) {
-            selectedComName = (String) sComName.getSelectedItem();
-            selectedProdName = (String) sProdName.getSelectedItem();
-            Toast.makeText(getActivity(), selectedComName + " " + selectedProdName, Toast.LENGTH_SHORT).show();
-            setSerialNo();
-
         }
     }
 
@@ -104,12 +99,9 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
                 + " pu.comNo = c.comNo AND "
                 + " c.comName = '" + selectedComName + "' AND"
                 + " pt.prodName = '" + selectedProdName + "'");
-        if(cursor.getCount() == 0 )
-        {
+        if (cursor.getCount() == 0) {
             Toast.makeText(getActivity(), "Cannot find!", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+        } else {
             cursor.moveToNext();
             serialNo.setText(cursor.getString(cursor.getColumnIndex("serialNo")));
         }
@@ -137,12 +129,21 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
         sProdName = (Spinner) dialog.findViewById(R.id.findDialog_prodName);
         btnSubmit = (Button) dialog.findViewById(R.id.findDialog_submit);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        selectedComName = (String) sComName.getSelectedItem();
+                        selectedProdName = (String) sProdName.getSelectedItem();
+                        Toast.makeText(getActivity(), selectedComName + " " + selectedProdName, Toast.LENGTH_SHORT).show();
+                        setSerialNo();
+                    }
+                }
+        );
         ArrayAdapter aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, comNameArray);
         sComName.setAdapter(aa);
         ArrayAdapter bb = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, prodNameArray);
         sProdName.setAdapter(bb);
 
-        btnSubmit.setOnClickListener(this);
         builder.setView(dialog);
         builder.show();
 
