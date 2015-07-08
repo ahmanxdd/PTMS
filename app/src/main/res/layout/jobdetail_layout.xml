@@ -369,6 +369,7 @@
 
         <Button
             android:layout_width="match_parent"
+            android:id="@+id/btn_startJob"
             android:layout_height="wrap_content"
             android:text="Start Job"
             android:layout_margin="5dp"
