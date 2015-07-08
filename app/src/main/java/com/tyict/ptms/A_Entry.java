@@ -96,7 +96,7 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
         }
 
         ft = f_manager.beginTransaction();
-        ft.addToBackStack(null);
+      //  ft.addToBackStack(null);
         ft.replace(frameLayout.getId(), f);
         ft.commit();
     }
