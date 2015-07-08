@@ -48,6 +48,8 @@ import com.tyict.ptms.R;
 import com.tyict.ptms.NoStopable;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -61,6 +63,8 @@ public class JobDetail_Fragment extends Fragment {
     View _this;
     private Bundle bundle;
     private String selectedjobNo;
+    private TextView jobCompany;
+    private TextView productName;
     private TextView jobNo;
     private TextView jobProblem;
     private Spinner jobStatus;
@@ -70,7 +74,6 @@ public class JobDetail_Fragment extends Fragment {
     private TextView jobVisitDate;
     private TextView jobStartTime;
     private Uri fileURI;
-    private Button btn_photo;
     private Button btn_cancelJob;
     private Button btn_postpone;
     private Button btn_photo, btn_startTimer;
