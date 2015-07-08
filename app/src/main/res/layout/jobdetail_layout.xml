@@ -69,6 +69,7 @@
                 android:textSize="17dp"
                 android:clickable="true"
                 android:textColor="#3F51B5"/>
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

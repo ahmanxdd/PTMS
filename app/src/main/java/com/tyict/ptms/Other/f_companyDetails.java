@@ -10,12 +10,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -110,7 +113,19 @@ public class f_companyDetails extends Fragment {
     {
         try
         {
-            String id = companies.get(companyName);
+            initResource();
+            int pos = 0;
+            for (String key : companies.keySet().toArray(new String[companies.size()])) {
+                if(key.equals(companyName)) {
+                    spn_companySelection.setSelection(pos);
+                    return;
+                }
+                else
+                    pos++;
+            }
+
+
+
         }
         catch (NullPointerException e)
         {

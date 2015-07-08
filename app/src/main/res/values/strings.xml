@@ -46,6 +46,7 @@
     <string name="updated_just_now">Just updated</string>
     <string name="time_error">Time error</string>
     <string name="select_a_table">Select a Table</string>
+    <string name="title_activity_a__timer">A_Time</string>
 
 
 </resources>

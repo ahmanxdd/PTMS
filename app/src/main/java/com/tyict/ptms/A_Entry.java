@@ -37,7 +37,8 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     private ListView listView;
 
     private FrameLayout frameLayout;
-    private Fragment companyDetails, productIssues, servicePage, jobServilePage; //reuseable
+    public Fragment productIssues, servicePage, jobServilePage; //reuseable
+    public static Fragment companyDetails;
     FragmentManager f_manager;
     FragmentTransaction ft;
     private static final String[] menuItems =
@@ -92,6 +93,7 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
                 break;
             case 5:
                 f = new ViewAll();
+
 
         }
 
