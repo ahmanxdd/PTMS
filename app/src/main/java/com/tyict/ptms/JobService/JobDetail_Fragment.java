@@ -10,7 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.Picture;
 import android.graphics.Typeface;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,6 +39,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tyict.ptms.A_Entry;
 import com.tyict.ptms.NoStopable;
@@ -45,6 +49,7 @@ import com.tyict.ptms.NoStopable;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import java.io.File;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -59,7 +64,7 @@ public class JobDetail_Fragment extends Fragment {
     private TextView jobNo;
     private TextView jobProblem;
     private Spinner jobStatus;
-    private String[] jobStatusItem = {"completed", "follow-up", "pending"};
+    private String[] jobStatusItem = {"completed", "follow-up", "pending", "cancelled", "postponed"};
     private TextView jobSerialNo;
     private TextView jobRequestDate;
     private TextView jobCompany, productName;
@@ -154,7 +159,6 @@ public class JobDetail_Fragment extends Fragment {
         initVariable();
         setStatusItems();
         setjobDetail();
-
         jobStatus.setEnabled(false);
         //Raymond Go!
         if(!jobStatus.getSelectedItem().toString().equals("pending")) {
@@ -183,7 +187,8 @@ public class JobDetail_Fragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        fileURI = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                        //fileURI = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                        fileURI = getImageUri();
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileURI); // set the image file name
                         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                     }
@@ -202,6 +207,27 @@ public class JobDetail_Fragment extends Fragment {
         jobRemark.setOnLongClickListener(goToEdit);
         //Raymond End!
         return _this;
+    }
+
+    private Uri getImageUri() {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM", "jobNo_" + jobNo.getText().toString() + "_" + timeStamp + ".jpg");
+        Uri imgUri = Uri.fromFile(file);
+
+        return imgUri;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == getActivity().RESULT_OK) {
+                Toast.makeText(getActivity(), "Successful take the photo!", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == getActivity().RESULT_CANCELED) {
+            } else {
+                Toast.makeText(getActivity(), "Unsuccessful take the photo!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     private void setOnClickListenerForTimer() {
