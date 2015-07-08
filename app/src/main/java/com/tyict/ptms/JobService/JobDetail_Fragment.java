@@ -1,13 +1,23 @@
 package com.tyict.ptms.JobService;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.method.KeyListener;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -29,6 +39,35 @@ public class JobDetail_Fragment extends Fragment {
     private TextView jobStartTime;
     private TextView jobEndTime;
     private TextView jobRemark;
+    private AlertDialog.Builder editDialog;
+    private EditText.OnLongClickListener goToEdit = new EditText.OnLongClickListener()
+    {
+        @Override
+        public boolean onLongClick(View view) {
+            final EditText et = new EditText(getActivity());
+            et.setText(((TextView) view).getText().toString());
+            final View tmp = view;
+            editDialog.setView(et);
+            int id = view.getId();
+            final String column;
+            if(id == jobProblem.getId())
+                column = "jobProblem";
+            else
+                column = "remark";
+
+            final String jobNoText = jobNo.getText().toString();
+            editDialog.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ((TextView) tmp).setText(et.getText().toString());
+                    DatabaseView.exec("UPDATE ServiceJob SET " + column + " = '" + et.getText().toString() + "' WHERE jobNo = '" + jobNoText + "'" );
+                }
+            });
+            editDialog.show();
+
+            return true;
+        }
+    };
 
     @Nullable
     @Override
@@ -37,11 +76,35 @@ public class JobDetail_Fragment extends Fragment {
         initVariable();
         setStatusItems();
         setjobDetail();
+
+        //Raymond Go!
+        editDialog = new AlertDialog.Builder(getActivity());
+        editDialog.setTitle("Edit");
+        editDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        jobProblem.setOnLongClickListener(goToEdit);
+        jobRemark.setOnLongClickListener(goToEdit);
+        //Raymond End!
         return _this;
     }
 
     private void setStatusItems() {
         jobStatus.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, jobStatusItem));
+        jobStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                DatabaseView.exec("UPDATE ServiceJob SET jobStatus "  + " = '"  + jobStatus.getSelectedItem().toString() + "' WHERE jobNo = '" + jobNo.getText().toString() + "'");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void initVariable() {

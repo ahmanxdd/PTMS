@@ -5,7 +5,10 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.tyict.ptms.R;
@@ -57,11 +60,11 @@ public class MyBaseAdapter extends BaseAdapter {
         mViewHolder.tvJobStartDataTime.setText(currentListData.getDatatime());
         mViewHolder.tvJobStatus.setText(currentListData.getStatus());
         if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("completed"))
-            convertView.setBackgroundColor(Color.rgb(164, 255, 0));
+            convertView.setBackgroundColor(Color.rgb(0xBD, 0xBD, 0xBD));
         else if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("follow-up"))
-            convertView.setBackgroundColor(Color.rgb(255, 245, 157));
+            convertView.setBackgroundColor(Color.rgb(0xFF, 0xAB, 0x91));
         else if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("pending"))
-            convertView.setBackgroundColor(Color.rgb(238, 238, 238));
+            convertView.setBackgroundColor(Color.rgb(0xA5, 0xD6, 0xA7));
 
         return convertView;
     }
@@ -72,6 +75,9 @@ public class MyBaseAdapter extends BaseAdapter {
         public MyViewHolder(View item) {
             tvJobNo = (TextView) item.findViewById(R.id.tvJobNo);
             tvJobProblem = (TextView) item.findViewById(R.id.tvJobProblem);
+            TableLayout.LayoutParams problem_layoutDetails = (TableLayout.LayoutParams)tvJobProblem.getLayoutParams();
+    //        problem_layoutDetails.setMargins(5,5,5,5);
+  //          problem_layoutDetails.width =RelativeLayout.LayoutParams.MATCH_PARENT;
             tvJobStatus = (TextView) item.findViewById(R.id.tvJobStatus);
             tvJobStartDataTime = (TextView) item.findViewById(R.id.tvJobStartDataTime);
         }

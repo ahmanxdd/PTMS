@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,12 +67,19 @@ public class JobList_Fragment extends Fragment {
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.mainContent, jobDetail_Fragment);
                 jobDetail_Fragment.setArguments(bundle);
+                ( (ActionBarActivity)getActivity()).getSupportActionBar().setTitle("Job Details of " + selectedJobNo);
                 transaction.commit();
                 Toast.makeText(getActivity(), selectedJobNo, Toast.LENGTH_SHORT).show();
             }
         });
 
         return _this;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ( (ActionBarActivity)getActivity()).getSupportActionBar().setTitle("Job List");
     }
 
     private void setJobListItems(Cursor cursor) {
