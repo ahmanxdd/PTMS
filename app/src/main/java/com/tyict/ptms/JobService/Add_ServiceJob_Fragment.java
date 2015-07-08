@@ -88,6 +88,8 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         if (v.equals(btnNewServiceJob)) {
             insertTodatabase();
+            serialNo.setText("");
+            errorMsg.setVisibility(View.INVISIBLE);
         } else if (v.equals(btnFind)) {
             showFindSerialNoDialog();
         }
