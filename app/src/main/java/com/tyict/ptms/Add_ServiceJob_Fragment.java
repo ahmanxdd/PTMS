@@ -43,7 +43,6 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
     private Spinner sProdName;
     private String selectedComName;
     private String selectedProdName;
-    private Button btnSubmit;
     private String[] comNameArray;
     private String[] prodNameArray;
 
@@ -101,6 +100,7 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
                 + " pt.prodName = '" + selectedProdName + "'");
         if (cursor.getCount() == 0) {
             Toast.makeText(getActivity(), "Cannot find!", Toast.LENGTH_SHORT).show();
+            serialNo.setText("");
         } else {
             cursor.moveToNext();
             serialNo.setText(cursor.getString(cursor.getColumnIndex("serialNo")));
@@ -127,14 +127,12 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
         View dialog = inflater.inflate(R.layout.find_serialno_dialog_layout, null);
         sComName = (Spinner) dialog.findViewById(R.id.findDialog_comName);
         sProdName = (Spinner) dialog.findViewById(R.id.findDialog_prodName);
-        btnSubmit = (Button) dialog.findViewById(R.id.findDialog_submit);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         selectedComName = (String) sComName.getSelectedItem();
                         selectedProdName = (String) sProdName.getSelectedItem();
-                        Toast.makeText(getActivity(), selectedComName + " " + selectedProdName, Toast.LENGTH_SHORT).show();
                         setSerialNo();
                     }
                 }

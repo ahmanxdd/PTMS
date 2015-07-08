@@ -41,14 +41,6 @@
             android:textSize="16dp" />
 
 
-        <Button
-            android:id="@+id/findDialog_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:minWidth="200dp"
-            android:text="Submit" />
     </LinearLayout>
 
 

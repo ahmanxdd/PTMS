@@ -44,7 +44,6 @@ public class Timer_Fragment extends Fragment implements View.OnClickListener {
         btnPause.setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnEnd.setOnClickListener(this);
-
         timer = new CounterClass(180000, 1000);
 
         return _this;

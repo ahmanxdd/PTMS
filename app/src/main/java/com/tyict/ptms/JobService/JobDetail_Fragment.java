@@ -5,7 +5,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Picture;
 import android.graphics.Typeface;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,12 +29,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tyict.ptms.R;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import java.io.File;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -42,7 +48,7 @@ public class JobDetail_Fragment extends Fragment {
     private TextView jobNo;
     private TextView jobProblem;
     private Spinner jobStatus;
-    private String[] jobStatusItem = {"completed", "follow-up", "pending"};
+    private String[] jobStatusItem = {"completed", "follow-up", "pending", "cancelled", "postponed"};
     private TextView jobSerialNo;
     private TextView jobRequestDate;
     private TextView jobVisitDate;
@@ -52,8 +58,7 @@ public class JobDetail_Fragment extends Fragment {
     private TextView jobEndTime;
     private TextView jobRemark;
     private AlertDialog.Builder editDialog;
-    private EditText.OnLongClickListener goToEdit = new EditText.OnLongClickListener()
-    {
+    private EditText.OnLongClickListener goToEdit = new EditText.OnLongClickListener() {
         @Override
         public boolean onLongClick(View view) {
             final EditText et = new EditText(getActivity());
@@ -62,7 +67,7 @@ public class JobDetail_Fragment extends Fragment {
             editDialog.setView(et);
             int id = view.getId();
             final String column;
-            if(id == jobProblem.getId())
+            if (id == jobProblem.getId())
                 column = "jobProblem";
             else
                 column = "remark";
@@ -72,7 +77,7 @@ public class JobDetail_Fragment extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     ((TextView) tmp).setText(et.getText().toString());
-                    DatabaseView.exec("UPDATE ServiceJob SET " + column + " = '" + et.getText().toString() + "' WHERE jobNo = '" + jobNoText + "'" );
+                    DatabaseView.exec("UPDATE ServiceJob SET " + column + " = '" + et.getText().toString() + "' WHERE jobNo = '" + jobNoText + "'");
                 }
             });
             editDialog.show();
@@ -86,13 +91,17 @@ public class JobDetail_Fragment extends Fragment {
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
 
-    /** Create a file Uri for saving an image or video */
-    private static Uri getOutputMediaFileUri(int type){
+    /**
+     * Create a file Uri for saving an image or video
+     */
+    private static Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
 
-    /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type){
+    /**
+     * Create a File for saving an image or video
+     */
+    private static File getOutputMediaFile(int type) {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -102,8 +111,8 @@ public class JobDetail_Fragment extends Fragment {
         // between applications and persist after your app has been uninstalled.
 
         // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
                 Log.d("MyCameraApp", "failed to create directory");
                 return null;
             }
@@ -112,19 +121,21 @@ public class JobDetail_Fragment extends Fragment {
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE){
+        if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_"+ timeStamp + ".jpg");
-        } else if(type == MEDIA_TYPE_VIDEO) {
+                    "IMG_" + timeStamp + ".jpg");
+        } else if (type == MEDIA_TYPE_VIDEO) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "VID_"+ timeStamp + ".mp4");
+                    "VID_" + timeStamp + ".mp4");
         } else {
             return null;
         }
 
         return mediaFile;
     }
+
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _this = inflater.inflate(R.layout.jobdetail_layout, container, false);
@@ -146,7 +157,8 @@ public class JobDetail_Fragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        fileURI = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                        //fileURI = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                        fileURI = getImageUri();
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileURI); // set the image file name
                         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                     }
@@ -158,12 +170,33 @@ public class JobDetail_Fragment extends Fragment {
         return _this;
     }
 
+    private Uri getImageUri() {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
+        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM", "jobNo_" + jobNo.getText().toString() + "_" + timeStamp + ".jpg");
+        Uri imgUri = Uri.fromFile(file);
+
+        return imgUri;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == getActivity().RESULT_OK) {
+                Toast.makeText(getActivity(), "Successful take the photo!", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == getActivity().RESULT_CANCELED) {
+            } else {
+                Toast.makeText(getActivity(), "Unsuccessful take the photo!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
     private void setStatusItems() {
         jobStatus.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, jobStatusItem));
         jobStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                DatabaseView.exec("UPDATE ServiceJob SET jobStatus "  + " = '"  + jobStatus.getSelectedItem().toString() + "' WHERE jobNo = '" + jobNo.getText().toString() + "'");
+                DatabaseView.exec("UPDATE ServiceJob SET jobStatus " + " = '" + jobStatus.getSelectedItem().toString() + "' WHERE jobNo = '" + jobNo.getText().toString() + "'");
             }
 
             @Override
