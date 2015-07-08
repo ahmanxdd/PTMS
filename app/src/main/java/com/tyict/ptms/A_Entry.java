@@ -21,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.tyict.ptms.DataInDatabase.ViewAll;
 import com.tyict.ptms.JobService.JobList_Fragment;
 import com.tyict.ptms.Other.F_productForGraph;
 import com.tyict.ptms.Other.F_productIssues;
@@ -41,11 +42,11 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     FragmentTransaction ft;
     private static final String[] menuItems =
             {
-                   "Job List", "Product Issues", "Company Details", "ServiceTime Graph", "Lee Testing"
+                   "Job List", "Product Issues", "Company Details", "ServiceTime Graph", "Lee Testing", "View All Data"
             };
 
     enum Menu {
-        Job_List, Product_Issues, Comapny_Details, Avg_Time_Graph
+        Job_List, Product_Issues, Comapny_Details, Avg_Time_Graph, Lee_Testing, View_All_Data
     }
 
     public void goToCamera() {
@@ -88,6 +89,9 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
                 break;
             case 4:
                 f = new Layout_testing();
+                break;
+            case 5:
+                f = new ViewAll();
 
         }
 
