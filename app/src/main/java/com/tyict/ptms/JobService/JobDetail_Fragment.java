@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ import com.tyict.ptms.R;
 import com.tyict.ptms.SignView;
 import com.tyict.ptms.dataInfo.DatabaseView;
 import java.io.File;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -181,6 +183,7 @@ public class JobDetail_Fragment extends Fragment {
         }
 
 
+
         btn_photo.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -190,7 +193,10 @@ public class JobDetail_Fragment extends Fragment {
                         fileURI = getImageUri();
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileURI); // set the image file name
                         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+
+
                     }
+
                 }
         );
 
@@ -235,17 +241,42 @@ public class JobDetail_Fragment extends Fragment {
 
     private Uri getImageUri() {
         String currentTime = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
-        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM", "jobNo_" + jobNo.getText().toString() + "_" + currentTime + ".jpg");
-        Uri imgUri = Uri.fromFile(file);
+        File file = new File( Environment.getExternalStorageDirectory() + "/DCIM", "jobNo_" + jobNo.getText().toString() + "_" + currentTime + ".jpg");
+        Uri imgUri;
+        try {
+            imgUri = Uri.fromFile(file);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
 
         return imgUri;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == getActivity().RESULT_OK) {
                 Toast.makeText(getActivity(), "Successful take the photo!", Toast.LENGTH_SHORT).show();
+
+
+                final ImageView lv = new ImageView(getActivity());
+                lv.setImageURI(fileURI);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(lv);
+                builder.setTitle("Preview");
+                builder.setNegativeButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ((BitmapDrawable)lv.getDrawable()).getBitmap().recycle();
+                    }
+                }).show() ;
+
+
+
             } else if (resultCode == getActivity().RESULT_CANCELED) {
             } else {
                 Toast.makeText(getActivity(), "Unsuccessful take the photo!", Toast.LENGTH_SHORT).show();
