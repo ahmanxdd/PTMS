@@ -1,8 +1,13 @@
 package com.tyict.ptms;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.widget.DrawerLayout;
@@ -16,12 +21,11 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.tyict.ptms.JobService.JobList_Fragment;
 import com.tyict.ptms.Other.F_productForGraph;
 import com.tyict.ptms.Other.F_productIssues;
 import com.tyict.ptms.Other.f_companyDetails;
 import com.tyict.ptms.JobService.F_Joblist;
-
-import java.util.HashMap;
 
 /**
  * Created by RAYMOND on 7/5/2015.
@@ -37,7 +41,6 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     FragmentTransaction ft;
     private static final String[] menuItems =
             {
-                    "Job List", "Product Issues", "Company Details", "Avg Time Graph" , "Lee Testing"
                    "Job List", "Product Issues", "Company Details", "ServiceTime Graph", "Lee Testing"
             };
 
@@ -74,8 +77,6 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
             case 0:
                 f = jobServilePage;
                 break;
-                f = new JobList_Fragment();
-                break;
             case 1:
                 f = productIssues;
                 break;
@@ -103,7 +104,7 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
         companyDetails = new f_companyDetails();
         productIssues = new F_productIssues();
         servicePage = new F_productForGraph();
-        jobServilePage = new F_Joblist();
+        jobServilePage = new JobList_Fragment();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         listView = (ListView) findViewById(R.id.menuList);
         listView.setAdapter(new ArrayAdapter<>(this, R.layout.a_main_menu_list_items_style, menuItems));
@@ -119,7 +120,7 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
         drawerLayout.setDrawerListener(drawerListener);
         //   getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        f_manager = getFragmentManager();
+        f_manager = getSupportFragmentManager();
         drawerListener.syncState();
         ft = f_manager.beginTransaction();
         ft.replace(frameLayout.getId(), jobServilePage);

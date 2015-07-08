@@ -1,15 +1,12 @@
-package com.tyict.ptms;
+package com.tyict.ptms.JobService;
 
 
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.internal.widget.AdapterViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +15,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tyict.ptms.JobService.JobDetail_Fragment;
 import com.tyict.ptms.JobService.ListData;
 import com.tyict.ptms.JobService.MyBaseAdapter;
+import com.tyict.ptms.R;
+import com.tyict.ptms.RefreshableView;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import java.util.ArrayList;
