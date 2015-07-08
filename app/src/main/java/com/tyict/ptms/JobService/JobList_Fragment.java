@@ -99,7 +99,7 @@ public class JobList_Fragment extends Fragment {
             problems[i] = cursor.getString(cursor.getColumnIndex("jobProblem"));
             status[i] = cursor.getString(cursor.getColumnIndex("jobStatus"));
 
-            if(cursor.getString(cursor.getColumnIndex("visitDate")).equals(""))
+            if(cursor.getString(cursor.getColumnIndex("visitDate")) == null || cursor.getString(cursor.getColumnIndex("visitDate")).equals(""))
                 datetime[i] = "Not assigned ";
             else
             {

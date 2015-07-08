@@ -124,7 +124,7 @@ public class JobDetail_Fragment extends Fragment {
 
         return mediaFile;
     }
-
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _this = inflater.inflate(R.layout.jobdetail_layout, container, false);
@@ -147,6 +147,8 @@ public class JobDetail_Fragment extends Fragment {
                     public void onClick(View view) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         fileURI = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileURI); // set the image file name
+                        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                     }
                 }
         );
