@@ -40,8 +40,11 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
 
     private Spinner sComName;
     private Spinner sProdName;
+    private String selectedComName;
+    private String selectedProdName;
     private Button btnSubmit;
     private String[] comNameArray;
+    private String[] prodNameArray;
 
     @Nullable
     @Override
@@ -66,6 +69,7 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
 
         btnFind.setOnClickListener(this);
         btnNewServiceJob.setOnClickListener(this);
+        btnFind.setOnClickListener(this);
         serialNo.addTextChangedListener(this);
 
 
@@ -85,6 +89,29 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
             insertTodatabase();
         } else if (v.equals(btnFind)) {
             showFindSerialNoDialog();
+        } else if (v.equals(btnSubmit)) {
+            selectedComName = (String) sComName.getSelectedItem();
+            selectedProdName = (String) sProdName.getSelectedItem();
+            Toast.makeText(getActivity(), selectedComName + " " + selectedProdName, Toast.LENGTH_SHORT).show();
+            setSerialNo();
+
+        }
+    }
+
+    private void setSerialNo() {
+        Cursor cursor = DatabaseView.query("SELECT serialNo FROM Purchase pu, Product pt, Company c WHERE "
+                + " pu.prodNo =  pt.prodNo AND "
+                + " pu.comNo = c.comNo AND "
+                + " c.comName = '" + selectedComName + "' AND"
+                + " pt.prodName = '" + selectedProdName + "'");
+        if(cursor.getCount() == 0 )
+        {
+            Toast.makeText(getActivity(), "Cannot find!", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            cursor.moveToNext();
+            serialNo.setText(cursor.getString(cursor.getColumnIndex("serialNo")));
         }
     }
 
@@ -92,27 +119,32 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
 
         Cursor cursor = DatabaseView.query("SELECT comName FROM Company");
         comNameArray = new String[cursor.getCount()];
-        for(int i=0; i< cursor.getCount(); i++) {
+        for (int i = 0; i < cursor.getCount(); i++) {
             cursor.moveToNext();
             comNameArray[i] = cursor.getString(cursor.getColumnIndex("comName"));
         }
 
+        Cursor cursor2 = DatabaseView.query("SELECT prodName FROM Product");
+        prodNameArray = new String[cursor2.getCount()];
+        for (int i = 0; i < cursor2.getCount(); i++) {
+            cursor2.moveToNext();
+            prodNameArray[i] = cursor2.getString(cursor2.getColumnIndex("prodName"));
+        }
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialog = inflater.inflate(R.layout.find_serialno_dialog_layout, null);
-        sComName = (Spinner)dialog.findViewById(R.id.findDialog_comName);
-        sProdName = (Spinner)dialog.findViewById(R.id.findDialog_prodName);
-        btnSubmit = (Button)dialog.findViewById(R.id.findDialog_submit);
+        sComName = (Spinner) dialog.findViewById(R.id.findDialog_comName);
+        sProdName = (Spinner) dialog.findViewById(R.id.findDialog_prodName);
+        btnSubmit = (Button) dialog.findViewById(R.id.findDialog_submit);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         ArrayAdapter aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, comNameArray);
         sComName.setAdapter(aa);
+        ArrayAdapter bb = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, prodNameArray);
+        sProdName.setAdapter(bb);
 
+        btnSubmit.setOnClickListener(this);
         builder.setView(dialog);
         builder.show();
-
-    }
-
-    private void setSComNameItems() {
-
 
     }
 
@@ -127,8 +159,7 @@ public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickLis
                     + remark.getText().toString() + "')");
 
             Toast.makeText(getActivity(), "Successful insert new service job!", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             Toast.makeText(getActivity(), "Invalid serial no!", Toast.LENGTH_SHORT).show();
         }
     }

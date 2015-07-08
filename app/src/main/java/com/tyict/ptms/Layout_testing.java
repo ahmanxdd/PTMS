@@ -19,7 +19,7 @@ public class Layout_testing extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        _this = inflater.inflate(R.layout.add_servicejob_layout,container, false);
+        _this = inflater.inflate(R.layout.find_serialno_dialog_layout,container, false);
         return _this;
     }
 }
