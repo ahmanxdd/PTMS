@@ -12,6 +12,7 @@ public class NoStopable extends Application {
     public static boolean opened = false;
     public static LoginControl lc;
     public static Intent i;
+    public static String selectedCompanyDetails = "x";
     public static String startingJob = null;
 }
 

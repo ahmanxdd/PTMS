@@ -76,9 +76,10 @@ public class ViewAll extends Fragment {
                         rcm.addRow();
                     }
                 }
-                cusorView.removeViewAt(cusorView.getChildCount()-1);
+                cusorView.removeViewAt(cusorView.getChildCount() - 1);
                 cusorView.addView(rcm.getTableLayout());
                 tv.setText("\tNo. of Result: " + c.getCount());
+
 
             }
             @Override

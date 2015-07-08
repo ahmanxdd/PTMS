@@ -30,6 +30,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.tyict.ptms.NoStopable;
 import com.tyict.ptms.R;
 import com.tyict.ptms.dataInfo.DatabaseView;
 import com.tyict.ptms.dataInfo.StaticInfo;
@@ -63,7 +64,6 @@ public class f_companyDetails extends Fragment {
     private MapView mapView;
     private View _this;
     private Marker marker;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,14 +106,39 @@ public class f_companyDetails extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
+
         });
+
         return _this;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AsyncTask<String,String,String> tmpText = new AsyncTask<String, String, String>() {
+            @Override
+            protected String doInBackground(String... strings) {
+                try
+                {
+                    Thread.sleep(3500);
+                    getThisCompanyDetails(NoStopable.selectedCompanyDetails);
+                    return null;
+                }
+                catch (Exception e)
+                {
+
+                }
+                return null;
+            }
+        };
+        tmpText.execute();
+    }
+
     public void getThisCompanyDetails(String companyName)
     {
+        NoStopable.selectedCompanyDetails = companyName;
         try
         {
-            initResource();
             int pos = 0;
             for (String key : companies.keySet().toArray(new String[companies.size()])) {
                 if(key.equals(companyName)) {
@@ -123,8 +148,6 @@ public class f_companyDetails extends Fragment {
                 else
                     pos++;
             }
-
-
 
         }
         catch (NullPointerException e)
