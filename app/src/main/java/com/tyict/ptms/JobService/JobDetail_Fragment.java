@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Telephony;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -333,8 +334,7 @@ public class JobDetail_Fragment extends Fragment {
                                     bgTimer.cancel(true);
                                 }
                             });
-                            ibuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-                            {
+                            ibuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                 }
@@ -344,9 +344,6 @@ public class JobDetail_Fragment extends Fragment {
                         }
                     });
                     builder.show();
-
-
-
 
 
                 } else {
