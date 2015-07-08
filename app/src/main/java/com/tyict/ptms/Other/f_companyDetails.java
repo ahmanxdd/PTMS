@@ -115,6 +115,7 @@ public class f_companyDetails extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        MapsInitializer.initialize(getActivity().getApplicationContext());
         AsyncTask<String,String,String> tmpText = new AsyncTask<String, String, String>() {
             @Override
             protected String doInBackground(String... strings) {
