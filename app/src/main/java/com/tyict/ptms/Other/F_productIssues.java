@@ -1,5 +1,6 @@
 package com.tyict.ptms.Other;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,17 +25,15 @@ import java.util.TreeMap;
  */
 public class F_productIssues extends Fragment {
     @Nullable
-    private DatabaseView dbv;
     private TreeMap<String, String> _products;
     private View _this;
     private TextView tv_job, tv_date, tv_problem;
     private Spinner productSelection;
     private ListView jobList;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         _this = inflater.inflate(R.layout.f_product_issues, container, false);
-        dbv = new DatabaseView();
         findView();
         _products = StaticInfo.getAllProduct();
         ArrayAdapter<String> aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, _products.keySet().toArray(new String[_products.size()]));
@@ -44,7 +43,7 @@ public class F_productIssues extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (jobList == null) return;
-                Cursor c = dbv.query("SELECT ServiceJob.jobNo FROM ServiceJob, Purchase, Product " +
+                Cursor c = DatabaseView.query("SELECT ServiceJob.jobNo FROM ServiceJob, Purchase, Product " +
                         "WHERE Product.prodNo = Purchase.prodNo AND Purchase.serialNo = ServiceJob.serialNo" +
                         " AND Product.prodNo = '" + _products.get(productSelection.getSelectedItem().toString()) + "'");
                 String[] list = new String[c.getCount()];
@@ -65,7 +64,7 @@ public class F_productIssues extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String jobNo = jobList.getItemAtPosition(i).toString();
-                Cursor c = dbv.query("SELECT * FROM ServiceJob WHERE jobNo = '" + jobNo + "'");
+                Cursor c = DatabaseView.query("SELECT * FROM ServiceJob WHERE jobNo = '" + jobNo + "'");
                 c.moveToNext();
                 tv_problem.setText(c.getString(c.getColumnIndex("jobProblem")));
                 tv_job.setText(c.getString(c.getColumnIndex("jobNo")));

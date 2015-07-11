@@ -31,21 +31,13 @@ public class DatabaseView {
             {
                     "Technician", "Product", "Company", "Purchase", "ServiceJob"
             };
-    private static String[] table_format =
-            {
-                    "%4s %12s %14s %-10s\n", "No.\t %6s\nName:\t%-40s\nPrice:\t %.2f\n\n", "%4s %s %8s %50s\n", "%11s %10s %6s %4s\n", "%3s"
-            };
-
 
 
     public static Cursor getAllCompany() {
         Cursor c = query("SELECT * FROM Company");
         return  c;
     }
-    public static String[] getTableFormat()
-    {
-        return table_format;
-    }
+
     public static String[] getAllTable()  {
 /*        Cursor c = query("SELECT name FROM sqlite_master WHERE type='table'", null);
         String[] retStr = new String[c.getCount() - 1];
@@ -127,6 +119,15 @@ public class DatabaseView {
                 "('48947347894', '21/2/2012', 'HP1022', '2002')," +
                 "('89347827894', '17/1/2013', 'HP2055', '2002')," +
                 "('46917347228', '17/1/2013', 'HP1022', '2001');";
+        db.execSQL(sql);
+
+        sql = "INSERT INTO ServiceJob VALUES" +
+                "('501', '15/5/2015', 'Toner is not securely fused on the printout', '28/5/2015', 'completed', '10:05', '10:43', '34738783298', 'sensor S3001 to be replaced - must bring in next visit'),"+
+                "('502', '14/5/2015', 'Print image is not sharp and paper feeder always jam', '16/5/2015', 'follow-up', '14:20', '15:31', '42389489993', 'sensor S3001 to be replaced - must bring in next visit'),"+
+                "('503', '17/5/2015', 'Paper jam in tray 1', null, 'pending', null, null, '34738783298', 'sensor S3001 to be replaced - must bring in next visit'),"+
+                "('504', '23/5/2015', 'Paper feeder can only feed 1 page', null, 'pending', null, null, '42389489993', null),"+
+                "('505', '12/5/2015', 'The printout is very light in colour even after we use new ink catridges', null, 'pending', null, null, '89347827894', null),"+
+                "('506', '22/5/2015', 'The printer cannot print pages with complex graphics', null, 'pending', null, null, '48947347894', null)";
         db.execSQL(sql);
         return true;
     }

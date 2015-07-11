@@ -109,9 +109,13 @@ public class Timer_Fragment extends Fragment implements View.OnClickListener {
                     isEnd = false;
                     tvTotal.setText("");
                 }
+                btnStart.setEnabled(false);
+                btnPause.setEnabled(true);
                 break;
             case R.id.btnPause:
                 timer.cancel();
+                btnPause.setEnabled(false);
+                btnStart.setEnabled(true);
                 break;
             case R.id.btnReset:
                 isEnd = true;
@@ -120,6 +124,8 @@ public class Timer_Fragment extends Fragment implements View.OnClickListener {
                 m = 0;
                 h = 0;
                 tvTotal.setText("");
+                btnPause.setEnabled(false);
+                btnStart.setEnabled(true);
                 tvTimer.setText("00:00:00");
                 tvShowEndTime.setText("End Time:");
                 tvShowStartTime.setText("Start Time:");
@@ -131,6 +137,8 @@ public class Timer_Fragment extends Fragment implements View.OnClickListener {
                 m = 0;
                 h = 0;
                 Time timeEnd = new Time();
+                btnPause.setEnabled(false);
+                btnStart.setEnabled(true);
                 timeEnd.setToNow();
                 tvTimer.setText("00:00:00");
                 if (!isEnd){

@@ -1,22 +1,13 @@
 package com.tyict.ptms;
-
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.tyict.ptms.dataInfo.DatabaseView;
 import com.tyict.ptms.dataInfo.LoginControl;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -24,7 +15,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,67 +26,42 @@ public class Login extends ActionBarActivity {
     private DatabaseView dbv = new DatabaseView();
 
 
-    private Login getThis()
-    {
+    private Login getThis() {
         return this;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(NoStopable.lc.isLogin()) {
+        if (NoStopable.lc.isLogin()) {
             startActivity(NoStopable.i);
             this.finish();
         }
+
+
         setContentView(R.layout.activity_login);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void btn_login_click(View v)
-    {
-        String userID = ((EditText)findViewById(R.id.et_loginID)).getText().toString();
-        String password = ((EditText)findViewById(R.id.et_password)).getText().toString();
-        ((EditText)findViewById(R.id.et_loginID)).setEnabled(false);
-        ((EditText)findViewById(R.id.et_password)).setEnabled(false);
+    public void btn_login_click(View v) {
+        String userID = ((EditText) findViewById(R.id.et_loginID)).getText().toString();
+        String password = ((EditText) findViewById(R.id.et_password)).getText().toString();
         userID = "login1001";
         password = "pass1001";
-        if(NoStopable.lc.login(userID,password))
-        {
+        findViewById(R.id.et_loginID).setEnabled(false);
+        findViewById(R.id.et_password).setEnabled(false);
+        if (NoStopable.lc.login(userID, password)) {
             NoStopable.i = new Intent(this, A_Entry.class);
             new getJobList().execute(LoginControl.getStaffID());
             NoStopable.opened = true;
-        }
-        else
-        {
-            ((TextView)findViewById(R.id.message)).setText("Login Failure, check your password and loginID");
-            ((EditText)findViewById(R.id.et_loginID)).setEnabled(true);
-            ((EditText)findViewById(R.id.et_password)).setEnabled(true);
+        } else {
+            ((TextView) findViewById(R.id.message)).setText("Login Failure, check your password and loginID");
+            ((EditText) findViewById(R.id.et_loginID)).setEnabled(true);
+            ((EditText) findViewById(R.id.et_password)).setEnabled(true);
         }
     }
 
-    private class getJobList extends AsyncTask<String, Integer, String>
-    {
+    private class getJobList extends AsyncTask<String, Integer, String> {
 
         @Override
         protected void onPostExecute(String s) {
@@ -124,10 +89,10 @@ public class Login extends ActionBarActivity {
 
                 reader.close();
                 String sql = "DROP TABLE IF EXISTS ServiceJob;";
-                dbv.exec(sql);
+              //  dbv.exec(sql);
                 sql = "CREATE TABLE ServiceJob(jobNo text PRIMARY KEY, requestDate date, jobProblem text," +
                         " visitDate date, jobStatus text, jobStartTime text, jobEndTime text, serialNo text, remark text);";
-                dbv.exec(sql);
+       //         dbv.exec(sql);
                 JSONArray json = new JSONObject(recvStr).getJSONArray("ServiceJob");
                 for (int j = 0; j < json.length(); j++) {
                     JSONObject jo = json.getJSONObject(j);
@@ -142,7 +107,7 @@ public class Login extends ActionBarActivity {
                             jo.getString("serialNo") + "','" +
                             jo.getString("remark") +
                             "');";
-                    dbv.exec(query);
+              //      dbv.exec(query);
                     getThis().finish();
 
                 }

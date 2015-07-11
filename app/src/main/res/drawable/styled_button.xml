@@ -18,4 +18,13 @@
 
         </shape>
     </item>
+
+    <item android:state_enabled="false" android:state_pressed="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp" />
+            <stroke android:width="2dp" android:color="#555555" />
+            <solid android:color="@android:color/transparent" />
+
+        </shape>
+    </item>
 </selector>

@@ -39,14 +39,12 @@ public class ViewAll extends Fragment {
     Spinner spn_tableSelection;
     String[] table;
     LinearLayout cusorView ;
-    String[] table_format;
     DatabaseView dv;
     TextView tv;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dv = new DatabaseView();
         table =  dv.getAllTable();
-        table_format = dv.getTableFormat();
         View view = inflater.inflate(R.layout.fragment_view_all, container, false);
         cusorView = (LinearLayout)view.findViewById(R.id.viewAllData_layout);
         spn_tableSelection = (Spinner)view.findViewById(R.id.spn_tableSelection);

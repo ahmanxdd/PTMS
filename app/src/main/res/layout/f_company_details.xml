@@ -68,6 +68,8 @@
             android:id="@+id/btn_callCompany"
             android:layout_margin="5dp"
             android:text="@string/call"
+            android:textColor="@drawable/styled_text"
+            android:background="@drawable/styled_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />

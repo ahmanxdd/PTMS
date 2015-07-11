@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tyict.ptms.A_Entry;
 import com.tyict.ptms.JobService.JobDetail_Fragment;
 import com.tyict.ptms.JobService.ListData;
 import com.tyict.ptms.JobService.MyBaseAdapter;
@@ -63,12 +64,9 @@ public class JobList_Fragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("selectedJobNo", selectedJobNo);
                 Fragment jobDetail_Fragment = new JobDetail_Fragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.addToBackStack(null);
-                transaction.replace(R.id.mainContent, jobDetail_Fragment);
                 jobDetail_Fragment.setArguments(bundle);
-                transaction.commit();
-                Toast.makeText(getActivity(), selectedJobNo, Toast.LENGTH_SHORT).show();
+                ((A_Entry)getActivity()).transferTo(jobDetail_Fragment,true);
+                  Toast.makeText(getActivity(), selectedJobNo, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -128,6 +126,7 @@ public class JobList_Fragment extends Fragment {
         getDetailInList();
         lvJobList.setAdapter(new MyBaseAdapter(context, myList));
     }
+
 
 
 }

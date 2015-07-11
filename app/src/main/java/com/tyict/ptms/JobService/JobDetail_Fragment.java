@@ -14,18 +14,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Telephony;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
-import android.text.Editable;
-import android.text.method.KeyListener;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -45,82 +40,60 @@ import com.tyict.ptms.Other.f_companyDetails;
 import com.tyict.ptms.R;
 import com.tyict.ptms.SignView;
 import com.tyict.ptms.dataInfo.DatabaseView;
+
 import java.io.File;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimerTask;
-import java.util.TreeMap;
 
 
-public class JobDetail_Fragment extends Fragment {
+public class JobDetail_Fragment extends Fragment implements View.OnLongClickListener, View.OnClickListener {
     View _this;
     private Bundle bundle;
     private String selectedjobNo;
-    private TextView jobCompany;
-    private TextView productName;
-    private TextView jobNo;
-    private TextView jobProblem;
+    private TextView jobCompany, productName, jobNo, jobProblem, jobSerialNo, jobRequestDate, jobVisitDate, jobStartTime, jobEndTime, jobRemark;
     private Spinner jobStatus;
     private String[] jobStatusItem = {"completed", "follow-up", "pending", "cancelled", "postponed"};
-    private TextView jobSerialNo;
-    private TextView jobRequestDate;
-    private TextView jobVisitDate;
-    private TextView jobStartTime;
     private Uri fileURI;
-    private Button btn_cancelJob;
-    private Button btn_postpone;
-    private Button btn_photo, btn_startTimer;
-    private TextView jobEndTime;
-    private TextView jobRemark;
+    private Button btn_photo, btn_startTimer, btn_cancelJob, btn_postpone;
     private AlertDialog.Builder editDialog;
-    private ImageView lv ;
+    private ImageView image_preview;
+    private static BackGroundTimer bgTimer;
 
+    @Override
+    public boolean onLongClick(View view) {
+        final EditText et = new EditText(getActivity());
+        et.setText(((TextView) view).getText().toString());
+        final View tmp = view;
+        editDialog.setView(et);
+        int id = view.getId();
+        final String column;
+        if (id == jobProblem.getId())
+            column = "jobProblem";
+        else
+            column = "remark";
 
-    private EditText.OnLongClickListener goToEdit = new EditText.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View view) {
-            final EditText et = new EditText(getActivity());
-            et.setText(((TextView) view).getText().toString());
-            final View tmp = view;
-            editDialog.setView(et);
-            int id = view.getId();
-            final String column;
-            if (id == jobProblem.getId())
-                column = "jobProblem";
-            else
-                column = "remark";
+        final String jobNoText = jobNo.getText().toString();
+        editDialog.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ((TextView) tmp).setText(et.getText().toString());
+                DatabaseView.exec("UPDATE ServiceJob SET " + column + " = '" + et.getText().toString() + "' WHERE jobNo = '" + jobNoText + "'");
+            }
+        });
+        editDialog.show();
 
-            final String jobNoText = jobNo.getText().toString();
-            editDialog.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    ((TextView) tmp).setText(et.getText().toString());
-                    DatabaseView.exec("UPDATE ServiceJob SET " + column + " = '" + et.getText().toString() + "' WHERE jobNo = '" + jobNoText + "'");
-                }
-            });
-            editDialog.show();
+        return true;
+    }
 
-            return true;
-        }
-    };
-
-
-    @Nullable
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
-    /**
-     * Create a file Uri for saving an image or video
-     */
     private static Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
 
-    /**
-     * Create a File for saving an image or video
-     */
     private static File getOutputMediaFile(int type) {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
@@ -150,11 +123,69 @@ public class JobDetail_Fragment extends Fragment {
         } else {
             return null;
         }
-
         return mediaFile;
     }
 
-    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private void enableEdit(boolean isPendding) {
+        if (!isPendding) {
+            jobStatus.setEnabled(false);
+            btn_startTimer.setEnabled(false);
+            btn_startTimer.setVisibility(View.GONE);
+            btn_cancelJob.setEnabled(false);
+            btn_cancelJob.setTextColor(Color.GRAY);
+            btn_photo.setEnabled(false);
+            btn_photo.setTextColor(Color.GRAY);
+            btn_postpone.setEnabled(false);
+            btn_postpone.setTextColor(Color.GRAY);
+        }
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == productName.getId()) {
+            Bundle bundle = new Bundle();
+            bundle.putString("selectedJobNo", productName.getText().toString());
+            Fragment productIssue = new F_productIssues();
+            productIssue.setArguments(bundle);
+            ((A_Entry) getActivity()).transferTo(productIssue, true);
+        } else if (view.getId() == jobCompany.getId()) {
+            Bundle bundle = new Bundle();
+            bundle.putString("comName", jobCompany.getText().toString());
+            Fragment companyDetails = new f_companyDetails();
+            companyDetails.setArguments(bundle);
+            ((A_Entry) getActivity()).transferTo(companyDetails, true);
+        } else if (view.getId() == btn_photo.getId()) {
+            try {
+                ((BitmapDrawable) image_preview.getDrawable()).getBitmap().recycle();
+            } catch (NullPointerException e) {
+
+            }
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            //fileURI = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+            fileURI = getImageUri();
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileURI); // set the image file name
+            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }
+        else if (view.getId() == btn_postpone.getId())
+        {
+            for (int i = 0; i < jobStatusItem.length; i++)
+                if (jobStatusItem[i].equals("postponed")) {
+                    jobStatus.setSelection(i);
+                    DatabaseView.exec("UPDATE ServiceJob SET jobStatus = 'postponed' WHERE jobNo ='" + jobNo.getText().toString() + "'");
+                    Toast.makeText(getActivity(), "Successful change the status to postpone!", Toast.LENGTH_SHORT).show();
+                }
+        }
+        else if(view.getId() == btn_cancelJob.getId())
+        {
+            for (int i = 0; i < jobStatusItem.length; i++)
+                if (jobStatusItem[i].equals("cancelled")) {
+                    jobStatus.setSelection(i);
+                    DatabaseView.exec("UPDATE ServiceJob SET jobStatus = 'cancelled' WHERE jobNo ='" + jobNo.getText().toString() + "'");
+                    Toast.makeText(getActivity(), "Successful change the status to cancel!", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -162,78 +193,26 @@ public class JobDetail_Fragment extends Fragment {
         initVariable();
         setStatusItems();
         setjobDetail();
-        jobStatus.setEnabled(false);
-        //Raymond Go!
-        if(!jobStatus.getSelectedItem().toString().equals("pending")) {
-            btn_startTimer.setText("This job is ended");
-            btn_startTimer.setTextColor(Color.GRAY);
-            jobStatus.setEnabled(true);
-            btn_startTimer.setEnabled(false);
-            setOnClickListenerForTimer();
-        }
-        else if (NoStopable.startingJob != null) {
+        if (!jobStatus.getSelectedItem().toString().equals("pending")) {
+            enableEdit(false);
+        } else if (NoStopable.startingJob != null) {
             if (NoStopable.startingJob.equals(jobNo.getText().toString())) {
-                btn_startTimer.setText("FINISH");
+                btn_startTimer.setText("CLICK TO FINISH");
+                btn_startTimer.setTextColor(Color.RED);
+                btn_startTimer.setBackground(getActivity().getResources().getDrawable(R.drawable.styled_button_finish_job));
                 setOnClickListenerForTimer();
             } else {
-                    btn_startTimer.setText("You started " + NoStopable.startingJob);
-
-                btn_startTimer.setTextColor(Color.GRAY);
+                enableEdit(false);
+                btn_startTimer.setText("You started " + NoStopable.startingJob);
+                btn_startTimer.setVisibility(View.VISIBLE);
             }
-            btn_startTimer.setTextColor(Color.RED);
         } else {
             setOnClickListenerForTimer();
         }
-        lv = new ImageView(getActivity());
-
-
-        btn_photo.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        try {
-                            ((BitmapDrawable) lv.getDrawable()).getBitmap().recycle();
-                        }
-                        catch (NullPointerException e)
-                        {
-
-                        }
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        //fileURI = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-                        fileURI = getImageUri();
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileURI); // set the image file name
-                        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-
-
-                    }
-
-                }
-        );
-
-        btn_cancelJob.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < jobStatusItem.length; i++)
-                    if (jobStatusItem[i].equals("cancelled")) {
-                        jobStatus.setSelection(i);
-                        DatabaseView.exec("UPDATE ServiceJob SET jobStatus = 'cancelled' WHERE jobNo ='" + jobNo.getText().toString() + "'");
-                        Toast.makeText(getActivity(), "Successful change the status to cancel!", Toast.LENGTH_SHORT).show();
-                    }
-            }
-        });
-
-        btn_postpone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < jobStatusItem.length; i++)
-                    if (jobStatusItem[i].equals("postponed")) {
-                        jobStatus.setSelection(i);
-                        DatabaseView.exec("UPDATE ServiceJob SET jobStatus = 'postponed' WHERE jobNo ='" + jobNo.getText().toString() + "'");
-                        Toast.makeText(getActivity(), "Successful change the status to postpone!", Toast.LENGTH_SHORT).show();
-                    }
-            }
-        });
-
+        image_preview = new ImageView(getActivity());
+        btn_photo.setOnClickListener(this);
+        btn_cancelJob.setOnClickListener(this);
+        btn_postpone.setOnClickListener(this);
         editDialog = new AlertDialog.Builder(getActivity());
         editDialog.setTitle("Edit");
         editDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -242,45 +221,41 @@ public class JobDetail_Fragment extends Fragment {
 
             }
         });
-
-        jobProblem.setOnLongClickListener(goToEdit);
-        jobRemark.setOnLongClickListener(goToEdit);
-        //Raymond End!
+        jobProblem.setOnLongClickListener(this);
+        jobRemark.setOnLongClickListener(this);
+        jobStatus.setEnabled(false);
         return _this;
     }
-
     private Uri getImageUri() {
         String currentTime = new SimpleDateFormat("yyyyMMdd_HHmm").format(new Date());
-        File file = new File( Environment.getExternalStorageDirectory() + "/DCIM", "jobNo_" + jobNo.getText().toString() + "_" + currentTime + ".jpg");
+        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM", "jobNo_" + jobNo.getText().toString() + "_" + currentTime + ".jpg");
         Uri imgUri;
         try {
             imgUri = Uri.fromFile(file);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return null;
         }
 
         return imgUri;
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
 
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == getActivity().RESULT_OK) {
-                lv = new ImageView(getActivity());
+                image_preview = new ImageView(getActivity());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 Toast.makeText(getActivity(), "Successful take the photo!", Toast.LENGTH_SHORT).show();
-                lv.setImageURI(fileURI);
-                builder.setView(lv);
+                image_preview.setImageURI(fileURI);
+                image_preview.invalidate();
+                builder.setView(image_preview);
                 builder.setTitle("Preview");
-                builder.setNegativeButton("OK", new DialogInterface.OnClickListener()
-                {
+                builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                     }
-                }).show() ;
-
+                }).show();
 
 
             } else if (resultCode == getActivity().RESULT_CANCELED) {
@@ -313,37 +288,44 @@ public class JobDetail_Fragment extends Fragment {
                             AlertDialog.Builder ibuilder = new AlertDialog.Builder(getActivity());
                             ImageView iv = new ImageView(getActivity());
                             iv.setImageBitmap(((SignView) signView).getBitmap());
-                            ibuilder.setView(iv);
-                            ibuilder.setTitle("Your Sign");
-                            ibuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    FragmentManager f_manager;
-                                    FragmentTransaction ft;
-                                    FrameLayout frameLayout = (FrameLayout) _this.getParent();
-                                    f_manager = getActivity().getSupportFragmentManager();
-                                    ft = f_manager.beginTransaction();
-                                    f_manager.popBackStack();
-                                    btn_startTimer.setText("START");
-                                    jobEndTime.setText(time);
-                                    DatabaseView.exec("UPDATE ServiceJob SET jobEndTime = '" + time + "' , jobStatus = 'completed' WHERE jobNo ='" + jobNo.getText().toString() + "'");
-                                    btn_startTimer.setEnabled(false);
-                                    btn_startTimer.setText("This job is ended");
-                                    btn_startTimer.setTextColor(Color.GRAY);
-                                    NoStopable.startingJob = null;
-                                    bgTimer.cancel(true);
-                                }
-                            });
-                            ibuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                }
-                            });
-
-                            ibuilder.show();
+                            ibuilder
+                                    .setView(iv)
+                                    .setTitle("Your Sign")
+                                    .setPositiveButton("Complete", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            DatabaseView.exec("UPDATE ServiceJob SET jobEndTime = '" + time + "' , jobStatus = 'completed' WHERE jobNo ='" + jobNo.getText().toString() + "'");
+                                            btn_startTimer.setText("START");
+                                            jobEndTime.setText(time);
+                                            btn_startTimer.setEnabled(false);
+                                            btn_startTimer.setText("This job is ended");
+                                            btn_startTimer.setTextColor(Color.GRAY);
+                                            NoStopable.startingJob = null;
+                                            bgTimer.cancel(true);
+                                            ((A_Entry) getActivity()).transferTo(new JobList_Fragment(), false);
+                                        }
+                                    })
+                                    .setNegativeButton("FollowUp", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            DatabaseView.exec("UPDATE ServiceJob SET jobEndTime = '" + time + "' , jobStatus = 'follow-up' WHERE jobNo ='" + jobNo.getText().toString() + "'");
+                                            btn_startTimer.setText("START");
+                                            jobEndTime.setText(time);
+                                            btn_startTimer.setEnabled(false);
+                                            btn_startTimer.setText("This job is ended");
+                                            btn_startTimer.setTextColor(Color.GRAY);
+                                            NoStopable.startingJob = null;
+                                            bgTimer.cancel(true);
+                                            ((A_Entry) getActivity()).transferTo(new JobList_Fragment(), false);
+                                        }
+                                    })
+                                    .show();
                         }
-                    });
-                    builder.show();
+                    }) .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    }).show();
 
 
                 } else {
@@ -361,8 +343,6 @@ public class JobDetail_Fragment extends Fragment {
             }
         });
     }
-
-    private static BackGroundTimer bgTimer;
 
     private void setStatusItems() {
         jobStatus.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, jobStatusItem));
@@ -423,61 +403,15 @@ public class JobDetail_Fragment extends Fragment {
         jobEndTime.setText(_jobEndTime);
         jobRemark.setText(_jobRemark);
         jobCompany.setText(cursor.getString(cursor.getColumnIndex("comName")));
-        jobCompany.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        FragmentManager f_manager;
-                        FragmentTransaction ft;
-                        FrameLayout frameLayout = (FrameLayout) _this.getParent();
-                        f_manager = getActivity().getSupportFragmentManager();
-                        ft = f_manager.beginTransaction();
-                        f_manager.popBackStack();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("comName", jobCompany.getText().toString());
-                        Fragment companyDetails = new f_companyDetails();
-                        companyDetails.setArguments(bundle);
-                        ft.addToBackStack(null);
-                        ft.addToBackStack(null);
-                        ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        ft.replace(frameLayout.getId(), companyDetails);
-                        ft.commit();
-                    }
-                }
-        );
+        jobCompany.setOnClickListener(this);
         productName.setText(cursor.getString(cursor.getColumnIndex("prodName")));
-        productName.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        FragmentManager f_manager;
-                        FragmentTransaction ft;
-                        FrameLayout frameLayout = (FrameLayout) _this.getParent();
-                        f_manager = getActivity().getSupportFragmentManager();
-                        ft = f_manager.beginTransaction();
-                        f_manager.popBackStack();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("selectedJobNo", productName.getText().toString());
-                        Fragment productIssue = new F_productIssues();
-                        productIssue.setArguments(bundle);
-                        ft.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        ft.addToBackStack(null);
-                        ft.addToBackStack(null);
-                        ft.replace(frameLayout.getId(), productIssue);
-                        ft.commit();
-                    }
-                }
-        );
-
-
+        productName.setOnClickListener(this);
         for (int i = 0; i < jobStatusItem.length; i++)
             if (jobStatusItem[i].equalsIgnoreCase(cursor.getString(cursor.getColumnIndex("jobStatus"))))
                 jobStatus.setSelection(i);
 
     }
-
     SimpleDateFormat formatter = new SimpleDateFormat("HH-mm-ss");
-
     private class BackGroundTimer extends AsyncTask<String, String, String> {
 
         private int notiID = 1;
@@ -517,11 +451,10 @@ public class JobDetail_Fragment extends Fragment {
         }
 
     }
-
 }
 
 
-class Notif0action extends Activity {
+class Notification extends Activity {
     private TextView tv;
 
     @Override

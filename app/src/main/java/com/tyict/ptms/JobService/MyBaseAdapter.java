@@ -60,12 +60,13 @@ public class MyBaseAdapter extends BaseAdapter {
         mViewHolder.tvJobProblem.setText(currentListData.getProblem());
         mViewHolder.tvJobStartDataTime.setText(currentListData.getDatatime());
         mViewHolder.tvJobStatus.setText(currentListData.getStatus());
-        if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("completed"))
-            convertView.setBackgroundColor(Color.rgb(0xBD, 0xBD, 0xBD));
-        else if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("follow-up"))
+
+         if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("follow-up"))
             convertView.setBackgroundColor(Color.rgb(0xFF, 0xAB, 0x91));
         else if (mViewHolder.tvJobStatus.getText().toString().equalsIgnoreCase("pending"))
             convertView.setBackgroundColor(Color.rgb(0xA5, 0xD6, 0xA7));
+        else
+            convertView.setBackgroundColor(Color.rgb(0xBD, 0xBD, 0xBD));
 
         return convertView;
     }
