@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,8 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tyict.ptms.A_Entry;
+import com.tyict.ptms.Adapter.MyBaseAdapter;
+import com.tyict.ptms.Adapter.MySwappableAdapter;
 import com.tyict.ptms.R;
-import com.tyict.ptms.RefreshableView;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import java.util.ArrayList;
@@ -80,7 +79,7 @@ public class JobList_Fragment extends Fragment
                 String selectedJobNo = ((TextView) view.findViewById(R.id.tvJobNo)).getText().toString();
                 Bundle bundle = new Bundle();
                 bundle.putString("selectedJobNo", selectedJobNo);
-                Fragment jobDetail_Fragment = new JobDetail_Fragment();
+                Fragment jobDetail_Fragment = new F_JobDetail();
                 jobDetail_Fragment.setArguments(bundle);
                 ((A_Entry) getActivity()).transferTo(jobDetail_Fragment, true);
                 Toast.makeText(getActivity(), selectedJobNo, Toast.LENGTH_SHORT).show();

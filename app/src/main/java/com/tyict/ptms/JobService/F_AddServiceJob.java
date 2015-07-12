@@ -25,7 +25,7 @@ import com.tyict.ptms.dataInfo.DatabaseView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Add_ServiceJob_Fragment extends Fragment implements View.OnClickListener, TextWatcher {
+public class F_AddServiceJob extends Fragment implements View.OnClickListener, TextWatcher {
     View _this;
 
     private TextView jobNo;

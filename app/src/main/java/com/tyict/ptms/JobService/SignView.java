@@ -1,4 +1,4 @@
-package com.tyict.ptms;
+package com.tyict.ptms.JobService;
 
 import android.content.Context;
 import android.graphics.Bitmap;

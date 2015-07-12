@@ -33,24 +33,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tyict.ptms.A_Entry;
-import com.tyict.ptms.F_Job_List_Bird_View;
-import com.tyict.ptms.NoStopable;
-import com.tyict.ptms.Other.F_productIssues;
-import com.tyict.ptms.Other.f_companyDetails;
+import com.tyict.ptms.NonStoppable;
+import com.tyict.ptms.Other.F_ProductIssues;
+import com.tyict.ptms.Other.F_CompanyDetails;
 import com.tyict.ptms.R;
-import com.tyict.ptms.SignView;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 
-public class JobDetail_Fragment extends Fragment implements View.OnLongClickListener, View.OnClickListener
+public class F_JobDetail extends Fragment implements View.OnLongClickListener, View.OnClickListener
 {
     View _this;
     private Bundle bundle;
@@ -153,14 +150,14 @@ public class JobDetail_Fragment extends Fragment implements View.OnLongClickList
         {
             Bundle bundle = new Bundle();
             bundle.putString("selectedJobNo", productName.getText().toString());
-            Fragment productIssue = new F_productIssues();
+            Fragment productIssue = new F_ProductIssues();
             productIssue.setArguments(bundle);
             ((A_Entry) getActivity()).transferTo(productIssue, true);
         } else if (view.getId() == jobCompany.getId())
         {
             Bundle bundle = new Bundle();
             bundle.putString("comName", jobCompany.getText().toString());
-            Fragment companyDetails = new f_companyDetails();
+            Fragment companyDetails = new F_CompanyDetails();
             companyDetails.setArguments(bundle);
             ((A_Entry) getActivity()).transferTo(companyDetails, true);
         } else if (view.getId() == btn_photo.getId())
@@ -274,9 +271,9 @@ public class JobDetail_Fragment extends Fragment implements View.OnLongClickList
         if (!jobStatus.getSelectedItem().toString().equals("pending"))
         {
             disableEdit();
-        } else if (NoStopable.startingJob != null)
+        } else if (NonStoppable.startingJob != null)
         {
-            if (NoStopable.startingJob.equals(jobNo.getText().toString()))
+            if (NonStoppable.startingJob.equals(jobNo.getText().toString()))
             {
                 btn_startTimer.setText("CLICK TO FINISH");
                 btn_startTimer.setTextColor(Color.RED);
@@ -285,7 +282,7 @@ public class JobDetail_Fragment extends Fragment implements View.OnLongClickList
             } else
             {
                 disableEdit();
-                btn_startTimer.setText("You started " + NoStopable.startingJob);
+                btn_startTimer.setText("You started " + NonStoppable.startingJob);
                 btn_startTimer.setVisibility(View.VISIBLE);
             }
         } else
@@ -381,7 +378,7 @@ public class JobDetail_Fragment extends Fragment implements View.OnLongClickList
                 formatter = new SimpleDateFormat("dd/MM/yyyy");
                 String vdate = formatter.format(date.getTime()).toString();
 
-                if (NoStopable.startingJob != null)
+                if (NonStoppable.startingJob != null && !NonStoppable.startingJob.equals(""))
                 {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setView(_signView);
@@ -413,12 +410,13 @@ public class JobDetail_Fragment extends Fragment implements View.OnLongClickList
                                             btn_startTimer.setText("START");
                                             jobEndTime.setText(time);
                                             btn_startTimer.setEnabled(false);
-                                            btn_startTimer.setText("This job is ended");
                                             btn_startTimer.setTextColor(Color.GRAY);
-                                            NoStopable.startingJob = null;
+                                            NonStoppable.startingJob = null;
                                             (_signView).saveToStorage(getSignViewFileName());
+                                            NonStoppable.startingJob = "";
                                             bgTimer.cancel(true);
                                             ((A_Entry) getActivity()).transferTo(new F_Job_List_Bird_View(), false);
+
                                         }
                                     })
                                     .setNegativeButton("FollowUp", new DialogInterface.OnClickListener()
@@ -430,9 +428,10 @@ public class JobDetail_Fragment extends Fragment implements View.OnLongClickList
                                             btn_startTimer.setText("START");
                                             jobEndTime.setText(time);
                                             btn_startTimer.setEnabled(false);
+                                            NonStoppable.startingJob = "";
                                             btn_startTimer.setText("This job is ended");
                                             btn_startTimer.setTextColor(Color.GRAY);
-                                            NoStopable.startingJob = null;
+                                            NonStoppable.startingJob = null;
                                             ( _signView).saveToStorage(getSignViewFileName());
                                             bgTimer.cancel(true);
                                             ((A_Entry) getActivity()).transferTo(new F_Job_List_Bird_View(), false);
@@ -457,9 +456,12 @@ public class JobDetail_Fragment extends Fragment implements View.OnLongClickList
                     jobStartTime.setText(time);
                     btn_startTimer.setTextColor(Color.RED);
                     btn_startTimer.setBackground(getResources().getDrawable(R.drawable.styled_button_finish_job));
-                    btn_startTimer.setText("FINSH");
+                    btn_startTimer.setText("CLICK TO FINISH");
+                    btn_postpone.setEnabled(false);
+                    btn_cancelJob.setEnabled(false);
+                    NonStoppable.startingJob = jobNo.getText().toString();
                     jobVisitDate.setText(vdate);
-                    NoStopable.startingJob = jobNo.getText().toString();
+                    NonStoppable.startingJob = jobNo.getText().toString();
                     DatabaseView.exec("UPDATE ServiceJob SET jobStartTime = '" + time + "' WHERE jobNo ='" + jobNo.getText().toString() + "'");
                     DatabaseView.exec("UPDATE ServiceJob SET visitDate = '" + vdate + "' WHERE jobNo ='" + jobNo.getText().toString() + "'");
                 }

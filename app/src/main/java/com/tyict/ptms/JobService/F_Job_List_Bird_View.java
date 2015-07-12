@@ -1,4 +1,4 @@
-package com.tyict.ptms;
+package com.tyict.ptms.JobService;
 
 
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.tyict.ptms.Adapter.JobListPagerAdapter;
+import com.tyict.ptms.R;
 
 /**
  * Created by RAYMOND on 7/12/2015.
