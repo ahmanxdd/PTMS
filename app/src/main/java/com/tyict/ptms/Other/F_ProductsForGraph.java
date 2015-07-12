@@ -46,8 +46,6 @@ public class F_ProductsForGraph extends Fragment {
     @Nullable
     private View _this;
     private static TreeMap<String, String> averTime;
-    private String[] prodNo = {"CN1008", "CN2186", "HP1022"};
-    //private String[] avgTime = {"1:35", "0.45", "1.10"};
     private int[] avgTime = {10, 30, 50, 30, 20, 25, 40, 10};
     private int[] color = {0xffff0000, 0xffFF9800, 0xffffff00, 0xff8BC34A, 0xff2196F3, 0xff3F51B5, 0xff673AB7, 0xff64FFDA};
 
@@ -257,7 +255,7 @@ public class F_ProductsForGraph extends Fragment {
                 canvas.drawArc(new RectF(left, top, right, bottom), cDegree, factor, true, paint);
                 paint.setColor(Color.BLACK);
                 xcalc.CalcArcEndPointXY((right - left) / 2 + left - 30, (bottom - top) / 2 + top, (right - left) / 2 + (right - left) / 15, (cDegree + factor / 2));
-                canvas.drawText((int) (avgTime[i] / total() * 100) + "%", xcalc.getPosX(), xcalc.getPosY(), paint);
+                canvas.drawText(((int)(avgTime[i]/total()*1000)/(float)10)+"%", xcalc.getPosX(),xcalc.getPosY(), paint);
                 cDegree += factor;
 
             }
@@ -267,7 +265,7 @@ public class F_ProductsForGraph extends Fragment {
 
     }
 
-    public int total() {
+    public float total() {
         int total = 0;
         for (int i = 0; i < avgTime.length; i++) {
             total += avgTime[i];
