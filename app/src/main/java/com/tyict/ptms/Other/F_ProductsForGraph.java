@@ -33,7 +33,7 @@ import java.util.TreeMap;
 /**
  * Created by RAYMOND on 7/5/2015.
  */
-public class F_productForGraph extends Fragment
+public class F_ProductsForGraph extends Fragment
 {
     @Override
     public void onResume()

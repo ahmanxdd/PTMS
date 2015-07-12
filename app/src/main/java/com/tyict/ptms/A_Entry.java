@@ -30,8 +30,8 @@ import android.widget.Toast;
 import com.tyict.ptms.Other.F_ViewAll;
 import com.tyict.ptms.JobService.F_AddServiceJob;
 import com.tyict.ptms.JobService.F_Job_List_Bird_View;
-import com.tyict.ptms.Other.F_ProductForGraph;
-import com.tyict.ptms.Other.F_ProductIssues;
+import com.tyict.ptms.Other.F_ProductsForGraph;
+import com.tyict.ptms.Other.F_ProductIssue;
 import com.tyict.ptms.Other.F_CompanyDetails;
 import com.tyict.ptms.Other.Timer_Fragment;
 
@@ -60,9 +60,9 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     {
         fmlo_Mother_Of_Fragment = (FrameLayout) findViewById(R.id.mainContent);
         fmmg_Father_Of_Fragment = getSupportFragmentManager();
-        f_Product_Issue = new F_ProductIssues();
+        f_Product_Issue = new F_ProductIssue();
         f_Add_Service = new F_AddServiceJob();
-        f_Graphics = new F_ProductForGraph();
+        f_Graphics = new F_ProductsForGraph();
         f_Job_List = new F_Job_List_Bird_View();
         f_Company_Details = new F_CompanyDetails();
 

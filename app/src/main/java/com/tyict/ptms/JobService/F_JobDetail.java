@@ -34,7 +34,7 @@ import android.widget.Toast;
 
 import com.tyict.ptms.A_Entry;
 import com.tyict.ptms.NonStoppable;
-import com.tyict.ptms.Other.F_ProductIssues;
+import com.tyict.ptms.Other.F_ProductIssue;
 import com.tyict.ptms.Other.F_CompanyDetails;
 import com.tyict.ptms.R;
 import com.tyict.ptms.dataInfo.DatabaseView;
@@ -150,7 +150,7 @@ public class F_JobDetail extends Fragment implements View.OnLongClickListener, V
         {
             Bundle bundle = new Bundle();
             bundle.putString("selectedJobNo", productName.getText().toString());
-            Fragment productIssue = new F_ProductIssues();
+            Fragment productIssue = new F_ProductIssue();
             productIssue.setArguments(bundle);
             ((A_Entry) getActivity()).transferTo(productIssue, true);
         } else if (view.getId() == jobCompany.getId())

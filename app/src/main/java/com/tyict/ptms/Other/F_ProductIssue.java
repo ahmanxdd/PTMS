@@ -23,7 +23,7 @@ import java.util.TreeMap;
 /**
  * Created by RAYMOND on 7/5/2015.
  */
-public class F_productIssues extends Fragment {
+public class F_ProductIssue extends Fragment {
     @Nullable
     private TreeMap<String, String> _products;
     private View _this;
