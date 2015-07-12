@@ -72,18 +72,27 @@ public class MySwappableAdapter extends BaseSwipeAdapter
         View v = LayoutInflater.from(context).inflate(R.layout.listview_item, null);
         Button deleteBtn = (Button) v.findViewById(R.id.delete);
         final TextView tv = (TextView) v.findViewById(R.id.tvJobNo);
-        deleteBtn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                DatabaseView.exec("UPDATE ServiceJob SET jobStatus = 'cancelled' WHERE jobNo = '" + tv.getText().toString() + "'") ;
-                dataSet.remove(position);
-                notifyDataSetChanged();
-                mItemManger.closeAllItems();
-            }
-        });
+
         SwipeLayout swipeLayout = (SwipeLayout) v.findViewById(getSwipeLayoutResourceId(position));
+
+        if (tv.getText().toString().equals(NonStoppable.startingJob))
+        {
+            deleteBtn.setText("Sorry, you are starting this job");
+        }
+        else
+        {
+            deleteBtn.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    DatabaseView.exec("UPDATE ServiceJob SET jobStatus = 'cancelled' WHERE jobNo = '" + tv.getText().toString() + "'") ;
+                    dataSet.remove(position);
+                    notifyDataSetChanged();
+                    mItemManger.closeAllItems();
+                }
+            });
+        }
         return v;
 
     }
@@ -122,16 +131,6 @@ public class MySwappableAdapter extends BaseSwipeAdapter
         {
             mViewHolder.imIcholder.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_data_usage_white_24dp));
             mViewHolder.tvJobStatus.setText("On going");
-            View v = LayoutInflater.from(context).inflate(R.layout.listview_item, null);
-            Button deleteBtn = (Button) v.findViewById(R.id.delete);
-            deleteBtn.setText("Sorry, you are starting this job");
-            deleteBtn.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                }
-            });
             convertView.setBackgroundColor(Color.rgb(0xFF, 0xAB, 0x91));
         }
     }
