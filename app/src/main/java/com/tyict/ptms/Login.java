@@ -33,8 +33,8 @@ public class Login extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (NoStopable.lc.isLogin()) {
-            startActivity(NoStopable.i);
+        if (NonStoppable.lc.isLogin()) {
+            startActivity(NonStoppable.i);
             this.finish();
         }
 
@@ -50,10 +50,10 @@ public class Login extends ActionBarActivity {
         password = "pass1001";
         findViewById(R.id.et_loginID).setEnabled(false);
         findViewById(R.id.et_password).setEnabled(false);
-        if (NoStopable.lc.login(userID, password)) {
-            NoStopable.i = new Intent(this, A_Entry.class);
+        if (NonStoppable.lc.login(userID, password)) {
+            NonStoppable.i = new Intent(this, A_Entry.class);
             new getJobList().execute(LoginControl.getStaffID());
-            NoStopable.opened = true;
+            NonStoppable.opened = true;
         } else {
             ((TextView) findViewById(R.id.message)).setText("Login Failure, check your password and loginID");
             ((EditText) findViewById(R.id.et_loginID)).setEnabled(true);
@@ -66,7 +66,7 @@ public class Login extends ActionBarActivity {
         @Override
         protected void onPostExecute(String s) {
             getThis().finish();
-            startActivity(NoStopable.i);
+            startActivity(NonStoppable.i);
         }
 
         @Override

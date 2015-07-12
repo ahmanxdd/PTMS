@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.widget.DrawerLayout;
@@ -28,14 +27,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tyict.ptms.DataInDatabase.ViewAll;
-import com.tyict.ptms.JobService.Add_ServiceJob_Fragment;
-import com.tyict.ptms.JobService.JobList_Fragment;
-import com.tyict.ptms.Other.F_productForGraph;
-import com.tyict.ptms.Other.F_productIssues;
-import com.tyict.ptms.Other.f_companyDetails;
-
-import java.util.HashMap;
+import com.tyict.ptms.Other.F_ViewAll;
+import com.tyict.ptms.JobService.F_AddServiceJob;
+import com.tyict.ptms.JobService.F_Job_List_Bird_View;
+import com.tyict.ptms.Other.F_ProductForGraph;
+import com.tyict.ptms.Other.F_ProductIssues;
+import com.tyict.ptms.Other.F_CompanyDetails;
+import com.tyict.ptms.Other.Timer_Fragment;
 
 
 /**
@@ -62,11 +60,11 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     {
         fmlo_Mother_Of_Fragment = (FrameLayout) findViewById(R.id.mainContent);
         fmmg_Father_Of_Fragment = getSupportFragmentManager();
-        f_Product_Issue = new F_productIssues();
-        f_Add_Service = new Add_ServiceJob_Fragment();
-        f_Graphics = new F_productForGraph();
+        f_Product_Issue = new F_ProductIssues();
+        f_Add_Service = new F_AddServiceJob();
+        f_Graphics = new F_ProductForGraph();
         f_Job_List = new F_Job_List_Bird_View();
-        f_Company_Details = new f_companyDetails();
+        f_Company_Details = new F_CompanyDetails();
 
     }
 
@@ -153,7 +151,7 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
                 f_tmp = f_Job_List;
                 break;
             case 1:
-                f_tmp = new Add_ServiceJob_Fragment();
+                f_tmp = new F_AddServiceJob();
                 break;
             case 2:
                 f_tmp = f_Product_Issue;
@@ -165,14 +163,25 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
                 f_tmp = f_Graphics;
                 break;
             case 5:
-                f_tmp = new ViewAll();
+                f_tmp = new F_ViewAll();
                 break;
             case 6:
                 f_tmp = new Timer_Fragment();
                 break;
             case 7:
-                NoStopable.lc.logout(this);
-                this.finish();
+                if(NonStoppable.startingJob == null || NonStoppable.startingJob.equals(""))
+                {
+                    NonStoppable.lc.logout(this);
+                    Intent i = new Intent(this, Login.class);
+                    startActivity(i);
+                    this.finish();
+                }
+                else
+                {
+                    Toast.makeText(this, "Sorry, you need to finish the job First", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 break;
             default:
                 break;
@@ -213,7 +222,7 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     public boolean onOptionsItemSelected(MenuItem item)
     {
         if(item.getItemId() == R.id.action_add)
-            transferTo(new Add_ServiceJob_Fragment(), true);
+            transferTo(new F_AddServiceJob(), true);
         if (drawerListener.onOptionsItemSelected(item))
         {
             return true;
