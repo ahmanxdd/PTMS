@@ -1,4 +1,4 @@
-package com.tyict.ptms.DataInDatabase;
+package com.tyict.ptms.Other;
 
 
 import android.database.Cursor;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created by RAYMOND on 7/4/2015.
  */
-public class ViewAll extends Fragment {
+public class F_ViewAll extends Fragment {
 
     Spinner spn_tableSelection;
     String[] table;
