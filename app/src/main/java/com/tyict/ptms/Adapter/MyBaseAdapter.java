@@ -1,4 +1,4 @@
-package com.tyict.ptms.JobService;
+package com.tyict.ptms.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tyict.ptms.JobService.ListData;
 import com.tyict.ptms.R;
 
 import java.util.ArrayList;

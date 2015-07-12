@@ -1,10 +1,7 @@
-package com.tyict.ptms.JobService;
+package com.tyict.ptms.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +9,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tyict.ptms.A_Entry;
 import com.tyict.ptms.GitHub.swipe.SwipeLayout;
 import com.tyict.ptms.GitHub.swipe.adapters.BaseSwipeAdapter;
-import com.tyict.ptms.NoStopable;
+import com.tyict.ptms.JobService.ListData;
+import com.tyict.ptms.NonStoppable;
 import com.tyict.ptms.R;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
@@ -121,10 +118,20 @@ public class MySwappableAdapter extends BaseSwipeAdapter
 
         }
 
-        if (mViewHolder.tvJobNo.getText().toString().equals(NoStopable.startingJob))
+        if (mViewHolder.tvJobNo.getText().toString().equals(NonStoppable.startingJob))
         {
             mViewHolder.imIcholder.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_data_usage_white_24dp));
             mViewHolder.tvJobStatus.setText("On going");
+            View v = LayoutInflater.from(context).inflate(R.layout.listview_item, null);
+            Button deleteBtn = (Button) v.findViewById(R.id.delete);
+            deleteBtn.setText("Sorry, you are starting this job");
+            deleteBtn.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                }
+            });
             convertView.setBackgroundColor(Color.rgb(0xFF, 0xAB, 0x91));
         }
     }
