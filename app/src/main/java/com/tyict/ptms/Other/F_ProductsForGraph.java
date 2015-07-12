@@ -47,7 +47,7 @@ public class F_ProductsForGraph extends Fragment {
     private View _this;
     private static TreeMap<String, String> averTime;
     private int[] avgTime = {95, 25, 45, 70, 215, 240, 140, 149};
-    private int[] color = {0xffff0000, 0xffFF9800, 0xffffff00, 0xff8BC34A, 0xff2196F3, 0xff3F51B5, 0xff673AB7, 0xff64FFDA};
+    private int[] color = {0xffff0000, 0xffFF9800, 0xffffff00, 0xff8BC34A, 0xff64FFDA, 0xff2196F3, 0xff3F51B5, 0xff673AB7};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -273,8 +273,6 @@ public class F_ProductsForGraph extends Fragment {
                 canvas.drawText(((int)(avgTime[i]/total()*1000)/(float)10)+"%", xcalc.getPosX(),xcalc.getPosY(), paint);
                 cDegree += factor;
             }
-
-
         }
 
     }
