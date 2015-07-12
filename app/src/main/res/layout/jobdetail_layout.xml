@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
+            android:layout_weight="5"
     android:layout_height="fill_parent">
     <LinearLayout
         android:layout_width="fill_parent"
@@ -380,18 +386,17 @@
 
         </LinearLayout>
 
-
-        <Button
-            android:layout_width="match_parent"
-            android:id="@+id/btn_startJob"
-            android:layout_height="wrap_content"
-            android:text="Start Job"
-            android:layout_margin="5dp"
-            android:textSize="30dp"
-            android:background="@drawable/styled_button"
-            android:textColor="@drawable/styled_text"
-            android:layout_weight="1"
-            />
     </LinearLayout>
 
 </ScrollView>
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/btn_startJob"
+        android:layout_height="wrap_content"
+        android:text="Start Job"
+        android:textSize="30dp"
+        android:background="@drawable/styled_button"
+        android:textColor="@drawable/styled_text"
+        android:layout_weight="1"
+        />
+</LinearLayout>
