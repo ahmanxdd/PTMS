@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".A_Entry">
+
+    <item
+        android:id="@+id/action_add"
+        android:icon="@drawable/ic_add_white_24dp"
+        android:orderInCategory="1"
+        android:title="Add"
+        android:visible="true"
+        app:showAsAction="always"
+       />
+
+
+</menu>

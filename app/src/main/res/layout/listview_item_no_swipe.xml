@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_ic_holder"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_thumb_up_white_24dp" />
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:layout_width="wrap_content"
+                 android:layout_weight="10"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center_vertical"
+
+                 android:clickable="false"
+                 android:descendantFocusability="blocksDescendants"
+                 android:focusable="false"
+                 android:maxHeight="95dp"
+                 android:layout_marginRight="28dp"
+                 android:layout_marginTop="5dp"
+                 android:layout_marginBottom="5dp"
+                 android:layout_marginLeft="5dp"
+                 android:minHeight="95dp"
+                 android:padding="5dp">
+
+
+        <TableRow>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/lblJobNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No: "
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tvJobNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="999"
+                    android:textSize="20dp" />
+
+
+                <TextView
+                    android:id="@+id/tvJobStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="78dp"
+                    android:minWidth="78dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:text="follow-up"
+                    />
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow>
+
+        </TableRow>
+        <TableRow>
+
+            <LinearLayout
+                android:layout_column="0"
+                android:layout_span="4"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start at: "
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvJobStartDataTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tvJobProblem"
+                    android:layout_marginRight="5dp"
+                    android:text="JobStartDataTime" />
+            </LinearLayout>
+
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:text="Problems: "
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvJobProblem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@+id/tvJobNo"
+                android:layout_column="0"
+                android:layout_span="3"
+                android:layout_weight="1"
+                android:text="JobProblem" />
+        </TableRow>
+
+
+    </TableLayout>
+
+</LinearLayout>
+
