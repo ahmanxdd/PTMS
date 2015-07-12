@@ -33,9 +33,11 @@ import java.util.TreeMap;
 /**
  * Created by RAYMOND on 7/5/2015.
  */
-public class F_productForGraph extends Fragment {
+public class F_productForGraph extends Fragment
+{
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
     }
 
@@ -44,7 +46,8 @@ public class F_productForGraph extends Fragment {
     private static TreeMap<String, String> averTime;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         _this = inflater.inflate(R.layout.f_product_for_graph, container, false);
 
         averTime = getAverTime();
@@ -59,7 +62,8 @@ public class F_productForGraph extends Fragment {
 
 
         Graphic g = new Graphic().setTitle("Average Service Time for each Product");
-        for (int i = 1; i < averTime.size(); i++) {
+        for (int i = 1; i < averTime.size(); i++)
+        {
             g.addRow(productID[i], getTotalMinutes(averTime.get(productID[i])));
         }
 
@@ -67,7 +71,9 @@ public class F_productForGraph extends Fragment {
         sv.addView(g.getGraphicAsLinear(getActivity()));
         return sv;
     }
-    private TreeMap<String, String> getAverTime() {
+
+    private TreeMap<String, String> getAverTime()
+    {
         TreeMap<String, String> treeMap = new TreeMap<>();
         treeMap.put("CN1008", "1:35");
         treeMap.put("CN2186", "0:45");
@@ -79,10 +85,14 @@ public class F_productForGraph extends Fragment {
         treeMap.put("HP3377", "2:29");
         return treeMap;
     }
-    private int getTotalMinutes(String time) {
-        try {
+
+    private int getTotalMinutes(String time)
+    {
+        try
+        {
             String hours = "";
-            for (char c : time.toCharArray()) {
+            for (char c : time.toCharArray())
+            {
                 if (c != ':')
                     hours += c;
                 else break;
@@ -94,38 +104,46 @@ public class F_productForGraph extends Fragment {
             m += Integer.parseInt(minutes);
             return m;
 
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
             return 0;
         }
     }
-    private class Graphic {
+
+    private class Graphic
+    {
         private String _title = null;
         private int _maxLength = 0;
         private List<Pair> pair = new ArrayList<>();
 
-        public Graphic() {
+        public Graphic()
+        {
 
         }
 
-        public Graphic setTitle(String label) {
+        public Graphic setTitle(String label)
+        {
             _title = label;
             return this;
         }
 
-        public Graphic addRow(String label, int length) {
+        public Graphic addRow(String label, int length)
+        {
             pair.add(new Pair(label, length));
             if (_maxLength < length)
                 _maxLength = length;
             return this;
         }
 
-        public View getGraphicAsLinear(Context context) {
+        public View getGraphicAsLinear(Context context)
+        {
 
             LinearLayout ll = new LinearLayout(context);
             ll.setOrientation(LinearLayout.VERTICAL);
 
-            if (_title != null) {
+            if (_title != null)
+            {
                 TextView title = new TextView(context);
                 title.setText(_title);
                 title.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -138,18 +156,21 @@ public class F_productForGraph extends Fragment {
                 ll.addView(title);
             }
 
-            for (int i = 0; i < pair.size(); i++) {
+            for (int i = 0; i < pair.size(); i++)
+            {
                 ll.addView(genRow((String) pair.get(i).first, (int) (pair.get(i).second)));
             }
             return ll;
         }
 
-        private int dpToInt(int dp) {
+        private int dpToInt(int dp)
+        {
             Resources r = getResources();
             return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
         }
 
-        private ViewGroup genRow(String label, double length) {
+        private ViewGroup genRow(String label, double length)
+        {
             Display d = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             int width = d.getWidth();
             width = width - dpToInt(30) * 5;
@@ -174,13 +195,16 @@ public class F_productForGraph extends Fragment {
         }
 
     }
-    private class DrawView extends View {
+
+    private class DrawView extends View
+    {
         private int _length;
         private Paint p = new Paint();
         private int _height = 50;
         private int _padding = 5;
 
-        public DrawView(Context context, int length, int height) {
+        public DrawView(Context context, int length, int height)
+        {
             super(context);
             if (height > 15)
                 _height = height;
@@ -188,20 +212,23 @@ public class F_productForGraph extends Fragment {
             _length = length;
         }
 
-        public DrawView setPaddingTopBottom(int padding) {
+        public DrawView setPaddingTopBottom(int padding)
+        {
             if (padding < _height - 5)
                 _padding = padding;
             return this;
         }
 
         @Override
-        protected void onDraw(Canvas canvas) {
+        protected void onDraw(Canvas canvas)
+        {
             p.setColor(Color.RED);
             p.setStrokeWidth(1);
             canvas.drawRect(0, _padding, _length, _height - _padding, p);
         }
 
-        public DrawView getView() {
+        public DrawView getView()
+        {
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(_length + 5, _height);
             p.gravity = Gravity.CENTER_VERTICAL;
             this.setLayoutParams(p);

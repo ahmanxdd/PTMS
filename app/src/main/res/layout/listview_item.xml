@@ -1,103 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:gravity="center_vertical"
-    android:layout_margin="5dp"
-    android:layout_height="match_parent"
-    android:clickable="false"
-    android:focusable="false"
-    android:descendantFocusability="blocksDescendants"
-    android:minHeight="115dp"
-    android:maxHeight = "115dp">
+<com.tyict.ptms.GitHub.swipe.SwipeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:swipe="http://schemas.android.com/apk/res-auto"
+
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        swipe:leftEdgeSwipeOffset="0dp"
+        swipe:rightEdgeSwipeOffset="0dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:weightSum="10">
 
 
-    <TableRow>
-
-        <LinearLayout android:gravity="right"
-            android:layout_weight="1"
-            android:layout_column="0"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
-            <LinearLayout
-                android:layout_width="wrap_content"
+        <ImageView
+                android:id="@+id/trash"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_remove_circle_outline_white_24dp" />
+        <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/lblJobNo"
+                android:layout_weight="5"
+                android:text="Cancel Job?"
+                android:textColor="#fff"
+                android:textSize="17sp" />
+
+        <Button
+                android:id="@+id/delete"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="4"
+                android:background="#FFFFFF"
+                android:text="Cancel"
+                android:textColor="#FF5534" />
+
+
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_weight="1"
+        android:id="@+id/iv_ic_holder"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_thumb_up_white_24dp" />
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        android:clickable="false"
+        android:descendantFocusability="blocksDescendants"
+        android:focusable="false"
+        android:maxHeight="95dp"
+        android:minHeight="95dp"
+        android:padding="5dp">
+
+
+        <TableRow>
+
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:text="No: "                 />
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/lblJobNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No: "
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/tvJobNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="999"
+                        android:textSize="20dp" />
+
+
+                    <TextView
+                        android:id="@+id/tvJobStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxWidth="78dp"
+                        android:minWidth="78dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right"
+                        android:layout_weight="1"
+                        android:text="follow-up"
+                        />
+                </LinearLayout>
+
+        </TableRow>
+
+        <TableRow>
+
+        </TableRow>
+        <TableRow>
+
+            <LinearLayout
+                android:layout_column="0"
+                android:layout_span="4"
+                android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/tvJobNo"
-                    android:textSize="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="999"
-                  />
+                    android:text="Start at: "
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvJobStartDataTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tvJobProblem"
+                    android:layout_marginRight="5dp"
+                    android:text="JobStartDataTime" />
             </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/Status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Status: "
-            />
+        </TableRow>
 
-        <TextView
-            android:id="@+id/tvJobStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="follow-up"
-            android:maxWidth="78dp"
-            android:minWidth="78dp"/>
-        </LinearLayout>
-    </TableRow>
-    <TableRow>
-        <LinearLayout
-            android:layout_column="0"
-            android:layout_span="4"
-            android:layout_weight="1">
+        <TableRow>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start at: "/>
+                android:layout_column="0"
+                android:text="Problems: "
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow android:layout_weight="1">
+
             <TextView
-                android:id="@+id/tvJobStartDataTime"
+                android:id="@+id/tvJobProblem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvJobProblem"
-                android:layout_marginRight="5dp"
-                android:layout_alignParentRight="true"
-                android:text="JobStartDataTime"
-                />
-        </LinearLayout>
+
+                android:layout_below="@+id/tvJobNo"
+                android:layout_column="0"
+                android:layout_span="3"
+                android:layout_weight="1"
+                android:text="JobProblem" />
+        </TableRow>
 
 
-    </TableRow>
-    <TableRow>
-        <TextView android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Problems: "
-            android:layout_column="0"/>
-    </TableRow>
-<TableRow android:layout_weight="1">
-        <TextView
-            android:layout_column="0"
-            android:id="@+id/tvJobProblem"
-            android:text="JobProblem"
-            android:layout_marginLeft="10dp"
-            android:layout_below="@+id/tvJobNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_span="3"/>
-</TableRow>
+    </TableLayout>
+<ImageView
 
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_gravity="center_vertical"
+    android:layout_marginRight="-12dp"
+    android:src="@drawable/ic_chevron_left_white_24dp"/>
+</LinearLayout>
 
-
-
-
-</TableLayout>
+</com.tyict.ptms.GitHub.swipe.SwipeLayout>

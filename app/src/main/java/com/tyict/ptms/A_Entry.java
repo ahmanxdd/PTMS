@@ -9,12 +9,14 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.widget.DrawerLayout;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,7 @@ import java.util.HashMap;
 
 public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClickListener
 {
+
     private DrawerLayout drawerLayout;
     private ListView lv_Menu;
     private CustomerAdapter adapter;
@@ -57,13 +60,12 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
 
     private void initFragmentComponet()
     {
-
         fmlo_Mother_Of_Fragment = (FrameLayout) findViewById(R.id.mainContent);
         fmmg_Father_Of_Fragment = getSupportFragmentManager();
         f_Product_Issue = new F_productIssues();
         f_Add_Service = new Add_ServiceJob_Fragment();
         f_Graphics = new F_productForGraph();
-        f_Job_List = new JobList_Fragment();
+        f_Job_List = new F_Job_List_Bird_View();
         f_Company_Details = new f_companyDetails();
 
     }
@@ -120,6 +122,8 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
         setContentView(R.layout.a_main);
         initFragmentComponet();
         setUpDrawer();
+        goToFragment(0);
+
     }
 
 
@@ -145,6 +149,7 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
         switch (index)
         {
             case 0:
+               // f_tmp = f_Job_List;
                 f_tmp = f_Job_List;
                 break;
             case 1:
@@ -166,7 +171,7 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
                 f_tmp = new Timer_Fragment();
                 break;
             case 7:
-                NoStopable.lc.logout();
+                NoStopable.lc.logout(this);
                 this.finish();
                 break;
             default:
@@ -183,10 +188,11 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
         {
             fmtst_Bridge_Of_Fragment
                     .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.slide_out_right)
-                    .replace(fmlo_Mother_Of_Fragment.getId(), f_tmp)
+                    .replace(fmlo_Mother_Of_Fragment.getId(), f_tmp,"CURRENT")
                     .commit();
         }
     }
+
 
 
     public void transferTo(Fragment f_tmp, boolean backStack)
@@ -206,6 +212,8 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        if(item.getItemId() == R.id.action_add)
+            transferTo(new Add_ServiceJob_Fragment(), true);
         if (drawerListener.onOptionsItemSelected(item))
         {
             return true;
@@ -230,6 +238,15 @@ public class A_Entry extends ActionBarActivity implements AdapterView.OnItemClic
 
     private int selectedIndex = 0;
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+
+        getMenuInflater().inflate((R.menu.my_menu), menu);
+        return true;
+    }
+
+
 
 }
 
@@ -237,7 +254,7 @@ class CustomerAdapter extends BaseAdapter
 {
     String menuItems[];
     private Context _context;
-    int[] ic_list = {R.drawable.ic_view_array_white_24dp, R.drawable.ic_note_add_white_24dp, R.drawable.ic_info_outline_white_24dp, R.drawable.ic_description_white_24dp, R.drawable.ic_trending_up_white_24dp,
+    int[] ic_list = {R.drawable.ic_view_list_white_24dp, R.drawable.ic_note_add_white_24dp, R.drawable.ic_info_outline_white_24dp, R.drawable.ic_description_white_24dp, R.drawable.ic_trending_up_white_24dp,
             R.drawable.ic_view_array_white_24dp, R.drawable.ic_schedule_white_24dp, R.drawable.ic_change_history_white_24dp};
 
     public CustomerAdapter(Context context, String[] items)

@@ -1,5 +1,8 @@
 package com.tyict.ptms.dataInfo;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 
 /**
@@ -7,6 +10,7 @@ import android.database.Cursor;
  */
 public class LoginControl {
 
+    private static final int MODE = Activity.MODE_PRIVATE;
     private static class Technician {
         public String staffNo, stafLogin, staffName;
     }
@@ -56,10 +60,16 @@ public class LoginControl {
         }
     }
 
-    public static boolean logout() {
+    public static boolean logout(Context context) {
         if (state == LoginState.ISLOGIN)
         { state = LoginState.UNLOGIN;
             _loggedInStaff = null;
+            SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", MODE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.remove("userID");
+            editor.remove("userPass");
+            editor.commit();
             return true;
         } else
             return false;

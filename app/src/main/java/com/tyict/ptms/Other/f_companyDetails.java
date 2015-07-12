@@ -162,7 +162,6 @@ public class f_companyDetails extends Fragment {
         map = mapView.getMap();
     }
     public void initResource() {
-        Cursor c = DatabaseView.getAllCompany();
         companies = StaticInfo.getAllCompany();
     }
     public void findView() {

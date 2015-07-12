@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.provider.SyncStateContract;
 
+import com.tyict.ptms.NoStopable;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -23,7 +25,8 @@ import java.util.List;
  * Created by ahmanxdd on 11/6/15.
  */
 
-public class DatabaseView {
+public class DatabaseView
+{
 
     private static SQLiteDatabase db;
     private static boolean isinited = initDB();
@@ -33,35 +36,30 @@ public class DatabaseView {
             };
 
 
-    public static Cursor getAllCompany() {
-        Cursor c = query("SELECT * FROM Company");
-        return  c;
-    }
-
-    public static String[] getAllTable()  {
-/*        Cursor c = query("SELECT name FROM sqlite_master WHERE type='table'", null);
-        String[] retStr = new String[c.getCount() - 1];
-        int i = 0;
-        c.moveToNext();
-        while (c.moveToNext())
-        {
-            retStr[i++] = c.getString(c.getColumnIndex("name"));
-        }
-        return  retStr;*/
+    public static String[] getAllTable()
+    {
         return table;
     }
-    public static Cursor query(String sql) {
-        return query(sql,null);
+
+    public static Cursor query(String sql)
+    {
+        return query(sql, null);
     }
-    public static Cursor query(String sql, String... params) {
+
+    public static Cursor query(String sql, String... params)
+    {
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.OPEN_READONLY);
         return db.rawQuery(sql, params);
     }
-    public static void exec(String sql) {
+
+    public static void exec(String sql)
+    {
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.OPEN_READWRITE);
         db.execSQL(sql);
     }
-    private static boolean initDB() {
+
+    private static boolean initDB()
+    {
 
         db = SQLiteDatabase.openDatabase("/data/data/com.tyict.ptms/database", null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = "DROP TABLE IF EXISTS Technician;";
@@ -122,13 +120,77 @@ public class DatabaseView {
         db.execSQL(sql);
 
         sql = "INSERT INTO ServiceJob VALUES" +
-                "('501', '15/5/2015', 'Toner is not securely fused on the printout', '28/5/2015', 'completed', '10:05', '10:43', '34738783298', 'sensor S3001 to be replaced - must bring in next visit'),"+
-                "('502', '14/5/2015', 'Print image is not sharp and paper feeder always jam', '16/5/2015', 'follow-up', '14:20', '15:31', '42389489993', 'sensor S3001 to be replaced - must bring in next visit'),"+
-                "('503', '17/5/2015', 'Paper jam in tray 1', null, 'pending', null, null, '34738783298', 'sensor S3001 to be replaced - must bring in next visit'),"+
-                "('504', '23/5/2015', 'Paper feeder can only feed 1 page', null, 'pending', null, null, '42389489993', null),"+
-                "('505', '12/5/2015', 'The printout is very light in colour even after we use new ink catridges', null, 'pending', null, null, '89347827894', null),"+
+                "('501', '15/5/2015', 'Toner is not securely fused on the printout', '28/5/2015', 'completed', '10:05', '10:43', '34738783298', 'sensor S3001 to be replaced - must bring in next visit')," +
+                "('502', '14/5/2015', 'Print image is not sharp and paper feeder always jam', '16/5/2015', 'follow-up', '14:20', '15:31', '42389489993', 'sensor S3001 to be replaced - must bring in next visit')," +
+                "('503', '17/5/2015', 'Paper jam in tray 1', null, 'pending', null, null, '34738783298', 'sensor S3001 to be replaced - must bring in next visit')," +
+                "('504', '23/5/2015', 'Paper feeder can only feed 1 page', null, 'pending', null, null, '42389489993', null)," +
+                "('505', '12/5/2015', 'The printout is very light in colour even after we use new ink catridges', null, 'pending', null, null, '89347827894', null)," +
                 "('506', '22/5/2015', 'The printer cannot print pages with complex graphics', null, 'pending', null, null, '48947347894', null)";
         db.execSQL(sql);
         return true;
     }
+
+
+    public static AsyncTask<String, Integer, String> getJobsHandler()
+    {
+        return new AsyncTask<String, Integer, String>()
+        {
+
+            @Override
+            protected String doInBackground(String... staffNo)
+            {
+
+                HttpClient client = new DefaultHttpClient();
+                HttpGet request;
+
+                try
+                {
+                    String recvStr;
+                    String url = "http://itd-moodle.ddns.me/ptms/service_job.php?staffNo=" + staffNo[0];
+                    request = new HttpGet(url);
+                    HttpResponse response = client.execute(request);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                    String t;
+                    recvStr = reader.readLine();
+                    while ((t = reader.readLine()) != null)
+                    {
+                        recvStr += t;
+                    }
+                    reader.close();
+                    String sql = "DROP TABLE IF EXISTS ServiceJob;";
+                    //  dbv.exec(sql);
+                    sql = "CREATE TABLE ServiceJob(jobNo text PRIMARY KEY, requestDate date, jobProblem text," +
+                            " visitDate date, jobStatus text, jobStartTime text, jobEndTime text, serialNo text, remark text);";
+                    //         dbv.exec(sql);
+                    JSONArray json = new JSONObject(recvStr).getJSONArray("ServiceJob");
+                    for (int j = 0; j < json.length(); j++)
+                    {
+                        JSONObject jo = json.getJSONObject(j);
+                        String query = "INSERT INTO ServiceJob VALUES(" + "'" +
+                                jo.getString("jobNo") + "','" +
+                                jo.getString("requestDate") + "','" +
+                                jo.getString("jobProblem") + "','" +
+                                jo.getString("visitDate") + "','" +
+                                jo.getString("jobStatus") + "','" +
+                                jo.getString("jobStartTime") + "','" +
+                                jo.getString("jobEndTime") + "','" +
+                                jo.getString("serialNo") + "','" +
+                                jo.getString("remark") +
+                                "');";
+                        //      dbv.exec(query);
+
+                    }
+                } catch (IOException e)
+                {
+
+                } catch (JSONException e)
+                {
+
+                }
+                return "Done!";
+            }
+        };
+    }
+
+
 }

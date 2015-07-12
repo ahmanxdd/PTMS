@@ -89,10 +89,10 @@ public class Login extends ActionBarActivity {
 
                 reader.close();
                 String sql = "DROP TABLE IF EXISTS ServiceJob;";
-              //  dbv.exec(sql);
+                //  dbv.exec(sql);
                 sql = "CREATE TABLE ServiceJob(jobNo text PRIMARY KEY, requestDate date, jobProblem text," +
                         " visitDate date, jobStatus text, jobStartTime text, jobEndTime text, serialNo text, remark text);";
-       //         dbv.exec(sql);
+                //         dbv.exec(sql);
                 JSONArray json = new JSONObject(recvStr).getJSONArray("ServiceJob");
                 for (int j = 0; j < json.length(); j++) {
                     JSONObject jo = json.getJSONObject(j);
@@ -107,7 +107,7 @@ public class Login extends ActionBarActivity {
                             jo.getString("serialNo") + "','" +
                             jo.getString("remark") +
                             "');";
-              //      dbv.exec(query);
+                    //      dbv.exec(query);
                     getThis().finish();
 
                 }

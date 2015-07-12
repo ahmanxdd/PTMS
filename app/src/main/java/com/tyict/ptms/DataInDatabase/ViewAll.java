@@ -4,9 +4,7 @@ package com.tyict.ptms.DataInDatabase;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,9 +22,6 @@ import android.widget.TextView;
 import com.tyict.ptms.R;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +40,7 @@ public class ViewAll extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dv = new DatabaseView();
         table =  dv.getAllTable();
-        View view = inflater.inflate(R.layout.fragment_view_all, container, false);
+        View view = inflater.inflate(R.layout.f_view_all_data, container, false);
         cusorView = (LinearLayout)view.findViewById(R.id.viewAllData_layout);
         spn_tableSelection = (Spinner)view.findViewById(R.id.spn_tableSelection);
         ArrayAdapter<String> aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, table);
