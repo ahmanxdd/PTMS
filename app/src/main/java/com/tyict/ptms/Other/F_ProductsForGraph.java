@@ -70,7 +70,12 @@ public class F_ProductsForGraph extends Fragment {
         }
 
         ScrollView sv = new ScrollView(getActivity());
-        sv.addView(g.getGraphicAsLinear(getActivity()));
+
+        LinearLayout ll = new LinearLayout(getActivity());
+        ll.setOrientation(LinearLayout.VERTICAL);
+        ll.addView( g.getGraphicAsLinear(getActivity()));
+        ll.addView(new CircleGraphic((getActivity())).getView());
+        sv.addView(ll);
 
         return sv;
     }
@@ -130,7 +135,7 @@ public class F_ProductsForGraph extends Fragment {
             return this;
         }
 
-        public View getGraphicAsLinear(Context context) {
+        public LinearLayout getGraphicAsLinear(Context context) {
 
             LinearLayout ll = new LinearLayout(context);
             ll.setOrientation(LinearLayout.VERTICAL);
@@ -138,7 +143,7 @@ public class F_ProductsForGraph extends Fragment {
             if (_title != null) {
                 TextView title = new TextView(context);
                 title.setText(_title);
-                title.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
                 title.setTextSize(15);
                 title.setSingleLine(true);
                 title.setBackgroundColor(Color.GRAY);
@@ -223,6 +228,16 @@ public class F_ProductsForGraph extends Fragment {
 
     private class CircleGraphic extends View {
 
+
+        public View getView()
+        {
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(800 , 800);
+            p.gravity = Gravity.CENTER_HORIZONTAL;
+            this.setLayoutParams(p);
+            return this;
+        }
+
+
         public CircleGraphic(Context context) {
             super(context);
         }
@@ -234,9 +249,6 @@ public class F_ProductsForGraph extends Fragment {
             Paint paint = new Paint();
             paint.setStyle(Paint.Style.FILL);
 
-            paint.setColor(Color.WHITE);
-            canvas.drawPaint(paint);
-
             paint.setAntiAlias(true);
             paint.setStyle(Paint.Style.FILL);
 
@@ -245,10 +257,10 @@ public class F_ProductsForGraph extends Fragment {
             XChartCalc xcalc = new XChartCalc();
 
             float cDegree = 0;
-            int left = 200;
-            int top = 700;
-            int right = 900;
-            int bottom = 1400;
+            int left = 100;
+            int top =100;
+            int right = 600;
+            int bottom = 600;
             for (int i = 0; i < avgTime.length; i++) {
                 float factor = (float) avgTime[i] * 360 / total();
                 paint.setColor(color[i]);
