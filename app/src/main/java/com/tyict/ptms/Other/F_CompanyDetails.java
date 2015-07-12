@@ -10,15 +10,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,7 +27,6 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.tyict.ptms.NonStoppable;
 import com.tyict.ptms.R;
 import com.tyict.ptms.dataInfo.DatabaseView;
 import com.tyict.ptms.dataInfo.StaticInfo;
@@ -53,7 +49,7 @@ import java.util.TreeMap;
 /**
  * Created by RAYMOND on 7/4/2015.
  */
-public class F_CompanyDetail extends Fragment {
+public class F_CompanyDetails extends Fragment {
     @Nullable
 
     private TreeMap<String,String> companies;
