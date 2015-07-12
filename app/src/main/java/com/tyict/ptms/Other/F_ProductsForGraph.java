@@ -46,7 +46,7 @@ public class F_ProductsForGraph extends Fragment {
     @Nullable
     private View _this;
     private static TreeMap<String, String> averTime;
-    private int[] avgTime = {10, 30, 50, 30, 20, 25, 40, 10};
+    private int[] avgTime = {95, 25, 45, 70, 215, 240, 140, 149};
     private int[] color = {0xffff0000, 0xffFF9800, 0xffffff00, 0xff8BC34A, 0xff2196F3, 0xff3F51B5, 0xff673AB7, 0xff64FFDA};
 
     @Override
@@ -65,7 +65,7 @@ public class F_ProductsForGraph extends Fragment {
 
 
         Graphic g = new Graphic().setTitle("Average Service Time for each Product");
-        for (int i = 1; i < averTime.size(); i++) {
+        for (int i = 0; i < averTime.size(); i++) {
             g.addRow(productID[i], getTotalMinutes(averTime.get(productID[i])));
         }
 
@@ -73,7 +73,7 @@ public class F_ProductsForGraph extends Fragment {
 
         LinearLayout ll = new LinearLayout(getActivity());
         ll.setOrientation(LinearLayout.VERTICAL);
-        ll.addView( g.getGraphicAsLinear(getActivity()));
+        ll.addView(g.getGraphicAsLinear(getActivity()));
         ll.addView(new CircleGraphic((getActivity())).getView());
         sv.addView(ll);
 
@@ -180,7 +180,7 @@ public class F_ProductsForGraph extends Fragment {
             tv.setText(label);
 
             tv.setLayoutParams(new LayoutParams(dpToInt((int) (tv.getTextSize()) * 2), LayoutParams.WRAP_CONTENT));
-            DrawView rect = new DrawView(getActivity(), (int) Math.floor(length * unit), tv.getLineHeight()).setPaddingTopBottom(5).getView();
+            DrawView rect = new DrawView(getActivity(), (int) Math.floor(length * unit), tv.getLineHeight(),color[i++]).setPaddingTopBottom(5).getView();
 
             ll.addView(tv);
             ll.addView(rect);
@@ -189,15 +189,16 @@ public class F_ProductsForGraph extends Fragment {
         }
 
     }
-
+    int i  = 0;
     private class DrawView extends View {
         private int _length;
         private Paint p = new Paint();
         private int _height = 50;
         private int _padding = 5;
 
-        public DrawView(Context context, int length, int height) {
+        public DrawView(Context context, int length, int height,int color) {
             super(context);
+            p.setColor(color);
             if (height > 15)
                 _height = height;
             setMeasuredDimension(20 + length, _height);
@@ -212,7 +213,6 @@ public class F_ProductsForGraph extends Fragment {
 
         @Override
         protected void onDraw(Canvas canvas) {
-            p.setColor(Color.RED);
             p.setStrokeWidth(1);
             canvas.drawRect(0, _padding, _length, _height - _padding, p);
         }
@@ -227,11 +227,12 @@ public class F_ProductsForGraph extends Fragment {
     }
 
     private class CircleGraphic extends View {
-
+        int size;
 
         public View getView()
         {
-            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(800 , 800);
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(size , size);
+
             p.gravity = Gravity.CENTER_HORIZONTAL;
             this.setLayoutParams(p);
             return this;
@@ -240,6 +241,8 @@ public class F_ProductsForGraph extends Fragment {
 
         public CircleGraphic(Context context) {
             super(context);
+            Display d = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            size = d.getWidth();
         }
 
         @Override
@@ -259,8 +262,8 @@ public class F_ProductsForGraph extends Fragment {
             float cDegree = 0;
             int left = 100;
             int top =100;
-            int right = 600;
-            int bottom = 600;
+            int right = size - 150;
+            int bottom = size - 150;
             for (int i = 0; i < avgTime.length; i++) {
                 float factor = (float) avgTime[i] * 360 / total();
                 paint.setColor(color[i]);
