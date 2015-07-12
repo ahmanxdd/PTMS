@@ -195,9 +195,17 @@ public class F_JobDetail extends Fragment implements View.OnLongClickListener, V
         } else if (view.getId() == btn_viewImage.getId())
         {
 
-            AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-            ImageView iv = new ImageView(getActivity());
-            Bitmap bm = convertJPG(getImageUri());
+            final AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+            final ImageView iv = new ImageView(getActivity());
+            Bitmap bm = null;
+            try
+            {
+                bm = convertJPG(getImageUri());
+            }
+            catch (OutOfMemoryError e)
+            {
+                e.printStackTrace();
+            }
             if (bm == null)
                 return;
             iv.setImageBitmap(bm);
@@ -207,14 +215,15 @@ public class F_JobDetail extends Fragment implements View.OnLongClickListener, V
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i)
                 {
-
+                    ab.setView(new Button(getActivity()));
+                    ((BitmapDrawable) iv.getDrawable()).getBitmap().recycle();
                 }
             });
             ab.show();
         } else if (view.getId() == btn_viewSign.getId())
         {
-            AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-            ImageView iv = new ImageView(getActivity());
+            final AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+            final ImageView iv = new ImageView(getActivity());
             Bitmap bm = _signView.loadFromStorage(getActivity(), getSignViewFileName());
             if (bm == null)
                 return;
@@ -225,7 +234,8 @@ public class F_JobDetail extends Fragment implements View.OnLongClickListener, V
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i)
                 {
-
+                    ab.setView(new Button(getActivity()));
+                    ((BitmapDrawable) iv.getDrawable()).getBitmap().recycle();
                 }
             });
             ab.show();
@@ -247,7 +257,12 @@ public class F_JobDetail extends Fragment implements View.OnLongClickListener, V
         } catch (Exception e)
         {
             e.printStackTrace();
-        } finally
+        }
+        catch (OutOfMemoryError e)
+        {
+            e.printStackTrace();
+        }
+        finally
         {
             try
             {
@@ -337,7 +352,7 @@ public class F_JobDetail extends Fragment implements View.OnLongClickListener, V
                 image_preview = new ImageView(getActivity());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 Toast.makeText(getActivity(), "Successful take the photo!", Toast.LENGTH_SHORT).show();
-                image_preview.setImageURI(fileURI);
+                image_preview.setImageBitmap(convertJPG(fileURI));
                 image_preview.invalidate();
                 builder.setView(image_preview);
                 builder.setTitle("Preview");
