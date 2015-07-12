@@ -1,4 +1,4 @@
-package com.tyict.ptms;
+package com.tyict.ptms.Other;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.text.format.Time;
 import android.os.Handler;
+
+import com.tyict.ptms.R;
 
 import java.util.concurrent.TimeUnit;
 
