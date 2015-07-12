@@ -48,10 +48,8 @@ public class F_ProductsForGraph extends Fragment {
     private static TreeMap<String, String> averTime;
     private String[] prodNo = {"CN1008", "CN2186", "HP1022"};
     //private String[] avgTime = {"1:35", "0.45", "1.10"};
-    private int[] avgTime = {5, 10, 30, 5, 10, 30, 5, 10, 30, 5, 10, 30};
-    private int[] color = {0xffff0000, 0xffffff00, 0xff32cd32, 0xffff0000, 0xffffff00, 0xff32cd32, 0xffff0000, 0xffffff00, 0xff32cd32, 0xffff0000, 0xffffff00, 0xff32cd32};
-
-    private int totaltime = 360;
+    private int[] avgTime = {10, 30, 50, 30, 20, 25, 40, 10};
+    private int[] color = {0xffff0000, 0xffFF9800, 0xffffff00, 0xff8BC34A, 0xff2196F3, 0xff3F51B5, 0xff673AB7, 0xff64FFDA};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +73,6 @@ public class F_ProductsForGraph extends Fragment {
 
         ScrollView sv = new ScrollView(getActivity());
         sv.addView(g.getGraphicAsLinear(getActivity()));
-        sv.addView((View)new CircleGraphic(getActivity()));
 
         return sv;
     }
@@ -247,36 +244,81 @@ public class F_ProductsForGraph extends Fragment {
 
             paint.setTextSize(30);
 
-            int cDegree = 0;
-            int left = 100;
-            int top = 500;
-            int right = 600;
-            int bottom = 1000;
+            XChartCalc xcalc = new XChartCalc();
+
+            float cDegree = 0;
+            int left = 200;
+            int top = 700;
+            int right = 900;
+            int bottom = 1400;
             for (int i = 0; i < avgTime.length; i++) {
-                int factor = avgTime[i] * 360 / 180;
-                if (i == avgTime.length - 1)
-                    if(cDegree < 180) {
-                        left -=10;
-                        top +=10;
-                        right -=10;
-                        bottom +=10;
-                    }else{
-                        left += 10;
-                        top -= 10;
-                        right += 10;
-                        bottom -=10;
-                    }
-                //if (factor + cDegree != 360)
-                //   factor = 360 - (int) cDegree;
+                float factor = (float) avgTime[i] * 360 / total();
                 paint.setColor(color[i]);
                 canvas.drawArc(new RectF(left, top, right, bottom), cDegree, factor, true, paint);
+                paint.setColor(Color.BLACK);
+                xcalc.CalcArcEndPointXY((right - left) / 2 + left - 30, (bottom - top) / 2 + top, (right - left) / 2 + (right - left) / 15, (cDegree + factor / 2));
+                canvas.drawText((int) (avgTime[i] / total() * 100) + "%", xcalc.getPosX(), xcalc.getPosY(), paint);
                 cDegree += factor;
 
             }
+
+
         }
+
     }
 
-    private void initSubs() {
+    public int total() {
+        int total = 0;
+        for (int i = 0; i < avgTime.length; i++) {
+            total += avgTime[i];
+        }
+        return total;
+    }
+
+    public class XChartCalc {
+        private float posX = 0.0f;
+        private float posY = 0.0f;
+
+        public XChartCalc() {
+        }
+
+        public void CalcArcEndPointXY(float cirX, float cirY, float radius, float cirAngle) {
+            float arcAngle = (float) (Math.PI * cirAngle / 180.0);
+            if (cirAngle < 90) {
+                posX = cirX + (float) (Math.cos(arcAngle)) * radius;
+                posY = cirY + (float) (Math.sin(arcAngle)) * radius;
+            } else if (cirAngle == 90) {
+                posX = cirX;
+                posY = cirY + radius;
+            } else if (cirAngle > 90 && cirAngle < 180) {
+                arcAngle = (float) (Math.PI * (180 - cirAngle) / 180.0);
+                posX = cirX - (float) (Math.cos(arcAngle)) * radius;
+                posY = cirY + (float) (Math.sin(arcAngle)) * radius;
+            } else if (cirAngle == 180) {
+                posX = cirX - radius;
+                posY = cirY;
+            } else if (cirAngle > 180 && cirAngle < 270) {
+                arcAngle = (float) (Math.PI * (cirAngle - 180) / 180.0);
+                posX = cirX - (float) (Math.cos(arcAngle)) * radius;
+                posY = cirY - (float) (Math.sin(arcAngle)) * radius;
+            } else if (cirAngle == 270) {
+                posX = cirX;
+                posY = cirY - radius;
+            } else {
+                arcAngle = (float) (Math.PI * (360 - cirAngle) / 180.0);
+                posX = cirX + (float) (Math.cos(arcAngle)) * radius;
+                posY = cirY - (float) (Math.sin(arcAngle)) * radius;
+            }
+        }
+
+        public float getPosX() {
+            return posX;
+        }
+
+        public float getPosY() {
+            return posY;
+
+        }
     }
 
 
