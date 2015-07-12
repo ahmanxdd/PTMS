@@ -2,12 +2,15 @@ package com.tyict.ptms;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ActionMenuView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -34,6 +37,7 @@ public class Login extends ActionBarActivity
     private DatabaseView dbv = new DatabaseView();
     private EditText loginID;
     private EditText loginPass;
+    private CheckBox cbSavePassword;
 
     private Login getThis()
     {
@@ -55,8 +59,17 @@ public class Login extends ActionBarActivity
 
         loginID = ((EditText) findViewById(R.id.et_loginID));
         loginPass = ((EditText) findViewById(R.id.et_password));
+        cbSavePassword = (CheckBox) findViewById(R.id.cbSavePassword);
         loginID.setText("login1001");
-        loginPass.setText("pass1001");
+        SharedPreferences settings = getSharedPreferences("save_password", Context.MODE_PRIVATE);
+        Boolean prefSDCard = settings.getBoolean("savePassword", false);
+        if (prefSDCard) {
+            cbSavePassword.setChecked(true);
+            loginPass.setText("pass1001");
+        }
+        else
+            loginPass.setText("");
+
     }
 
 
@@ -147,4 +160,12 @@ public class Login extends ActionBarActivity
         }
     }
 
+    protected void onStop(){
+        super.onStop();
+
+        SharedPreferences settings = getSharedPreferences("save_password", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("savePassword", cbSavePassword.isChecked());
+        editor.commit();
+    }
 }
