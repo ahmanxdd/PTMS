@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tyict.ptms.GitHub.swipe.SwipeLayout;
 import com.tyict.ptms.GitHub.swipe.adapters.BaseSwipeAdapter;
@@ -70,29 +71,29 @@ public class MySwappableAdapter extends BaseSwipeAdapter
     {
 
         View v = LayoutInflater.from(context).inflate(R.layout.listview_item, null);
-        Button deleteBtn = (Button) v.findViewById(R.id.delete);
+        final Button deleteBtn = (Button) v.findViewById(R.id.delete);
         final TextView tv = (TextView) v.findViewById(R.id.tvJobNo);
 
         SwipeLayout swipeLayout = (SwipeLayout) v.findViewById(getSwipeLayoutResourceId(position));
 
-        if (tv.getText().toString().equals(NonStoppable.startingJob))
-        {
-            deleteBtn.setText("Sorry, you are starting this job");
-        }
-        else
-        {
             deleteBtn.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View view)
                 {
+                    if (tv.getText().toString().equals(NonStoppable.startingJob))
+                    {
+                        Toast.makeText(context,"The job is started, please stop first",Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
                     DatabaseView.exec("UPDATE ServiceJob SET jobStatus = 'cancelled' WHERE jobNo = '" + tv.getText().toString() + "'") ;
                     dataSet.remove(position);
                     notifyDataSetChanged();
                     mItemManger.closeAllItems();
                 }
             });
-        }
+
         return v;
 
     }
