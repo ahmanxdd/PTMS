@@ -271,7 +271,7 @@ public class F_JobDetail extends Fragment implements View.OnLongClickListener, V
         if (!jobStatus.getSelectedItem().toString().equals("pending"))
         {
             disableEdit();
-        } else if (NonStoppable.startingJob != null)
+        } else if (NonStoppable.startingJob != null && !NonStoppable.startingJob.equals(""))
         {
             if (NonStoppable.startingJob.equals(jobNo.getText().toString()))
             {
