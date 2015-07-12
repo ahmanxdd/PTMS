@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.provider.SyncStateContract;
 
-import com.tyict.ptms.NoStopable;
+import com.tyict.ptms.NonStoppable;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

@@ -3,9 +3,11 @@ package com.tyict.ptms.Other;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,12 +21,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.tyict.ptms.R;
+import com.tyict.ptms.dataInfo.DatabaseView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,21 +37,24 @@ import java.util.TreeMap;
 /**
  * Created by RAYMOND on 7/5/2015.
  */
-public class F_ProductsForGraph extends Fragment
-{
+public class F_ProductsForGraph extends Fragment {
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
     }
 
     @Nullable
     private View _this;
     private static TreeMap<String, String> averTime;
+    private String[] prodNo = {"CN1008", "CN2186", "HP1022"};
+    //private String[] avgTime = {"1:35", "0.45", "1.10"};
+    private int[] avgTime = {5, 10, 30, 5, 10, 30, 5, 10, 30, 5, 10, 30};
+    private int[] color = {0xffff0000, 0xffffff00, 0xff32cd32, 0xffff0000, 0xffffff00, 0xff32cd32, 0xffff0000, 0xffffff00, 0xff32cd32, 0xffff0000, 0xffffff00, 0xff32cd32};
+
+    private int totaltime = 360;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _this = inflater.inflate(R.layout.f_product_for_graph, container, false);
 
         averTime = getAverTime();
@@ -62,18 +69,18 @@ public class F_ProductsForGraph extends Fragment
 
 
         Graphic g = new Graphic().setTitle("Average Service Time for each Product");
-        for (int i = 1; i < averTime.size(); i++)
-        {
+        for (int i = 1; i < averTime.size(); i++) {
             g.addRow(productID[i], getTotalMinutes(averTime.get(productID[i])));
         }
 
         ScrollView sv = new ScrollView(getActivity());
         sv.addView(g.getGraphicAsLinear(getActivity()));
+        sv.addView((View)new CircleGraphic(getActivity()));
+
         return sv;
     }
 
-    private TreeMap<String, String> getAverTime()
-    {
+    private TreeMap<String, String> getAverTime() {
         TreeMap<String, String> treeMap = new TreeMap<>();
         treeMap.put("CN1008", "1:35");
         treeMap.put("CN2186", "0:45");
@@ -86,13 +93,10 @@ public class F_ProductsForGraph extends Fragment
         return treeMap;
     }
 
-    private int getTotalMinutes(String time)
-    {
-        try
-        {
+    private int getTotalMinutes(String time) {
+        try {
             String hours = "";
-            for (char c : time.toCharArray())
-            {
+            for (char c : time.toCharArray()) {
                 if (c != ':')
                     hours += c;
                 else break;
@@ -104,46 +108,39 @@ public class F_ProductsForGraph extends Fragment
             m += Integer.parseInt(minutes);
             return m;
 
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
     }
 
-    private class Graphic
-    {
+    private class Graphic {
         private String _title = null;
         private int _maxLength = 0;
         private List<Pair> pair = new ArrayList<>();
 
-        public Graphic()
-        {
+        public Graphic() {
 
         }
 
-        public Graphic setTitle(String label)
-        {
+        public Graphic setTitle(String label) {
             _title = label;
             return this;
         }
 
-        public Graphic addRow(String label, int length)
-        {
+        public Graphic addRow(String label, int length) {
             pair.add(new Pair(label, length));
             if (_maxLength < length)
                 _maxLength = length;
             return this;
         }
 
-        public View getGraphicAsLinear(Context context)
-        {
+        public View getGraphicAsLinear(Context context) {
 
             LinearLayout ll = new LinearLayout(context);
             ll.setOrientation(LinearLayout.VERTICAL);
 
-            if (_title != null)
-            {
+            if (_title != null) {
                 TextView title = new TextView(context);
                 title.setText(_title);
                 title.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -156,21 +153,18 @@ public class F_ProductsForGraph extends Fragment
                 ll.addView(title);
             }
 
-            for (int i = 0; i < pair.size(); i++)
-            {
+            for (int i = 0; i < pair.size(); i++) {
                 ll.addView(genRow((String) pair.get(i).first, (int) (pair.get(i).second)));
             }
             return ll;
         }
 
-        private int dpToInt(int dp)
-        {
+        private int dpToInt(int dp) {
             Resources r = getResources();
             return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
         }
 
-        private ViewGroup genRow(String label, double length)
-        {
+        private ViewGroup genRow(String label, double length) {
             Display d = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             int width = d.getWidth();
             width = width - dpToInt(30) * 5;
@@ -196,15 +190,13 @@ public class F_ProductsForGraph extends Fragment
 
     }
 
-    private class DrawView extends View
-    {
+    private class DrawView extends View {
         private int _length;
         private Paint p = new Paint();
         private int _height = 50;
         private int _padding = 5;
 
-        public DrawView(Context context, int length, int height)
-        {
+        public DrawView(Context context, int length, int height) {
             super(context);
             if (height > 15)
                 _height = height;
@@ -212,29 +204,79 @@ public class F_ProductsForGraph extends Fragment
             _length = length;
         }
 
-        public DrawView setPaddingTopBottom(int padding)
-        {
+        public DrawView setPaddingTopBottom(int padding) {
             if (padding < _height - 5)
                 _padding = padding;
             return this;
         }
 
         @Override
-        protected void onDraw(Canvas canvas)
-        {
+        protected void onDraw(Canvas canvas) {
             p.setColor(Color.RED);
             p.setStrokeWidth(1);
             canvas.drawRect(0, _padding, _length, _height - _padding, p);
         }
 
-        public DrawView getView()
-        {
+        public DrawView getView() {
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(_length + 5, _height);
             p.gravity = Gravity.CENTER_VERTICAL;
             this.setLayoutParams(p);
             return this;
         }
 
+    }
+
+    private class CircleGraphic extends View {
+
+        public CircleGraphic(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+
+            Paint paint = new Paint();
+            paint.setStyle(Paint.Style.FILL);
+
+            paint.setColor(Color.WHITE);
+            canvas.drawPaint(paint);
+
+            paint.setAntiAlias(true);
+            paint.setStyle(Paint.Style.FILL);
+
+            paint.setTextSize(30);
+
+            int cDegree = 0;
+            int left = 100;
+            int top = 500;
+            int right = 600;
+            int bottom = 1000;
+            for (int i = 0; i < avgTime.length; i++) {
+                int factor = avgTime[i] * 360 / 180;
+                if (i == avgTime.length - 1)
+                    if(cDegree < 180) {
+                        left -=10;
+                        top +=10;
+                        right -=10;
+                        bottom +=10;
+                    }else{
+                        left += 10;
+                        top -= 10;
+                        right += 10;
+                        bottom -=10;
+                    }
+                //if (factor + cDegree != 360)
+                //   factor = 360 - (int) cDegree;
+                paint.setColor(color[i]);
+                canvas.drawArc(new RectF(left, top, right, bottom), cDegree, factor, true, paint);
+                cDegree += factor;
+
+            }
+        }
+    }
+
+    private void initSubs() {
     }
 
 

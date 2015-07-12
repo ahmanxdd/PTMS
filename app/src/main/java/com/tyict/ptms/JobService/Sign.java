@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.tyict.ptms.SignView;
+import com.tyict.ptms.JobService.SignView;
 
 /**
  * Created by RAYMOND on 7/9/2015.
