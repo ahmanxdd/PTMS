@@ -73,6 +73,7 @@ public class RefreshableView extends LinearLayout implements View.OnTouchListene
             listView = (ListView) getChildAt(1);
             listView.setOnTouchListener(this);
             loadOnce = true;
+            header.setLayoutParams(headerLayoutParams);
         }
     }
     @Override

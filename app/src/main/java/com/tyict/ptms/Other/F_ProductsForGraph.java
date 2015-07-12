@@ -257,7 +257,6 @@ public class F_ProductsForGraph extends Fragment {
                 xcalc.CalcArcEndPointXY((right - left) / 2 + left - 30, (bottom - top) / 2 + top, (right - left) / 2 + (right - left) / 15, (cDegree + factor / 2));
                 canvas.drawText(((int)(avgTime[i]/total()*1000)/(float)10)+"%", xcalc.getPosX(),xcalc.getPosY(), paint);
                 cDegree += factor;
-
             }
 
 
