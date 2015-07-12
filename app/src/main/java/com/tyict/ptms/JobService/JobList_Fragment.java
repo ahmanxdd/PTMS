@@ -18,6 +18,7 @@ import com.tyict.ptms.A_Entry;
 import com.tyict.ptms.Adapter.MyBaseAdapter;
 import com.tyict.ptms.Adapter.MySwappableAdapter;
 import com.tyict.ptms.R;
+import com.tyict.ptms.RefreshableView;
 import com.tyict.ptms.dataInfo.DatabaseView;
 
 import java.util.ArrayList;

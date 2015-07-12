@@ -1,4 +1,4 @@
-package com.tyict.ptms.JobService;
+package com.tyict.ptms;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,8 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.tyict.ptms.R;
 
 
 public class RefreshableView extends LinearLayout implements View.OnTouchListener {
