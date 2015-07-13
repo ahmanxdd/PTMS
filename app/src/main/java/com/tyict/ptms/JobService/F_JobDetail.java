@@ -197,48 +197,70 @@ public class F_JobDetail extends Fragment implements View.OnLongClickListener, V
 
             final AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
             final ImageView iv = new ImageView(getActivity());
-            Bitmap bm = null;
+
             try
             {
-                bm = convertJPG(getImageUri());
+                final Bitmap bm = convertJPG(getImageUri());
+                if (bm == null)
+                    return;
+                iv.setImageBitmap(bm);
+                ab.setView(iv);
+                ab.setPositiveButton("OK", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                    }
+                });
+                ab.show();
             }
             catch (OutOfMemoryError e)
             {
-                e.printStackTrace();
-            }
-            if (bm == null)
-                return;
-            iv.setImageBitmap(bm);
-            ab.setView(iv);
-            ab.setPositiveButton("OK", new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i)
+                try
                 {
-                    ab.setView(new Button(getActivity()));
                     ((BitmapDrawable) iv.getDrawable()).getBitmap().recycle();
+                    Toast.makeText(getActivity(),"Sorry, try again",Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
-            });
-            ab.show();
+                catch (Exception ee)
+                {
+
+                }
+            }
+
         } else if (view.getId() == btn_viewSign.getId())
         {
             final AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
             final ImageView iv = new ImageView(getActivity());
-            Bitmap bm = _signView.loadFromStorage(getActivity(), getSignViewFileName());
-            if (bm == null)
-                return;
-            iv.setImageBitmap(bm);
-            ab.setView(iv);
-            ab.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            try
             {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i)
+                final Bitmap bm = _signView.loadFromStorage(getActivity(), getSignViewFileName());
+                if (bm == null)
+                    return;
+                iv.setImageBitmap(bm);
+                ab.setView(iv);
+                ab.setPositiveButton("OK", new DialogInterface.OnClickListener()
                 {
-                    ab.setView(new Button(getActivity()));
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                    }
+                });
+                ab.show();
+            }
+            catch (OutOfMemoryError e)
+            {
+                try
+                {
                     ((BitmapDrawable) iv.getDrawable()).getBitmap().recycle();
+                    Toast.makeText(getActivity(),"Sorry, try again",Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
-            });
-            ab.show();
+                catch (Exception ee)
+                {
+
+                }
+            }
         }
     }
 
