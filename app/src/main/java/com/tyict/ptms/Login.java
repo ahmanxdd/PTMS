@@ -63,12 +63,11 @@ public class Login extends ActionBarActivity
         loginID.setText("login1001");
         SharedPreferences settings = getSharedPreferences("save_password", Context.MODE_PRIVATE);
         Boolean prefSDCard = settings.getBoolean("savePassword", false);
+        String savedPassword = settings.getString("savedPassword", "");
         if (prefSDCard) {
             cbSavePassword.setChecked(true);
-            loginPass.setText("pass1001");
+            loginPass.setText(savedPassword);
         }
-        else
-            loginPass.setText("");
 
     }
 
@@ -82,6 +81,11 @@ public class Login extends ActionBarActivity
         loginPass.setEnabled(false);
         if (NonStoppable.lc.login(userID, password))
         {
+            SharedPreferences settings = getSharedPreferences("save_password", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("savePassword", cbSavePassword.isChecked());
+            editor.putString("savedPassword", loginPass.getText().toString());
+            editor.commit();
             NonStoppable.i = new Intent(this, A_Entry.class);
             new getJobList().execute(LoginControl.getStaffID());
             NonStoppable.opened = true;
@@ -158,14 +162,5 @@ public class Login extends ActionBarActivity
             }
             return "Done!";
         }
-    }
-
-    protected void onStop(){
-        super.onStop();
-
-        SharedPreferences settings = getSharedPreferences("save_password", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean("savePassword", cbSavePassword.isChecked());
-        editor.commit();
     }
 }
